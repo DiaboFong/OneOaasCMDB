@@ -1,0 +1,198 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="AppListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddApp()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i> 添加业务模块
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="appTable"></table>
+
+    <!--筛选 START-->
+    <div id="appscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="app.screen">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>业务名称</label>
+                <input type="text" class="form-control" ng-model="search.searchText" placeholder="请输入业务名称"/>
+            </div>
+            <div class="editMenu-itme">
+                <p>业务等级</p>
+                <ul class="list-inline">
+                    <li ng-repeat="level in appLevelList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.appLevel[level.Id]">{{level.Name}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>业务创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.EndTime"/>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-default" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑业务弹出框 START-->
+    <div ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" name="editAppForm" ng-show="app.appedits">
+        <div class="editMenu-header" >
+            <label class="header"><i class="glyphicon glyphicon-edit"></i>编辑业务</label>
+            <input type="hidden" ng-model="app.editAppId" class="hidden"/>
+            <div class="edit-exits" ng-click="action.hideeditApp()">&times;</div>
+        </div>
+        <div class="modal-body editMenu-body">
+            <div class="item">
+                <label class="col-md-5">业务名称<span class="required">*</span></label>
+                <input type="text" name="editAppName" ng-model="app.editAppName" class="col-md-7" placeholder="业务名称"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">业务代号<span class="required">*</span></label>
+                <input type="text" name="editCode" class="col-md-7" ng-model="app.editCode" placeholder="业务代号">
+            </div>
+            <div class="item">
+                <label class="col-md-5">业务等级<span class="required">*</span></label>
+                <select ng-model="app.appLevelSelected" class="col-md-7" ng-options="data.Id as data.Name for data in appLevelList">
+                </select>
+            </div>
+            <div class="item">
+                <label class="col-md-5">业务负责人<span class="required">*</span></label>
+                <input type="text" name="editOwn" class="col-md-7" ng-model="app.editOwn" placeholder="业务负责人">
+            </div>
+            <div class="item">
+                <label class="col-md-5">开发负责人</label>
+                <input type="text" name="editDevOwn" ng-model="app.editDevOwn" class="col-md-7" placeholder="开发负责人"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">运维负责人</label>
+                <input type="text" name="editOpsOwn" ng-model="app.editOpsOwn" class="col-md-7" placeholder="运维负责人"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">备注</label>
+                <input type="text" name="editComment" ng-model="app.editComment" class="col-md-7" placeholder="备注"/>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.appremove()">删除此业务</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditApp();">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.UpdateApp();">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑业务弹出框 END-->
+</div>
+<!--添加业务模块弹出框 START-->
+<script id="add_app.html" type="text/ng-template">
+    <form class="inside-content" name="addAppForm" ng-submit="addApp()">
+        <div class="modal-header">
+            <h5 class="modal-title">添加业务模块
+                <span class="add-close" ng-click="addAppCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-4">业务名称<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="appName" placeholder="业务名称" ng-model="app.appName" required/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">业务代号<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="appCode" placeholder="业务代号" ng-model="app.appCode" required/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">业务等级<span class="required">*</span></label>
+                <ul class="list-inline col-md-7">
+                    <li class="first">
+                        <select ng-model="app.appLevelSelected"
+                                ng-options="data.Name for data in appLevelList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="showAddLevel()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-4">业务负责人<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="appOwn" placeholder="业务负责人" ng-model="app.appOwn" required/>
+                </div>
+            </div>
+            <div ng-show="addMore">
+                <div class="item">
+                    <label class="col-md-4">开发负责人</label>
+                    <div class="col-md-8">
+                        <input type="text"  name="devOwn" ng-model="app.devOwn" placeholder="开发负责人" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">运维负责人</label>
+                    <div class="col-md-8">
+                        <input type="text" name="opsOwn" ng-model="app.opsOwn" placeholder="运维负责人" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">备注</label>
+                    <div class="col-md-8">
+                        <input type="text" name="comment" ng-model="app.comment" placeholder="备注">
+                    </div>
+                </div>
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addAppCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-disabled="addAppForm.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加业务等级弹出框 START-->
+    <form id="addLevel" name="addLevelform" class="modal fade" tabindex="-1">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-titles">
+                        <label>业务等级</label>
+                    </div>
+                    <div class="modal-item">
+                        <input class="form-control" ng-model="level" placeholder="请输入业务等级" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addAppLevel();" ng-disabled="addLevelform.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加业务等级弹出框 END-->
+</script>
+<!--添加业务模块弹出框 END-->

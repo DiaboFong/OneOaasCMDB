@@ -1,0 +1,939 @@
+<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                Widget settings form goes here
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue">Save changes</button>
+                <button type="button" class="btn default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- END PAGE HEADER-->
+<div class="portlet box blue tabbable">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-reorder"></i>管理
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div class=" portlet-tabs">
+            <ul class="nav nav-tabs" style="margin-right: 80%">
+                <li>
+                    <a href="#portlet_tab2" data-toggle="tab">
+                        aliyun
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="#portlet_tab1" data-toggle="tab">
+                        DNSPod
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="portlet_tab1">
+                    <div class="table-toolbar">
+                        <div id="toolbar">
+                            <div class="modal fade" id="ajax" role="basic" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                    </div>
+                                </div>
+                            </div>
+                            <button id="remove" class="btn btn-danger" disabled="" style="width: 84px">
+                                <i class="glyphicon glyphicon-remove"></i>
+                                Delete
+                            </button>
+                            <!--<a href="add_dc.html" data-target="#ajax" data-toggle="modal"-->
+                            <!--style="text-decoration: none;color: white">-->
+                            <!--<button id="add_btn" class="btn btn-danger" style="width: 84px">-->
+                            <!--<i class="fa fa-plus"></i>-->
+                            <!--ADD-->
+                            <!--</button>-->
+                            <!--</a>-->
+                        </div>
+                        <table id="table"
+                               data-toolbar="#toolbar"
+                               data-search="true"
+                               data-show-refresh="true"
+                               data-show-toggle="true"
+                               data-show-columns="true"
+                               data-show-export="true"
+                               data-detail-view="true"
+                               data-detail-formatter="detailFormatter"
+                               data-minimum-count-columns="2"
+                               data-show-pagination-switch="true"
+                               data-pagination="true"
+                               data-id-field="id"
+                               data-page-list="[10, 25, 50, 100, ALL]"
+                               data-show-footer="false"
+                               data-side-pagination="server"
+                               data-url="http://cmdb.dev.oneoaas.com:6538/api/networkbandwidth?format=total&limit=20"
+                               data-response-handler="responseHandler">
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane" id="portlet_tab2">
+                    <div class="portlet">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <div class="form-body"
+                                     style="margin-left: 41px;margin-right:908px;width:510px"
+                                     id="defaultForm">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">带宽名称</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" name="LinkName"
+                                                   placeholder="Large Input" id="LinkName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">状态</label>
+
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="linkstatus"
+                                                    style="width: 208px">
+                                                <!--<option>--选择一个--</option>-->
+                                                <option value="1">使用中</option>
+                                                <option value="0">下线</option>
+                                                <option value="2">故障</option>
+                                                <option value="3">维修</option>
+                                                <!--<option value="4">four</option>-->
+                                            </select>
+
+                                            <a class="btn btn-danger" data-toggle="modal"
+                                               data-target="#stack3"
+                                               style="margin-left: 211px;margin-top: -34px;width: 70px">
+                                                <i class="fa fa-plus"></i>
+                                                Add
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">ISP类型</label>
+
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="isptype" style="width: 208px">
+                                                <option>--选择一个--</option>
+                                                <option value="中国电信">中国电信</option>
+                                                <option value="2">中国移动通信</option>
+                                                <option value="3">中国联通</option>
+                                                <option value="4">北京电信通</option>
+                                            </select>
+
+                                            <a class="btn btn-danger" data-toggle="modal"
+                                               data-target="#stack4"
+                                               style="margin-left: 211px;margin-top: -34px;width: 70px">
+                                                <i class="fa fa-plus"></i>
+                                                Add
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">采购最大宽兆（百兆）</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="bandwidth"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">保底带宽(百兆)</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="lowbandwidth"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">保底费用(元/百兆)</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="lowcase"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">单位成本(元/百兆)</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="price"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">供应商ID</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="supplierid"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">所属机房</label>
+
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="dcid" style="width: 281px">
+                                                <option>--选择一个--</option>
+                                                <option value="11">漕河泾双线机房</option>
+                                                <option value="22">酒仙桥机房</option>
+                                                <option value="33">江西上饶机房</option>
+                                                <option value="44">东莞机房</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">房间号</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="roomid"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">所属机柜</label>
+
+                                        <div class="col-md-9">
+                                            <select class="form-control" id="rackid" style="width: 281px">
+                                                <option>--选择一个--</option>
+                                                <option value="111">A</option>
+                                                <option value="222">B</option>
+                                                <option value="333">C</option>
+                                                <option value="444">D</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">备注</label>
+
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="comment"
+                                                   placeholder="Large Input">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="padding-left: 303px">
+                                    <button class="btn default">Cancel</button>
+                                    <button class="btn green" onclick="AddBandwidth()">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="stack1" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Stack One</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h4>Some Input</h4>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control">
+                        </p>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control">
+                        </p>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control">
+                        </p>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control">
+                        </p>
+                    </div>
+                </div>
+                <a class="btn green" data-toggle="modal" href="#stack2">
+                    Launch modal
+                </a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn">Close</button>
+                <button type="button" class="btn red">Ok</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="stack2" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Stack One</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="selectbox">
+                            <div class="select-bar">
+                                <!--<h1>选择运维负责人</h1>-->
+                                <select multiple="multiple" id="left_options"
+                                        style="width: 150px;height: 200px;margin-left: 29px;">
+                                    <option>A</option>
+                                    <option>B</option>
+                                    <option>C</option>
+                                    <option>D</option>
+                                    <option>E</option>
+                                    <option>F</option>
+                                    <option>G</option>
+                                    <option>H</option>
+                                    <option>I</option>
+                                    <option>J</option>
+                                    <option>K</option>
+                                    <option>L</option>
+                                    <option>M</option>
+                                    <option>N</option>
+                                </select>
+                            </div>
+
+                            <div class="btn-bar" style="margin-left: 200px;margin-top: -186px;">
+                                <p>
+                                                <span id="add"><input type="button" class="btn" value=">"
+                                                                      title="移动选择项到右侧"
+                                                                      style="margin-left: -2px;margin-top: 10px;width: 48px;"/></span>
+                                </p>
+
+                                <p>
+                                                <span id="add_all"><input type="button" class="btn" value=">>"
+                                                                          title="全部移到右侧"
+                                                                          style="margin-top: -7px;margin-left: -2px;width: 48px;"/></span>
+                                </p>
+
+                                <p>
+                                                <span id="remove_select"><input type="button" class="btn" value="<"
+                                                                                title="移动选择项到左侧"
+                                                                                style="margin-top: -5px;margin-left: -2px;width: 48px;"/></span>
+                                </p>
+
+                                <p>
+                                                <span id="remove_all"><input type="button" class="btn" value="<<"
+                                                                             title="全部移到左侧"
+                                                                             style="margin-left: -2px;margin-top: -7px;width: 48px;"/></span>
+                                </p>
+                            </div>
+                            <div class="select-bar">
+                                <select multiple="multiple" id="select2"
+                                        style="width: 150px;height: 200px;margin-left: 266px;margin-top: -181px;"></select>
+                            </div>
+
+
+                            <div style="padding-left: 50px;padding-top: 28px;">
+
+                                <button type="button" class="btn default" data-dismiss="modal">取消</button>
+                                <button type="button" class="btn blue" id="submit">提交</button>
+                                <input class="form-control"
+                                       style="width: 200px;height: 30px;margin-left:138px;margin-top:-32px"
+                                       id="selected" name="input">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="stack3" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog" style="width: 430px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Stack One</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="height:110px">
+                        <h4>Some Input</h4>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control" style="width:100px"
+                                   value="状态 :" readonly>
+                        </p>
+
+                        <p>
+                            <input type="hidden" id="aaa"/>
+                            <input type="text" id="bbb" class="col-md-12 form-control" style="width:284px">
+                        </p>
+
+                    </div>
+                </div>
+                <!--<a class="btn green" data-toggle="modal" href="#stack2">-->
+                <!--Launch modal-->
+                <!--</a>-->
+            </div>
+            <div class="modal-footer" style="padding-right: 15px;">
+                <button type="button" data-dismiss="modal" class="btn">Close</button>
+                <button type="button" data-dismiss="modal" class="btn red" id="confirm" onclick="confirm()">
+                    Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="stack4" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog" style="width: 430px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Stack One</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="height:110px">
+                        <h4>Some Input</h4>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control" style="width:100px"
+                                   value="ISP类型 :" readonly>
+                        </p>
+
+                        <p>
+                            <input type="hidden" id="aa"/>
+                            <input type="text" id="bb" class="col-md-12 form-control" style="width:284px">
+                        </p>
+
+                    </div>
+                </div>
+                <!--<a class="btn green" data-toggle="modal" href="#stack2">-->
+                <!--Launch modal-->
+                <!--</a>-->
+            </div>
+            <div class="modal-footer" style="padding-right: 15px;">
+                <button type="button" data-dismiss="modal" class="btn">Close</button>
+                <button type="button" data-dismiss="modal" class="btn red" id="confirm1"
+                        onclick="confirm1()">Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="stack5" class="modal fade" tabindex="-1" data-width="400">
+    <div class="modal-dialog" style="width: 430px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Stack One</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="height:110px">
+                        <h4>Some Input</h4>
+
+                        <p>
+                            <input type="text" class="col-md-12 form-control" style="width:100px"
+                                   value="机房 :" readonly>
+                        </p>
+
+                        <p>
+                            <input type="hidden" id="a"/>
+                            <input type="text" id="b" class="col-md-12 form-control" style="width:300px">
+                        </p>
+
+                    </div>
+                </div>
+                <!--<a class="btn green" data-toggle="modal" href="#stack2">-->
+                <!--Launch modal-->
+                <!--</a>-->
+            </div>
+            <div class="modal-footer" style="padding-right: 15px;">
+                <button type="button" data-dismiss="modal" class="btn">Close</button>
+                <button type="button" data-dismiss="modal" class="btn red" id="confirm2"
+                        onclick="confirm2()">Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END CONTENT -->
+
+
+<script>
+    var $table = $('#table'),
+            $remove = $('#remove'),
+            selections = [];
+    $(function () {
+        $table.bootstrapTable({
+            height: getHeight(),
+            columns: [
+                [
+                    {
+                        field: 'state',
+                        checkbox: true,
+                        rowspan: 2,
+                        align: 'center',
+                        valign: 'middle'
+                    },
+                    {
+                        title: 'DNSPod信息',
+                        colspan: 8,
+                        align: 'center'
+                    }
+                ],
+                [
+                    {
+                        field: 'Name',
+                        title: '来源',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Linkstatus',
+                        title: '状态',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNoFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Isptype',
+                        title: '记录名称',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Bandwidth',
+                        title: 'TTL',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Bandwidth',
+                        title: 'Type',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Lowbandwidth',
+                        title: '更新时间',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Lowcase',
+                        title: 'Value',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    },
+                    {
+                        field: 'Price',
+                        title: '域名',
+                        sortable: true,
+                        editable: true,
+                        footerFormatter: totalNameFormatter,
+                        align: 'center'
+                    }
+                ]
+            ]
+        });
+        // sometimes footer render error.
+        setTimeout(function () {
+            $table.bootstrapTable('resetView');
+        }, 200);
+        $table.on('check.bs.table uncheck.bs.table ' +
+                'check-all.bs.table uncheck-all.bs.table', function () {
+            $remove.prop('disabled', !$table.bootstrapTable('getSelections').length);
+
+            // save your data, here just save the current page
+            selections = getIdSelections();
+            // push or splice the selections if you want to save all data selections
+        });
+        $table.on('expand-row.bs.table', function (e, index, row, $detail) {
+            if (index % 1 != 0) {
+                $detail.html('Loading from ajax request...');
+                $.get('LICENSE', function (res) {
+                    $detail.html(res.replace(/\n/g, '<br>'));
+                });
+            }
+        });
+        $table.on('all.bs.table', function (e, name, args) {
+            console.log(name, args);
+        });
+        $remove.click(function () {
+            var ids = getIdSelections();
+//                    alert(ids);
+            $.each(ids, function (i, id) {
+                $.ajax({
+                    url: "http://cmdb.dev.oneoaas.com:6538/api/networkbandwidth?Networkbandwidthid=" + id,
+                    dataType: "JSON",
+                    type: "DELETE",
+                    success: function (data) {
+                        $table.bootstrapTable('remove', {
+                            field: 'Networkbandwidthid',
+                            values: ids
+                        });
+//                                debugger
+                        console.log(data);
+                    }, error: function (x) {
+                        console.log(x);
+                    }
+                });
+            });
+        });
+        $(window).resize(function () {
+            $table.bootstrapTable('resetView', {
+                height: getHeight()
+            });
+        });
+    });
+
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.Networkbandwidthid
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-heart"></i>',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'Networkbandwidthid',
+                values: [row.Networkbandwidthid]
+            });
+        }
+    };
+    function totalNoFormatter(data) {
+        return data.length;
+    }
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    //            function totalPriceFormatter(data) {
+    //                var total = 0;
+    //                $.each(data, function (i, row) {
+    //                    total += +(row.price.substring(1));
+    //                });
+    //                return '$' + total;
+    //            }
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            '<i class="glyphicon glyphicon-heart"></i>',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            '<i class="glyphicon glyphicon-remove"></i>',
+            '</a>'
+        ].join('');
+    }
+</script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Generate a simple captcha
+        function randomNumber(min, max) {
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        };
+        $('#captchaOperation').html([randomNumber(1, 100), '+', randomNumber(1, 200), '='].join(' '));
+
+        $('#defaultForm').bootstrapValidator({
+//        live: 'disabled',
+            message: 'This value is not valid',
+            feedbackIcons: {
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            fields: {
+                firstName: {
+                    validators: {
+                        notEmpty: {
+                            message: '姓名不能为空'
+                        }
+                    }
+                },
+                lastName: {
+                    validators: {
+                        notEmpty: {
+                            message: '姓名不能为空'
+                        }
+                    }
+                },
+                LinkName: {
+                    message: '带宽名称无效',
+                    validators: {
+                        notEmpty: {
+                            message: '带宽名称不能位空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 30,
+                            message: '带宽名称必须大于2，小于30个字'
+                        },
+                        remote: {
+                            url: '#',
+                            message: '用户名不可用'
+                        }
+                    }
+                },
+                adress: {
+                    message: '地址无效',
+                    validators: {
+                        notEmpty: {
+                            message: '详细地址不能位空'
+                        },
+                        stringLength: {
+                            min: 6,
+                            max: 30,
+                            message: '地址必须大于6，小于30个字'
+                        },
+                        regexp: {
+                            regexp: /^[a-zA-Z0-9_\.]+$/,
+                            message: '地址只能由字母、数字、点和下划线组成'
+                        },
+                        remote: {
+                            url: '#',
+                            message: '地址不可用'
+                        },
+                        different: {
+                            field: 'password',
+                            message: '#'
+                        }
+                    }
+                },
+                email: {
+                    validators: {
+                        emailAddress: {
+                            message: '输入不是有效的电子邮件地址'
+                        }
+                    }
+                },
+                password: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能位空'
+                        },
+                        identical: {
+                            field: 'confirmPassword',
+                            message: '两次密码不一致'
+                        },
+                        different: {
+                            field: 'username',
+                            message: '用户名和密码不能相同'
+                        }
+                    }
+                },
+                confirmPassword: {
+                    validators: {
+                        notEmpty: {
+                            message: '密码不能为空'
+                        },
+                        identical: {
+                            field: 'password',
+                            message: '两次密码不一致'
+                        },
+                        different: {
+                            field: 'username',
+                            message: '用户名和密码不能相同'
+                        }
+                    }
+                },
+                birthday: {
+                    validators: {
+                        date: {
+                            format: 'YYYY/MM/DD',
+                            message: '不是合法的生日'
+                        }
+                    }
+                },
+                gender: {
+                    validators: {
+                        notEmpty: {
+                            message: '请选择性别'
+                        }
+                    }
+                },
+                'languages[]': {
+                    validators: {
+                        notEmpty: {
+                            message: '请至少选择一种语言'
+                        }
+                    }
+                },
+                'programs[]': {
+                    validators: {
+                        choice: {
+                            min: 2,
+                            max: 4,
+                            message: '请选择两种到四种语言'
+                        }
+                    }
+                },
+                captcha: {
+                    validators: {
+                        callback: {
+                            message: '答案错误',
+                            callback: function (value, validator) {
+                                var items = $('#captchaOperation').html().split(' '), sum = parseInt(items[0]) + parseInt(items[2]);
+                                return value == sum;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Validate the form manually
+        $('#validateBtn').click(function () {
+            $('#defaultForm').bootstrapValidator('validate');
+        });
+
+        $('#resetBtn').click(function () {
+            $('#defaultForm').data('bootstrapValidator').resetForm(true);
+        });
+    });
+</script>
+<script>
+    function confirm() {
+        var aaa = document.getElementById("aaa").value;
+        var bbb = document.getElementById("bbb").value;
+        var sel = document.getElementById("LinkStatus");
+        var option = new Option(bbb, aaa);
+        sel.options.add(option);
+    }
+    function confirm1() {
+        var aa = document.getElementById("aa").value;
+        var bb = document.getElementById("bb").value;
+        var sel = document.getElementById("ISPType");
+        var option = new Option(bb, aa);
+        sel.options.add(option);
+    }
+    function confirm2() {
+        var a = document.getElementById("a").value;
+        var b = document.getElementById("b").value;
+        var sel = document.getElementById("OwnRoom");
+        var option = new Option(b, a);
+        sel.options.add(option);
+    }
+</script>
+<script>
+    function AddBandwidth() {
+
+        var name = document.getElementById("LinkName").value;
+        var linkstatus = document.getElementById("linkstatus").value;
+        var isptype = document.getElementById("isptype").value;
+        var bandwidth = document.getElementById("bandwidth").value;
+        var lowbandwidth = document.getElementById("lowbandwidth").value;
+        var lowcase = document.getElementById("lowcase").value;
+        var price = document.getElementById("price").value;
+        var supplierid = document.getElementById("supplierid").value;
+        var dcid = document.getElementById("dcid").value;
+        var roomid = document.getElementById("roomid").value;
+        var rackid = document.getElementById("rackid").value;
+        var comment = document.getElementById("comment").value;
+//        alert(Name);
+//        alert(linkstatus);
+//        alert(isptype);
+//        alert(bandwidth);
+//        alert(lowbandwidth);
+//        alert(lowcase);
+//        alert(price);
+//        alert(supplierid);
+//        alert(dcid);
+//        alert(roomid);
+//        alert(rackid);
+//        alert(comment);
+        $.ajax({
+            url: "http://cmdb.dev.oneoaas.com:6538/api/networkbandwidth",
+            dataType: "JSON",
+            type: "POST",
+            data: {
+                "name": name,
+                "linkstatus": linkstatus,
+                "isptype": isptype,
+                "Bandwidth": bandwidth,
+                "lowbandwidth": lowbandwidth,
+                "lowcase": lowcase,
+                "price": price,
+                "supplierid": supplierid,
+                "dcid": dcid,
+                "roomid": roomid,
+                "rackid": rackid,
+                "comment": comment
+            },
+            success: function (msg) {
+                alert("Data Saved: " + msg);
+            },
+            error: function () {
+                alert('data.status');
+                alert('错误');
+                checkstatus = false;
+            }
+        })
+    }
+</script>
+
+
+
+

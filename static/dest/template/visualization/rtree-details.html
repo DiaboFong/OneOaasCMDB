@@ -1,0 +1,77 @@
+<div class="rack_detail">
+    <ol class="breadcrumb">
+        <li ui-sref="root.resource">数据中心资源</li>
+        <li>{{Dcname}}</li>
+        <li ng-show="roomDetails">{{roomName}}机房</li>
+        <li ng-show="rackDetails" class="last"><a >{{rackName}}机柜</a></li>
+    </ol>
+    <ul class="list-inline rtree-content" ng-hide="roomDetails">
+        <li class="rtree-ritem" ng-repeat="room in rooms"
+            ng-click="showRoomDetails(room)">{{room.RoomName}}</li>
+    </ul>
+    <div ng-show="roomDetails">
+        <ul class="list-inline rtree-content" ng-hide="rackDetails">
+            <li ng-repeat="rack in rackLists" class="rtree-ritem"
+                title="{{rack.RackName}}" ng-click="showRackDetails(rack)">{{rack.RackName}}</li>
+        </ul>
+        <div ng-show="rackDetails">
+            <div class="col-lg-4 col-md-4 col-sm-6">
+                <div class="report">
+                    <table cellspacing="0" cellpadding="0" class="report-table">
+                        <tr class="table-line">
+                            <td class="line-td">机柜名称</td>
+                            <td class="line-td">{{rack.RackName}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">机柜状态</td>
+                            <td class="line-td"><span style="background-color:{{rack.State.Color}};display: inline-block;width:8px;height:8px;
+                                border-radius: 50%;"></span>{{rack.State.State}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">机柜可用U数</td>
+                            <td class="line-td">{{rack.AvaliableNum}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">托盘数</td>
+                            <td class="line-td">{{rack.TaryNum}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">带宽流量</td>
+                            <td class="line-td">{{rack.Bandwidth}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">是否有UPS</td>
+                            <td class="line-td">{{rack.IsUps}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">是否A/B路供电</td>
+                            <td class="line-td">{{rack.IsAb}}</td>
+                        </tr>
+                        <tr class="table-line">
+                            <td class="line-td">机柜功率（千瓦）</td>
+                            <td class="line-td">{{rack.Power}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-6">
+                <div class="rack">
+                    <ul class="list-unstyled rack_content" ng-sortable="sortableConfig">
+                        <li ng-repeat="rackItem in racks track by $index">
+                            <div class="rack_item">
+                                <span ng-if="$index<10">{{'0'+$index}}</span>
+                                <span ng-if="$index>=10">{{$index}}</span>
+                                <div draggable="true"  title="{{rackItem.RackName}}"
+                                     ng-class="{true:'rack_selected',false:'rack_img'}[rackSelected == rackItem.RackId]" ng-hover="showDetail(rackItem)">
+                                    <img src="assets/img/cmdb/rack.png" alt="{{rackItem.RackName}}" />
+                                    <img src="assets/img/cmdb/rack.png" alt="{{rackItem.RackName}}" />
+                                    <img src="assets/img/cmdb/rack.png" alt="{{rackItem.RackName}}"/>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

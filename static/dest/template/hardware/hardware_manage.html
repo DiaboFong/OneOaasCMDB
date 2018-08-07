@@ -1,0 +1,486 @@
+<div ncy-breadcrumb></div>
+<div class="portlet box blue" ng-controller="HardwareListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <!--<button ng-click="action.showHistory();action.showbtnback()" class="btn btn-warning">
+                <i class="glyphicon glyphicon-trash"></i>&nbsp;回收站
+            </button>-->
+            <button ng-click="action.showAddHardware();" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i> 添加硬件
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="hardwareTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="hardwarescreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>硬件名称</label>
+                <input type="text" class="form-control" placeholder="请输入硬件名称" ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <p>硬件类型</p>
+                <ul class="list-inline">
+                    <li ng-repeat="type in hardwareTypeEditList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.hardwareType[type.Id]"/>{{type.Name}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>硬件状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in hardwareStateEditList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.hardwareState[state.Id]"/>{{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑硬件弹出框 START-->
+    <div ng-show="hardwareedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑硬件
+                <input type="hidden" id="hardware.editHardwareId">
+            </label>
+            <div class="edit-exits" ng-click="action.hideeditHardware()">&times;</div>
+        </div>
+        <div class="editMenu-body" id="hardwareEditForm">
+            <div class="item">
+                <span class="col-md-5">名称<span class="required">*</span></span>
+                <input type="text" name="editHardwareName" ng-model="hardware.editHardwareName" class="col-md-7"  placeholder="请输入名称">
+            </div>
+            <div class="item">
+                <span class="col-md-5">类型<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="hardware.hardwareTypeSelected"
+                        ng-options="data.Id as data.Name for data in hardwareTypeEditList">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">状态<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="hardware.hardwareStateSelected"
+                        ng-options="data.Id as data.State for data in hardwareStateEditList">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">序列号</span>
+                <input type="text" class="col-md-7" ng-model="hardware.editHardwareSn"
+                       name="editHardwareSn"
+                       placeholder="请输入序列号">
+            </div>
+            <div class="item">
+                <span class="col-md-5">管理IP</span>
+                <input type="text" class="col-md-7" ng-model="hardware.editManageIp"
+                       name="editManageIp" placeholder="请输入管理IP">
+            </div>
+            <div class="item">
+                <span class="col-md-5">是否在线</span>
+                <div class="col-md-7"  name="editOnline">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editOnline" type="radio" ng-model="hardware.editOnline" value="是">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editOnline" type="radio" ng-model="hardware.editOnline" value="否">否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <span class="col-md-5">所属机柜</span>
+                <select class="col-md-7"
+                        ng-model="hardware.rackSelected"
+                        ng-options="data.RackId as data.RackName for data in rackList">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" class="col-md-7" name="editComment" ng-model="hardware.editComment">
+            </div>
+            <div class="searchBar text-center">
+                <a class="btn btn-remove a-del" type="button" ng-click="action.hdremove()">删除此硬件</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditHardware();">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateHardware();">保存</button>
+            </div>
+
+        </div>
+    </div>
+    <!--编辑硬件弹出框 END-->
+
+    <!--硬件类型列表 START-->
+    <div id="hardware_type_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">硬件类型列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="hardwareType_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addHardwareType">
+                                    <i class="fa fa-plus"></i>
+                                    添加类型
+                                </button>
+                            </div>
+                            <table id="hardwareType_table"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--硬件类型列表 END-->
+
+    <!--编辑硬件类型弹出框 START-->
+    <div id="edit_hardwareType_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑硬件类型</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editHardwareTypeId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">硬件类型</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editType">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="hardwareType.updateHardwareType();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑硬件类型弹出框 END-->
+
+    <!--硬件状态列表 START-->
+    <div id="hardware_state_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">硬件状态列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="hardwareState_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addHardwareState">
+                                    <i class="fa fa-plus"></i>
+                                    添加状态
+                                </button>
+                            </div>
+                            <table id="hardwareState_table"></table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--硬件状态列表 END-->
+
+    <!--编辑硬件状态弹出框 START-->
+    <div id="edit_hardwareState_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑硬件状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editHardwareStateId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">硬件状态</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editHardwareState">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="hardwareState.updateHardwareState();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑硬件状态弹出框 END-->
+</div>
+<!--添加硬件弹出框 START-->
+<script id="add_hardware_dialog.html" type="text/ng-template">
+    <form class="inside-content" ng-submit="action.addHardware()" name="addHardwareForm">
+        <div class="modal-header">
+            <h5 class="modal-title">添加硬件宽带
+                <span class="add-close" ng-click="action.addHardwareCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">硬件名称 <span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="hardwareName" ng-model="hardware.hardwareName"
+                           placeholder="硬件名称" ng-blur="action.testifyHardware()" required/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">硬件类型 <span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="hardware.hardwareTypeSelected"
+                                ng-options="data.Name for data in hardwareTypeAddList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="action.showAddHardwareType()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">硬件状态 <span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="hardware.hardwareStateSelected"
+                                ng-options="data.State for data in hardwareStateAddList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="action.showAddHardwareState()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">备注</label>
+                <div class="col-md-7">
+                    <input type="text" name="comment" ng-model="hardware.comment" placeholder="备注">
+                </div>
+            </div>
+            <div ng-show="hardware.addMore">
+                <div class="item">
+                    <label class="col-md-5">序列号</label>
+                    <div class="col-md-7">
+                        <input type="text" name="hardwareSn" placeholder="序列号" ng-model="hardware.hardwareSn">
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">管理IP</label>
+                    <div class="col-md-7">
+                        <input type="text" name="manageIp" placeholder="管理IP" ng-model="hardware.manageIp" ng-pattern="/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/">
+                        <span class="usererror" ng-show="addHardwareForm.manageIp.$error.pattern">格式不正确！</span>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">是否在线</label>
+                    <div class="col-md-7" name="isOnline">
+                        <label class="checkbox-inline _checkbox-inline">
+                            <input name="online" type="radio" value="1" ng-checked="true" ng-model="hardware.isOnline">是
+                        </label>
+                        <label class="checkbox-inline _checkbox-inline">
+                            <input name="online" type="radio" value="0" ng-model="hardware.isOnline">否
+                        </label>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">所属机柜</label>
+                    <div class="col-md-7">
+                        <select ng-model="hardware.rackSelected"
+                                ng-options="rows.RackName for rows in rackList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="action.addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="action.addHardwareCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="addHardwareForm.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加硬件类型弹出框 START-->
+    <form id="addHardwareType" name="addtypefrom" class="modal fade"  aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-titles">
+                        <label>添加硬件类型</label>
+                    </div>
+                    <div class="modal-item">
+                        <input class="form-control" name="type" ng-model="type" required placeholder="请输入硬件类型">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="hardwareType.addHardwareType()" ng-disabled="addtypefrom.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加硬件类型弹出框 END-->
+
+    <!--添加硬件状态弹出框 START-->
+    <form id="addHardwareState" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="modal-body">
+                                <div class="modal-item">
+                                    <label>添加状态名称</label>
+                                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="bandwidth.addhardwareState" required/>
+                                </div>
+                                <div class="modal-item" style="margin-top: 20px">
+                                    <label>选中状态颜色</label>
+                                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addHardwareState()">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加硬件状态弹出框 END-->
+</script>
+<!--添加硬件弹出框 END-->
+
+<!--硬件状态弹出框--->
+<script id="hardware_state.html" type="text/ng-template">
+    <div class="inside-content" >
+        <div class="modal-body">
+            <h5 class="settings-h5"><a>配置硬件状态</a>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </h5>
+            <div class="settings" ng-hide="showAddColors">
+                <div ng-hide="showEditColors">
+                    <ul class="list-unstyled">
+                        <li class="item-inside" ng-repeat="state in HardWareState">
+                            <div class="inside">
+                                <ol class="list-inline text-center first">
+                                    <li style="background-color: {{state.Color}}"></li>
+                                    <li>{{state.State}}</li>
+                                </ol>
+                                <ol class="list-inline text-center last" >
+                                    <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                    <li><a class="red" ng-click="settings.deleteState(state)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div ng-click="settings.addColors()">
+                                <span class="icon-big">+</span>
+                                <h6>添加新状态</h6>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAddColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>添加状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称"
+                           ng-model="addHareWareState" required/>
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+            </div>
+        </div>
+        <div ng-show="showEditColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>编辑状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="editHareWareState" required/>
+                    <input type="hidden" class="hidden" ng-model="editHareWareStateId" />
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>已选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</script>

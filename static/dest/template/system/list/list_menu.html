@@ -1,0 +1,149 @@
+<style>
+    .list-group-item .glyphicon-remove{
+        display: none;
+        color:#a52a2a;
+    }
+
+    .list-group-item a{
+        text-decoration: none;
+    }
+
+    .list-group-item:hover .glyphicon-remove{
+        display: inline-block;
+    }
+</style>
+<div class="tab-pane active" ng-controller="MenuController">
+    <div class="portlet-body form">
+        <div class="form-horizontal" role="form">
+            <div id="user_manage_role_form">
+                <div class="form-group has-success">
+                    <div id="menu_manage_div" style="margin:20px;width:50%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 菜单重命名弹出框START-->
+    <div id="rename_menu_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">菜单重命名</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <input type="hidden" id="menuId">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">菜单显示名称</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" id="renameMenuDisplayName">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="submit" class="btn green" ng-click="system.updateMenu();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--菜单重命名弹出框END-->
+</div>
+
+<!-- 菜单添加弹出框START-->
+<script id="add_menu_dialog.html" type="text/ng-template">
+    <form name="menuForm" ng-submit="addMenu()" >
+        <div class="modal-header">
+            <h4 class="modal-title">添加菜单
+                <span class="add-close" ng-click="addMenuCancel()">&times;</span>
+            </h4>
+        </div>
+        <div class="modal-body">
+            <div class="scroller">
+                <div class="portlet-body form">
+                    <div class="form-horizontal" role="form">
+                        <div class="form-body" uploader="uploader" filters="queueLimit, customFilter">
+                            <div class="form-group has-success">
+                                <label class="control-label col-md-3 ">主菜单名称:</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" type="text" ng-blur="menuValid()"
+                                           name="menuDisplayName" ng-model="menu.DisplayName" required/>
+                                    <div class="form-error"
+                                         ng-show="menuForm.menuDisplayName.$dirty &&
+                                             menuForm.menuDisplayName.$invalid">
+                                        <small class="error"
+                                               ng-show="menuForm.menuDisplayName.$error.required">
+                                            菜单显示名称不能为空！
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="control-label col-md-3">子菜单名称:</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" name="menuName"
+                                           type="text" ng-model="menu.Name" required ng-blur="menuValid()"/>
+                                    <div class="form-error"
+                                         ng-show="menuForm.menuName.$dirty &&
+                                             menuForm.menuName.$invalid">
+                                        <small class="error"
+                                               ng-show="menuForm.menuName.$error.required" >
+                                            子菜单名称不能为空！
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="control-label col-md-3">子菜单路径:</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" name="menuUrl" type="text"
+                                    ng-model="menu.Url" required  ng-blur="subMenuValid()"/>
+                                    <div class="form-error">
+                                        <small class="error">格式必须为：root.xxx,例如：root.resource_manage</small>
+                                    </div>
+                                    <div class="form-error"
+                                         ng-show="menuForm.menuUrl.$dirty &&
+                                             menuForm.menuUrl.$invalid">
+                                        <small class="error"
+                                               ng-show="menuForm.menuUrl.$error.required">
+                                            子菜单URL不能为空！
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                    <label class="control-label col-md-3">子菜单图标:</label>
+                                <div class="col-md-9">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <a style="position: relative; padding:5px 10px;  background-color:#ececec;
+                                                text-decoration: none; cursor:pointer;" href="javascript:;">
+                                                <input type="file" ng-model="menu.Logo" uploader="uploader" nv-file-select=""
+                                                       style="position: absolute; left: 0; top:0; opacity: 0;width:50px;  padding:10px ;"/>
+                                                上传图片
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn default" ng-click="addMenuCancel()">取消</button>
+           <button type="submit" class="btn green" ng-disabled="menuForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--菜单添加弹出框END-->

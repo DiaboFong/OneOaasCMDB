@@ -1,0 +1,3 @@
+2017/06/08 17:58:35 [I] [asm_amd64.s:2086] http server Running on http://:9898
+2017/06/08 17:58:37 [I] [login_controller.go:102] 用户使用密码登录，使用已有token 
+2017/06/08 17:58:37 [I] [login_controller.go:131] token还有效 

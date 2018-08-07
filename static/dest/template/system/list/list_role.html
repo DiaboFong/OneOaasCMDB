@@ -1,0 +1,57 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="RoleTableController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <!--<button ng-click="action.showEdit()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>-->
+            <button ng-click="action.showAddRole()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加菜单权限
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="roleTable"></table>
+
+    <form class="editMenu" ng-show="role.screen">
+        <div class="editMenu-header">
+            <span class="header">选择</span>
+        </div>
+        <div class="editMenu-body"></div>
+        <div class="editMenu-footer">
+            <button type="button" class="btn btn-close" ng-click="action.hideEdit()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-click="action.SearchRole()">保存</button>
+        </div>
+    </form>
+
+    <!--编辑菜单权限出框 START-->
+    <form name="editRoleForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="role.edits"  ng-submit="action.updateRole()">
+        <div class="editMenu-header">
+            <span class="header">编辑菜单权限</span>
+            <input type="hidden" class="hidden" ng-model="role.editRoleId"/>
+        </div>
+        <div class="modal-body">
+            <div class="modal-item">
+                <ul class="list-inline">
+                    <li>菜单权限名称</li>
+                    <li><input type="text" class="form-control" ng-model="role.editRoleName" style="width: 275px;border: 1px solid #aaa" /></li>
+                </ul>
+            </div>
+            <div class="modal-item">
+                <ul class="list-inline">
+                    <li style="vertical-align: top">选择菜单</li>
+                    <li><div id="edit_menu_select"  ng-model="role.editRoleItems"
+                             style="width:281px;height:auto;min-height:300px;overflow-y: auto;"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.EditRemoveRole()">删除此菜单权限</a>
+                <button type="button" class="btn btn-close" ng-click="action.EditRoleCancel()">取消</button>
+                <button type="submit" class="btn btn-blues">保存</button>
+            </div>
+        </div>
+    </form>
+    <!--编辑角色弹出框 END-->
+</div>

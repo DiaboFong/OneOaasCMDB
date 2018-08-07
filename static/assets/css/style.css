@@ -1,0 +1,177 @@
+@font-face {
+  font-family: 'icomoon'; /*定义字体图标为一个字体Name*/
+  src:  url('fonts/icomoon.eot'); /*兼容IE9*/
+  src:  url('fonts/icomoon.eot?#iefix') format('embedded-opentype'),/*IE专用*/
+    url('fonts/icomoon.ttf') format('truetype'),                    /*开放压缩版字体*/
+    url('fonts/icomoon.woff') format('woff'),                       /*max os和win 常用字体*/
+    url('fonts/icomoon.svg') format('svg');                         /*W3C标准图形格式*/
+  font-weight: normal;
+  font-style: normal;
+}
+
+.cmdb-icon{
+  font-size: 16px;
+  position: relative;
+  top: 2px;
+  font-family: 'icomoon' !important; /*设置字体为自定义的字体*/
+  speak: none; /* 取消发音，这个值不会被子对象继承*/
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  font-weight: 400;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased; /*控制的字体渲染只对MacOS的Webkit有效*/
+  -moz-osx-font-smoothing: grayscale; /*针对Firefox浏览器抗锯齿*/
+}
+
+.icon-del:before {
+  content: "\e900";   /*删除垃圾桶*/
+}
+.icon-set:before {
+  content: "\e901";   /*设置齿轮*/
+}
+.icon-dc:before {
+  content: "\e902";   /*数据中心*/
+}
+.icon-refh:before {
+  content: "\e903";   /*刷新*/
+}
+.icon-add:before {
+  content: "\e904";   /*添加add*/
+}
+.icon-drop-down:before {
+  content: "\e905";   /*向下箭头*/
+}
+.icon-vcenter:before {
+  content: "\e906";   /*虚拟化资源*/
+}
+.icon-bs-rs:before {
+  content: "\e907";   /*业务资源*/
+}
+.icon-cloud:before {
+  content: "\e908";   /*云资源*/
+}
+.icon-screen:before {
+  content: "\e909";   /*筛选*/
+}
+.icon-list:before {
+  content: "\e90a";   /*list列表*/
+}
+.icon-supplier:before {
+  content: "\e90b";   /*供应商资源*/
+}
+.icon-detail:before {
+  content: "\e90c";   /*查看详情*/
+}
+.icon-edit:before {
+  content: "\e90d";   /*编辑*/
+}
+.icon-ip:before {
+  content: "\e90e";  /*IP地址*/
+}
+.icon-selects:before {
+  content: "\e90f";  /*对勾*/
+}
+
+.tile_list_item i{
+  width: 140px;
+  height: 140px;
+  display: inline-block;
+  background: url("../img/cmdb/Navicon-sprite.png") no-repeat;
+}
+
+.tile_list_item i.icon-index-dc{
+ background-position:-30px -30px;       /*资源管理数据中心*/
+}
+.tile_list_item i.icon-index-room{
+  background-position:-210px -30px;       /*资源管理机房*/
+}
+.tile_list_item i.icon-index-rack{
+  background-position:-390px -30px;        /*资源管理机柜*/
+}
+.tile_list_item i.icon-index-bandwidth{
+  background-position:-570px -30px;       /*资源管理宽带*/
+}
+.tile_list_item i.icon-index-hardware{
+   background-position:-750px -30px;      /*资源管理硬件*/
+ }
+.tile_list_item i.icon-index-server{
+  background-position:-30px -210px;         /*资源管理服务器*/
+}
+.tile_list_item i.icon-index-ip{
+  background-position:-210px -210px;      /*资源管理IP*/
+}
+.tile_list_item i.icon-index-domain{
+  background-position:-390px -210px;      /*资源管理域名*/
+}
+.tile_list_item i.icon-index-app{
+  background-position:-570px -210px;       /*资源管理数业务模块*/
+}
+.tile_list_item i.icon-index-vcenter{
+  background-position:-750px -210px;      /*资源管理数Vcenter*/
+}
+.tile_list_item i.icon-index-aliyun{
+  background-position:-30px -390px;      /*资源管理阿里云*/
+}
+.tile_list_item i.icon-index-aws{
+   background-position:-210px -390px;   /*资源管理AWS*/
+ }
+.tile_list_item i.icon-index-supplier{
+  background-position:-390px -390px;    /*资源管理供应商*/
+}
+.tile_list_item i.icon-index-newadd{
+  background-position:-750px -390px;    /*资源管理供应商*/
+  border: 1px dashed #eee;
+  border-radius:3px;
+}
+
+.user-ok{
+  display: inline-block;
+  background: url("../img/cmdb/select-sprite.png") no-repeat!important;
+  outline: none !important;
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  -webkit-appearance: none !important;
+  background-position: -25px -86px !important;
+  background-size: 100% 100%;
+  height: 30px;
+  vertical-align: middle;
+  line-height: 30px !important;
+  width: 30px !important;
+  margin: 0 !important;
+  border: 0;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+}
+.user-error{
+  display: inline-block;
+  background: url("../img/cmdb/select-sprite.png") no-repeat!important;
+  outline: none !important;
+  position: absolute;
+  right: 0;
+  bottom: 15px;
+  -webkit-appearance: none !important;
+  background-position: -85px -86px !important;
+  background-size: 100% 100%;
+  height: 30px;
+  vertical-align: middle;
+  line-height: 30px !important;
+  width: 30px !important;
+  margin: 0 !important;
+  border: 0;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+}
+#usernametpis,#passwordtpis{
+  display: none;
+  -o-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+}

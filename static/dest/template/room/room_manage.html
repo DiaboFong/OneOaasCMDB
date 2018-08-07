@@ -1,0 +1,435 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="RoomListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddRoom();" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加机房
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="roomTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="roomscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" >
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>机房名称</label>
+                <input type="text" class="form-control" placeholder="请输入机房名称"
+                       ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <p>机房状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in roomStateList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.roomState[state.Id]" /> {{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>所属数据中心</p>
+                <ul class="list-inline">
+                    <li ng-repeat="dc in datacenterList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.roomDC[dc.Dcid]"/>{{dc.Dcname}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="button" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑机房弹出框 START-->
+    <div ng-show="roomedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" >
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑机房
+                <input type="hidden" ng-model="editRoom.roomId">
+            </label>
+            <div class="edit-exits" ng-click="action.hideeditRoom()">&times;</div>
+        </div>
+        <div class="editMenu-body" id="roomEditForm">
+            <div class="item">
+                <span class="col-md-5">名称<span class="required">*</span></span>
+                <input type="text" ng-model="editRoom.roomName" class="col-md-7"  placeholder="请输入名称">
+            </div>
+            <div class="item">
+                <span class="col-md-5">状态<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="editRoom.state"
+                        ng-options="data.Id as data.State for data in roomStateList">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">楼层<span class="required">*</span></span>
+                <input type="text" class="col-md-7" ng-model="editRoom.floor" placeholder="楼层"/>
+            </div>
+            <div class="item">
+                <span class="col-md-5">所属数据中心<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="editRoom.datacenter"
+                        ng-options="data.Dcid as data.Dcname for data in datacenterList">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">房间号</span>
+                <input type="text" ng-model="editRoom.roomNo" class="col-md-7" placeholder="请输入房间号">
+            </div>
+            <div class="item">
+                <span class="col-md-5">负责人</span>
+                <input class="col-md-7" type="text" ng-model="editRoom.maintenanceContact" name="editMaintenanceContact" placeholder="请输入负责人"/>
+            </div>
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" class="col-md-7" rows="3" ng-model="editRoom.comment" name="editComment" placeholder="备注" onmousedown="first(event,this)"/>
+            </div>
+            <div class="editMenu-footer">
+                <div class="searchBar text-center">
+                    <a class="btn btn-remover a-del" type="button" ng-click="action.roomremove()">删除此机房</a>
+                    <button type="button" class="btn btn-close" ng-click="action.hideeditRoom();">取消</button>
+                    <button class="btn btn-blues" ng-click="action.updateRoom();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑机房弹出框 END-->
+
+
+    <!--机房状态列表 START-->
+    <div id="room_state_dialog" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">机房状态列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="roomState_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addRoomState">
+                                    <i class="fa fa-plus"></i>
+                                    添加状态
+                                </button>
+                            </div>
+                            <table id="roomState_table"></table>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--机房状态列表 END-->
+
+    <!--编辑机房状态弹出框 START-->
+    <div id="edit_roomState_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑机房状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editRoomStateId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">机房状态</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editRoomState">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="submit" class="btn green" ng-click="roomState.updateRoomState();">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    <!--编辑机房状态弹出框 END-->
+
+    <!--添加机房联系人弹出框 START-->
+    <div id="room_contact_dialog" class="modal fade" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">配置机房联系人</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" role="form">
+                        <div class="form-body">
+                            <div class="form-group has-success">
+                                <label class="col-md-3 control-label">选择机房</label>
+                                <div class="col-md-9">
+                                    <select class="form-control"
+                                            ng-model="roomSelected"
+                                            ng-options="data.RoomName for data in roomList">
+                                        <option value="">---请选择---</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-md-3 control-label">机房商务联系人</label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="机房商务联系人"
+                                               id="businessContact" name="businessContact">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-md-3 control-label">机房技术联系人</label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="机房技术联系人"
+                                               id="technicalContact" name="technicalContact">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-md-3 control-label">机房收货联系人</label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="机房收货联系人"
+                                               id="receivingContact" name="receivingContact">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group has-success">
+                                <label class="col-md-3 control-label">我司运维负责人</label>
+                                <div class="col-md-9">
+                                    <div class="input-icon">
+                                        <i class="fa fa-user"></i>
+                                        <input type="text" class="form-control" placeholder="机房运维负责人"
+                                               id="maintenanceContact" name="maintenanceContact">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="submit" class="btn green" ng-click="action.addRoom();">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加机房联系人弹出框 END-->
+</div>
+
+<!--添加机房弹出框 START-->
+<script id="add_room_dialog.html" type="text/ng-template">
+    <form class="inside-content" ng-submit="room.addRoom()" name="addRoomForm">
+        <div class="modal-header">
+            <h5 class="modal-title">添加机房
+                <span class="add-close" ng-click="room.addRoomCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">机房名称<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="roomname" placeholder="机房名称"
+                           ng-model="room.roomname" ng-blur="room.testifyRoom()" required/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">机房状态<span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="room.state" ng-options="data.State for data in roomStateList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button ng-click="room.showAddRoomStates()" class="btn btn-default" type="button" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">所在楼层<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" class="modal-input" ng-model="room.floor" name="roomno" placeholder="楼层"/>
+                    <!--<select ng-model="room.floor" id="roomfloors"
+                            ng-options="floor.name for floor in floorList">
+                        <option value="">-&#45;&#45;请选择-&#45;&#45;</option>
+                    </select>-->
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">所属数据中心<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <select ng-model="room.datacenter" id="roomdatecenters"
+                            ng-options="rows.Dcname for rows in datacenterList" required>
+                        <option value="">---请选择---</option>
+                    </select>
+                </div>
+            </div>
+            <div ng-show="room.addMore">
+                <div class="item">
+                    <label class="col-md-5">房间号</label>
+                    <div class="col-md-7">
+                        <input type="text" class="modal-input" ng-model="room.roomno" name="roomno" placeholder="房间号"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">机房负责人</label>
+                    <div class="col-md-7">
+                        <input type="text" class="modal-input" placeholder="机房负责人"
+                               ng-model="room.maintenanceContact" name="maintenanceContact">
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">备注</label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="room.comment" name="comment" placeholder="备注" onmousedown="first(event,this)"/>
+                    </div>
+                </div>
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="room.addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="room.addRoomCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="addRoomForm.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加机房状态弹出框 START-->
+    <form id="addRoomState" class="modal fade" ng-submit="room.addRoomState()" data-backdrop="static" aria-hidden="true" >
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-item">
+                        <label>添加状态名称</label>
+                        <input type="text" class="form-control addstate" placeholder="请输入机房状态" ng-model="addRoomStates" required/>
+                    </div>
+                    <div class="modal-item" style="margin-top: 20px">
+                        <label>选中状态颜色</label>
+                        <ng-state-color class="ulcolors" colors="mycolors" selected="selectedColor"></ng-state-color>
+                        <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加机房状态弹出框 END-->
+</script>
+<!--添加机房弹出框 END-->
+
+<!-- 机房状态弹出框 -->
+<script id="room_state.html" type="text/ng-template">
+    <div class="inside-content" >
+        <div class="modal-body">
+            <h5 class="settings-h5"><a>配置机房状态</a>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </h5>
+            <div class="settings" ng-hide="showAddColors">
+                <div ng-hide="showEditColors">
+                    <ul class="list-unstyled">
+                        <li class="item-inside" ng-repeat="state in RoomState">
+                            <div class="inside">
+                                <ol class="list-inline text-center first">
+                                    <li style="background-color: {{state.Color}}"></li>
+                                    <li>{{state.State}}</li>
+                                </ol>
+                                <ol class="list-inline text-center last" >
+                                    <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                    <li><a class="red" ng-click="settings.deleteState(state)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div ng-click="settings.addColors()">
+                                <span class="icon-big">+</span>
+                                <h6>添加新状态</h6>
+                            </div>
+                        </li>
+                    </ul>
+                   <!-- <div class="modal-footer">
+                        <button type="button" class="btn default" ng-click="settings.settingsCancel()">取消</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAddColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>添加状态名称</label>
+                    <input type="text" class="form-control addstate"  placeholder="请输入状态名称"
+                           ng-model="addRoomState" required/>
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+            </div>
+        </div>
+        <div ng-show="showEditColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>编辑状态名称</label>
+                    <input type="text" class="form-control" placeholder="请输入状态名称" ng-model="editRoomState" required/>
+                    <input type="hidden" class="hidden" ng-model="editRoomStateId" />
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>已选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  cmdb-app:
+    image: oneoaas:cmdb
+    command: nohup ./oneoaas-cmdb &
+    ports:
+     - "19898:9898"
+  cmdb-mysql:
+    image: mysql:latest
+    ports:
+         - "13306:3306"
+    environment:
+           - MYSQL_ROOT_PASSWORD=123456

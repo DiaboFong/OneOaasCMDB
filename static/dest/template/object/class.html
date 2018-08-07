@@ -1,0 +1,258 @@
+<div class="home source-config">
+    <div class="row" ng-controller="CmdbClassController">
+        <div id="addAssetsDialog" class="modal fade" tabindex="-1" data-width="400">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                        <h4 class="modal-title">添加资产类型</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal" role="form">
+                            <div class="form-body">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">资产名称</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-edit"></i>
+                                            <input type="text" class="form-control" ng-model="assets.name"
+                                                   placeholder="请输入资产英文名称"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">资产描述</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-edit"></i>
+                                            <input type="text" class="form-control" ng-model="assets.description"
+                                                   placeholder="请输入资产中文描述">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-3 control-label">继承自</label>-->
+                                <!--<div class="col-md-9">-->
+                                <!--<div class="checkbox-list">-->
+                                <!--<span><input type="checkbox" ng-model="assets.inherits"></span>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-3 control-label">是否是超类</label>-->
+                                <!--<div class="col-md-9">-->
+                                <!--<div class="checkbox-list">-->
+                                <!--<label><input type="checkbox" ng-model="assets.superclass"></label>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="form-group">-->
+                                <!--<label class="col-md-3 control-label">是否是激活</label>-->
+                                <!--<div class="col-md-9">-->
+                                <!--<div class="checkbox-list">-->
+                                <!--<label><input type="checkbox" ng-model="assets.active"></label>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn">取消</button>
+                        <button type="button" class="btn red" ng-click="addAssets();">添加</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-xs-4">
+            <div class="portlet blue box">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-cogs"></i>资产类型列表
+                    </div>
+                    <div class="actions">
+                        <a class="btn green btn-sm" ng-click="showAddAssets();">
+                            添加资产类型 <i class="fa fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <div id="assets_class_list" class="tree-demo">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 col-md-8 col-xs-8">
+            <div class="portlet box blue tabbable">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-wrench"></i>资产配置
+                    </div>
+                </div>
+                <div class="portlet-body">
+                    <uib-tabset active="active">
+                        <uib-tab heading="编辑资产类型" select="">
+                            <div class="portlet-body form">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">资产名称</label>
+                                            <div class="col-md-9">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-edit"></i>
+                                                    <input type="text" class="form-control" ng-model="upateAssets.name"
+                                                           value="//upateAssets.name//" readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label">资产描述</label>
+                                            <div class="col-md-9">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-edit"></i>
+                                                    <input type="text" class="form-control"
+                                                           ng-model="upateAssets.description"
+                                                           name="//upateAssets.description//">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-actions fluid">
+                                            <div class="col-md-12 text-center">
+                                                <button type="submit" class="btn green" ng-click="addAssets();">更新
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </uib-tab>
+                        <uib-tab heading="配置资产属性">
+                            <div class="portlet-body">
+                                <div id="addCiDialog" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true"></button>
+                                                <h4 class="modal-title">添加资产配置项</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-horizontal" role="form">
+                                                    <div class="form-body">
+                                                        <div class="form-group">
+                                                            <label class="col-md-3 control-label">配置项名称</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-icon">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    <input type="text" class="form-control"
+                                                                           ng-model="ci.model.name"
+                                                                           placeholder="配置项名称"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-3 control-label">配置项描述</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-icon">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    <input type="text" class="form-control"
+                                                                           ng-model="ci.model.description"
+                                                                           placeholder="配置项描述">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="form-group">-->
+                                                        <!--<label class="col-md-3 control-label">配置项类型</label>-->
+                                                        <!--<div class="col-md-9">-->
+                                                        <!--<div class="input-icon">-->
+                                                        <!--<i class="fa fa-edit"></i>-->
+                                                        <!--<input type="text" class="form-control"-->
+                                                        <!--ng-model="ci.model.class"-->
+                                                        <!--placeholder="配置项类型">-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" data-dismiss="modal" class="btn">取消</button>
+                                                <button type="button" class="btn red" ng-click="addCi();">添加</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="editCiDialog" class="modal fade">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true"></button>
+                                                <h4 class="modal-title">编辑资产配置项</h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-horizontal" role="form">
+                                                    <div class="form-body">
+                                                        <div class="form-group">
+                                                            <label class="col-md-3 control-label">配置项名称</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-icon">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    <input type="text" class="form-control"
+                                                                           ng-model="ci.updateModel.name"
+                                                                           placeholder="配置项名称"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-3 control-label">配置项描述</label>
+                                                            <div class="col-md-9">
+                                                                <div class="input-icon">
+                                                                    <i class="fa fa-edit"></i>
+                                                                    <input type="text" class="form-control"
+                                                                           ng-model="ci.updateModel.description"
+                                                                           placeholder="配置项描述">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--<div class="form-group">-->
+                                                        <!--<label class="col-md-3 control-label">配置项类型</label>-->
+                                                        <!--<div class="col-md-9">-->
+                                                        <!--<div class="input-icon">-->
+                                                        <!--<i class="fa fa-edit"></i>-->
+                                                        <!--<input type="text" class="form-control"-->
+                                                        <!--ng-model="ci.updateModel.class"-->
+                                                        <!--placeholder="配置项类型">-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                        <!--</div>-->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" data-dismiss="modal" class="btn">取消</button>
+                                                <button type="button" class="btn red" ng-click="editCi();">保存</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-toolbar">
+                                    <div class="btn-group">
+                                        <button ng-click="showAddCi();" class="btn green">
+                                            自定义资产配置项<i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div ui-grid="gridOptions" ui-grid-edit class="grid"></div>
+                            </div>
+                        </uib-tab>
+                    </uib-tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

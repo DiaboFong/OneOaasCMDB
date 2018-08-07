@@ -1,0 +1,17 @@
+<div class="portlet box blue tabbable">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-wrench"></i>配置资源项
+        </div>
+    </div>
+    <div class="portlet-body">
+        <uib-tabset active="active">
+            <uib-tab index="$index" ng-repeat="tab in tabs"
+                     heading="//tab.title//"
+                     disable="tab.disabled"
+                     select="tab.select">
+                <div ng-include="tab.template"></div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>

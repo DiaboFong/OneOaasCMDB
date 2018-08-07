@@ -1,0 +1,93 @@
+<div class="resource-tree">
+    <div class="sidebar-right">
+        <div class="menu" >
+            <div id="accordion_rtree" class="sidebar">
+                <div class="panel" >
+                    <div class="sidebar-header"><span class="cmdb-icon icon-dc"></span>资源树</div>
+                    <ol style="padding:10px 0 0 20px" class="list-inline">
+                        <li class="glyphicon glyphicon-chevron-down"></li>
+                        <li><h5>数据中心资源</h5></li>
+                    </ol>
+                    <div ng-repeat="datacenter in resourcesList">
+                        <div data-toggle="collapse" data-parent="#accordion_rtree" href="#collapse_{{datacenter.id}}">
+                            <ul class="list-inline">
+                                <li class="first"></li>
+                                <li ng-click="showDcDetails(datacenter)"><h3>{{datacenter.dcname}}</h3></li>
+                                <li class="last">
+                                    <span class="alert">{{datacenter.roomNum}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--activeLeftMenu === m.name is true class-->
+                        <div id="collapse_{{datacenter.id}}" class="panel-collapse collapse">
+                            <ol class="list-unstyled submenu">
+                                <li ng-repeat="room in datacenter.rooms">
+                                    <a style="cursor: pointer;" ng-click="showRoomDetails(room)">
+                                        {{room.RoomName}}机房
+                                    </a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel" >
+                    <ol style="padding:10px 0 0 20px" class="list-inline">
+                        <li class="glyphicon glyphicon-chevron-down"></li>
+                        <li><h5>云资源</h5></li>
+                    </ol>
+                    <div data-toggle="collapse" data-parent="#accordion_rtree" href="#collapse_cloud_1">
+                        <ul class="list-inline">
+                            <li class="first"></li>
+                            <li><h3>阿里云</h3></li>
+                        </ul>
+                    </div>
+                    <!--activeLeftMenu === m.name is true class-->
+                    <div id="collapse_cloud_1" class="panel-collapse collapse">
+                        <ol class="list-unstyled submenu">
+                            <li>
+                                <a>云主机</a>
+                            </li>
+                            <li>
+                                <a>云数据库</a>
+                            </li>
+                        </ol>
+                    </div>
+
+                    <div data-toggle="collapse" data-parent="#accordion_rtree" href="#collapse_cloud_2">
+                        <ul class="list-inline">
+                            <li class="first"></li>
+                            <li><h3>AWS</h3></li>
+                        </ul>
+                    </div>
+
+                    <div id="collapse_cloud_2" class="panel-collapse collapse">
+                        <ol class="list-unstyled submenu">
+                            <li><a>云主机</a></li>
+                            <li><a>云数据库</a></li>
+                        </ol>
+                    </div>
+
+                    <div data-toggle="collapse" data-parent="#accordion_rtree" href="#collapse_cloud_3">
+                        <ul class="list-inline">
+                            <li class="first"></li>
+                            <li><h3>虚拟化</h3></li>
+                        </ul>
+                    </div>
+
+                    <div id="collapse_cloud_3" class="panel-collapse collapse">
+                        <ol class="list-unstyled submenu">
+                            <li>
+                                <a>
+                                    <i class="fa fa-angle-right"></i>
+                                    vmware
+                                </a>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!--分割线-->
+                <div class="divide"></div>
+            </div>
+        </div>
+    </div>
+</div>

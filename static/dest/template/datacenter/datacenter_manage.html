@@ -1,0 +1,530 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="DatacenterListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddDatacenter()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加数据中心
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="datacenterTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="screenDatacenterForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <p>数据中心名称</p>
+                <input type="text" class="search form-control" placeholder="请输入数据中心名称" ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <p>数据中心状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in datacenterStateList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.DCstate[state.Id]"/>{{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>数据中心区域</p>
+                <ul class="list-inline">
+                    <li ng-repeat="area in datacenterRegionList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.DCarea[area.Id]"/>{{area.RegionName}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>数据中心供应商</p>
+                <ul class="list-inline">
+                    <li ng-repeat="supplier in datacenterSupplierList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.Supplier[supplier.Id]" /> {{supplier.Supplier}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>数据中心创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.EndTime"/>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button class="btn btn-blues" ng-click="action.Dcsearch()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑数据中心弹出框 START-->
+    <div ng-show="editDatacenterForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑数据中心
+                <input type="hidden" ng-model="datacenter.editDcId" class="hidden" />
+            </label>
+            <div class="edit-exits" ng-click="action.hideeditDatacenter()">&times;</div>
+        </div>
+        <div class="editMenu-body" id="datacenterEditForm">
+            <div class="item">
+                <span class="col-md-5">数据中心名称<span class="required">*</span></span>
+                <input class="col-md-7" type="text" ng-model="datacenter.editDcName" name="editDcName" placeholder="请输入名称" />
+            </div>
+
+            <div class="item">
+                <span class="col-md-5">数据中心区域<span class="required">*</span></span>
+                <select class="col-md-7" ng-model="datacenter.editRegionSelected"
+                        ng-options="data.Id as data.RegionName for data in datacenterRegionList"
+                        name="editDcArea">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">数据中心地址<span class="required">*</span></span>
+                <input type="text" class="col-md-7" ng-model="datacenter.editDcAddress" name="editDcAddress" placeholder="请输入数据中心地址">
+            </div>
+            <div class="item">
+                <span class="col-md-5">数据中心状态<span class="required">*</span></span>
+                <select class="col-md-7" ng-model="datacenter.editStateSelected"
+                        ng-options="data.Id as data.State for data in datacenterStateList"
+                        name="editDcStatus">
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">供应商</span>
+                <select class="col-md-7" ng-model="datacenter.editSupplierSelected"
+                        ng-options="data.Id as data.Supplier for data in datacenterSupplierList"
+                        name="editSupplier">
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" ng-model="editComment" name="datacenter.editComment" class="col-md-7" placeholder="备注">
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.dcremove()">删除此数据中心</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditDatacenter()">取消</button>
+                <button class="btn btn-blues" ng-click="action.updateDatacenter()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑数据中心弹出框 END-->
+
+    <!--数据中心状态列表 START-->
+    <div id="datacenter_state_list" class="modal fade bs-modal-lg" role="dialog" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">数据中心状态列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="portlet-body">
+                        <div class="table-toolbar" id="datacenterState_toolbar">
+                            <button class="btn btn-primary" data-toggle="modal" href="#addDcState">
+                                <i class="fa fa-plus"></i>
+                                &nbsp;添加状态
+                            </button>
+                        </div>
+                        <table id="datacenterState_table"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--数据中心状态列表 END-->
+
+    <!--编辑数据中心状态弹出框 START-->
+    <div id="edit_datacenterState_dialog" class="modal fade" data-backdrop="static" tabindex="-1"  aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑数据中心状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editDcStateId"/>
+                                <div class="form-body">
+                                    <form class="form-group has-success" name="editDcStates">
+                                        <label class="col-md-3 control-label">数据中心状态</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editDcState" ng-model="editDcState" name="editDcState" required placeholder="请输入数据中心状态">
+                                                <small id="editDcRegion_small" ng-show="editDcStates.editDcState.$error.required" style="color:red;">数据中心状态不能为空</small>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="submit" class="btn green" ng-click="datacenterState.updateDcState();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑数据中心状态弹出框 END-->
+
+    <!--编辑数据中心区域弹出框 START-->
+    <div id="edit_datacenterRegion_dialog" class="modal fade" data-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑数据中心区域</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editDcRegionId"/>
+                                <div class="form-body">
+                                    <form class="form-group has-success" name="dceditrgion">
+                                        <label class="col-md-3 control-label">数据中心区域</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-compass"></i>
+                                                <input class="form-control addstate" id="editDcRegion" name="editDcRegion" ng-model="editDcRegion" required placeholder="请输入数据中心区域">
+                                                <small id="dceditrgion_small" ng-show="dceditrgion.editDcRegion.$error.required" style="color:red;">数据中心区域不能为空</small>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="submit" class="btn green" ng-click="datacenterRegion.updateDcRegion();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑数据中心区域弹出框 END-->
+</div>
+
+<!--添加数据中心弹出框 START-->
+<script id="add_datacenter.html" type="text/ng-template">
+    <form name="DatacenterFrom"  class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">添加数据中心
+            <span class="add-close" ng-click="datacenter.addDatacenterCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">数据中心名称 <span class="required">*</span></label>
+                <div  class="col-md-7">
+                    <input type="text" name="dcname" placeholder="数据中心" ng-model="datacenter.dcname" required ng-blur="datacenter.testifyDcname()"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">数据中心状态 <span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select id="addDcStatus" ng-blur="action.addDatacenter()"
+                                ng-model="datacenter.datacenterStateSelected"
+                                ng-options="data.State for data in datacenterStateList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="datacenter.showAddDatacenterStates()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">数据中心地址 <span class="required">*</span></label>
+                <div  class="col-md-7">
+                    <input type="text" id="address" name="address" placeholder="详细地址" ng-model="datacenter.address" required/>
+                </div>
+                <!--<ul class="list-inline col-md-6">
+                    <li class="first">
+                        <input type="text" name="address" id="address" placeholder="详细地址" ng-model="datacenter.address" required/>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" id="showmap" ng-click="datacenter.showAddDatacenteraddress()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-map-marker"></i>地址
+                        </button>
+                    </li>
+                </ul>-->
+            </div>
+            <div class="item">
+                <label class="col-md-5">数据中心区域 <span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-blur="action.addDatacenter()" ng-model="datacenter.datacenterRegionSelected"
+                                ng-options="data.RegionName for data in datacenterRegionList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="datacenter.showAddDatacenterRegions()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="datacenter.addMore">
+                <div class="item">
+                    <label class="col-md-5">供应商</label>
+                    <div class="col-md-7">
+                        <select ng-model="datacenter.datacenterSupplierSelected"
+                                ng-options="data.Supplier for data in datacenterSupplierList"
+                                name="supplier">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">备注</label>
+                    <div class="col-md-7">
+                        <input type="text" name="comment" id="comment" ng-model="datacenter.comment" placeholder="备注">
+                    </div>
+                </div>
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="datacenter.addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer modal-btns">
+            <button type="button" class="btn btn-close" ng-click="datacenter.addDatacenterCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-click="datacenter.addDatacenter()" ng-disabled="DatacenterFrom.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加数据中心状态弹出框 START-->
+    <form id="addDcState" class="modal fade" ng-submit="datacenter.addDcState()" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-item">
+                        <label>添加状态名称</label>
+                        <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="DcState" required/>
+                    </div>
+                    <div class="modal-item" style="margin-top: 20px">
+                        <label>选中状态颜色</label>
+                        <ng-state-color colors="defaultColors" selected="selectedColor"></ng-state-color>
+                        <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加数据中心状态弹出框 END-->
+
+    <!--添加数据中心地址弹出框 START-->
+    <!--<form id="addDcAddress" name="dcAddressform" ng-submit="datacenter.addDcAddress()" class="modal fade" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form class="modal-body">
+                        <label>数据中心地址</label>
+                        <div class="input-icon">
+                            <input class="form-control" name="dcAddresstext" id="dcAddresstext" ng-model="Addresstext" required placeholder="请输入数据中心地址">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-disabled="dcAddressform.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>-->
+    <!--添加数据中心地址弹出框 END-->
+
+    <!--添加数据中心区域弹出框 START-->
+    <form id="addDcRegion" name="addDcRegionfrom" class="modal fade" data-backdrop="static" aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-titles">
+                        <label>数据中心区域</label>
+                    </div>
+                    <div class="modal-item">
+                        <input class="form-control addstate" name="dcRegion" id="dcRegion" ng-model="dcRegion" required placeholder="请输入数据中心区域">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="datacenter.addDcRegion();" ng-disabled="addDcRegionfrom.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加数据中心区域弹出框 END-->
+</script>
+<!--添加数据中心弹出框 END-->
+
+<!-- 数据中心设置 -->
+<script id="datacenter_settings.html" type="text/ng-template">
+    <div class="inside-content">
+        <div class="modal-body">
+            <ul class="nav nav-tabs" style="padding:10px 0 0 0;">
+                <li class="active"><a href="#navtb1" data-toggle="tab">配置状态</a></li>
+                <li><a href="#navtb2" data-toggle="tab">配置区域</a></li>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="navtb1">
+                    <div ng-hide="showAddColors" class="settings">
+                        <div ng-hide="showEditColors">
+                            <h6>已有状态</h6>
+                            <ul class="list-unstyled">
+                                <li class="item-inside" ng-repeat="state in DCstate">
+                                    <div class="inside">
+                                        <ol class="list-inline text-center first">
+                                            <li style="background-color: {{state.Color}}"></li>
+                                            <li class="state-ellipsis">{{state.State}}</li>
+                                        </ol>
+                                        <ol class="list-inline text-center last" >
+                                            <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                            <li><a ng-click="settings.deleteState(state)" class="red"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                        </ol>
+                                    </div>
+                                </li>
+                                <li class="last">
+                                    <div ng-click="settings.addColors()">
+                                        <span class="icon-big">+</span>
+                                        <h6>添加新状态</h6>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-show="showAddColors">
+                        <div class="modal-body">
+                            <div class="modal-item">
+                                <label>添加状态名称</label>
+                                <input type="text" class="form-control modal-state addstate" placeholder="请输入状态名称"
+                                       ng-model="addDcState" required/>
+                            </div>
+                            <div class="modal-item" style="margin-top: 20px">
+                                <label>选中状态颜色</label>
+                                <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                                <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                            <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+                        </div>
+                    </div>
+                    <div ng-show="showEditColors">
+                        <div class="modal-body">
+                            <div class="modal-item">
+                                <label>编辑状态名称</label>
+                                <input type="text" class="form-control modal-state" placeholder="请输入状态名称" ng-model="DcState" required/>
+                                <input type="hidden" class="hidden" ng-model="editDcStateId" />
+                            </div>
+                            <div class="modal-item" style="margin-top: 20px">
+                                <label>已选中状态颜色</label>
+                                <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                                <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                            <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="navtb2">
+                    <div class="settings" ng-hide="showAddColors">
+                        <div ng-hide="showEditColors">
+                            <h6>已有区域</h6>
+                            <ul class="list-unstyled">
+                                <li class="item-inside" ng-repeat="area in DCarea">
+                                    <div class="inside">
+                                        <ol class="list-inline text-center first">
+                                            <li style="background-color: #20a0ff;position: relative">
+                                                <i class="settings-area"></i>
+                                            </li>
+                                            <li class="state-ellipsis">{{area.RegionName}}</li>
+                                        </ol>
+                                        <ol class="list-inline text-center last" >
+                                            <li><a class="maincolor" ng-click="settings.editArea(area)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                            <li><a class="red" ng-click="settings.deleteArea(area)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                        </ol>
+                                    </div>
+                                </li>
+                                <li class="last">
+                                    <div ng-click="settings.addArea()">
+                                        <span class="icon-big">+</span>
+                                        <h6>添加新区域</h6>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div ng-show="showAddColors">
+                        <div class="modal-body">
+                            <div class="modal-item">
+                                <label>添加数据中心区域</label>
+                                <input type="text" class="form-control addstate" placeholder="请输入数据中心区域名称"
+                                       ng-model="addDcArea" required/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                            <button type="submit" class="btn btn-blues" ng-click="settings.saveArea()">保存</button>
+                        </div>
+                    </div>
+                    <div ng-show="showEditColors">
+                        <div class="modal-body">
+                            <div class="modal-item">
+                                <label>编辑数据中心区域</label>
+                                <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="DcArea" required/>
+                                <input type="hidden" class="hidden" ng-model="editDcAreaId" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                            <button type="submit" class="btn btn-blues" ng-click="settings.editAreaSave()">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

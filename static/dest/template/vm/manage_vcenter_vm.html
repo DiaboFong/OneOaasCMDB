@@ -1,0 +1,188 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="VcenterListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddVcenter()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>添加vcenter
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="vcenterTable"></table>
+
+    <!--筛选 START-->
+    <div ng-show="vcenter.screen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>实例名称</label>
+                <input type="text" class="form-control" ng-model="search.searchText"/>
+            </div>
+            <div class="editMenu-itme">
+                <p>操作系统全称</p>
+                <ul class="list-inline">
+                    <li ng-repeat="operation in operationLists">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.operationList[operation.data]">{{operation.data}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>Vcenter创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.EndTime"/>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑Vcenter弹出框 START-->
+    <div name="editVcenterForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="vcenter.vcenterEdits">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i> 编辑Vcenter</span>
+            <input type="hidden" ng-model="vcenter.editVcenterId" class="hidden"/>
+            <div class="edit-exits" ng-click="action.hideeditVcenter()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-5">实例名称<span class="required">*</span></label>
+                <input type="text" class="col-md-7" name="editinstancename"
+                       ng-model="vcenter.editinstancename" placeholder="请输入实例名称" required/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">是否为模板</label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline" >
+                        <input name="editistemplate" ng-model="vcenter.editistemplate" type="radio" value="是"/>是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editistemplate" ng-model="vcenter.editistemplate" type="radio" value="否 "/>否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">虚拟机路径</label>
+                <input type="text" class="col-md-7" name="editvmpath" ng-model="vcenter.editvmpath" placeholder="请输入虚拟机路径">
+            </div>
+            <div class="item">
+                <label class="col-md-5">内存大小(M)</label>
+                <input type="text" class="col-md-7" name="editmemory" ng-model="vcenter.editmemory" placeholder="请输入内存大小">
+            </div>
+            <div class="item">
+                <label class="col-md-5">CPU个数</label>
+                <input type="text" class="col-md-7" name="editcpu" ng-model="vcenter.editcpu" placeholder="请输入CPU个数">
+            </div>
+            <div class="item">
+                <label class="col-md-5">网卡个数</label>
+                <input type="text" class="col-md-7" name="editethernetcards" ng-model="vcenter.editethernetcards" placeholder="请输入网卡个数">
+            </div>
+            <div class="item">
+                <label class="col-md-5">虚拟机磁盘个数</label>
+                <input type="text" class="col-md-7" name="editvirtualdisks" ng-model="vcenter.editvirtualdisks" placeholder="请输入虚拟机磁盘个数">
+            </div>
+            <div class="item">
+                <label class="col-md-5">操作系统全称</label>
+                <input type="text" class="col-md-7" name="editguestfullname" ng-model="vcenter.editguestfullname" placeholder="请输入操作系统全称">
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.vcenterremove()">删除此Vcenter</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditVcenter()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateVcenter()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑Vcenter弹出框 END-->
+
+</div>
+<!--添加Vcenter弹出框 START-->
+<script id="add_vcenter_dialog.html" type="text/ng-template">
+    <form name="vcenterAddForm" ng-submit="addVcenter()" class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">添加Vcenter
+                <span class="add-close" ng-click="addVcenterCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-4">实例名称<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text"  name="instanceName"
+                           ng-model="vCenter.instanceNameUnique" placeholder="实例名称"
+                           required ng-blur="testifyVcenter()" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">是否为模板</label>
+                <div class="col-md-8">
+                    <label class="checkbox-inline _checkbox-inline" >
+                        <input name="isTemplate" type="radio" ng-checked="true" ng-model="vCenter.isTemplate" value="1"/>是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline" >
+                        <input name="istemplate" type="radio" ng-model="vCenter.isTemplate" value="0"/>否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">虚拟机路径</label>
+                <div class="col-md-8">
+                    <input type="text" name="vmPath" placeholder="虚拟机路径" ng-model="vCenter.vmPath" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">内存大小(M)</label>
+                <div class="col-md-8">
+                    <input type="text" name="memory" ng-model="vCenter.memory" placeholder="内存大小" ng-pattern="/^\d+(\.\d+)?$/"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">CPU个数</label>
+                <div class="col-md-8">
+                    <input type="text"  name="cpu" ng-model="vCenter.cpu" placeholder="CPU个数" ng-pattern="/\d/"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">网卡个数</label>
+                <div class="col-md-8">
+                    <input type="text" name="ethernetCards" ng-model="vCenter.ethernetCards" placeholder="网卡个数" ng-pattern="/\d/" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">虚拟机磁盘个数</label>
+                <div class="col-md-8">
+                    <input type="text" name="virtualDisks" ng-model="vCenter.virtualDisks" placeholder="虚拟机磁盘个数" ng-pattern="/\d/"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">操作系统全称</label>
+                <div class="col-md-8">
+                    <input type="text" name="guestFullName" ng-model="vCenter.guestFullName" placeholder="操作系统全称"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addVcenterCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-disabled="vcenterAddForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加Vcenter弹出框 END-->

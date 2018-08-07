@@ -1,0 +1,52 @@
+<div ng-controller="ResourceReportController" class="report"  style="margin-top: 10px;">
+    <h5 style="padding:10px 5%; border:1px solid #ececec;margin:0">资源报表</h5>
+    <table cellspacing="0" cellpadding="0" class="report-table">
+        <thead style="background-color:#EAF7FF">
+        <th>{{tableReport.title.category}}</th>
+        <th>{{tableReport.title.data}}</th>
+        <th>{{tableReport.title.quantity}}</th>
+        </thead>
+        <tbody>
+        <tr class="table-line">
+            <td rowspan="2">{{tableReport.datacenter.name}}</td>
+            <td>{{tableReport.datacenter.bandwidth.name}}</td>
+            <td>{{tableReport.datacenter.bandwidth.quantity}}</td>
+        </tr>
+        <tr>
+            <td>{{tableReport.datacenter.rack.name}}</td>
+            <td>{{tableReport.datacenter.rack.quantity}}</td>
+        </tr>
+        <tr class="table-line">
+            <td rowspan="3">{{tableReport.device.name}}</td>
+            <td>{{tableReport.device.server.name}}</td>
+            <td>{{tableReport.device.server.quantity}}</td>
+        </tr>
+        <tr>
+            <td>{{tableReport.device.network.name}}</td>
+            <td>{{tableReport.device.network.quantity}}</td>
+        </tr>
+        <tr>
+            <td>{{tableReport.device.storage.name}}</td>
+            <td>{{tableReport.device.storage.quantity}}</td>
+        </tr>
+        <tr class="table-line">
+            <td rowspan="2">{{tableReport.soft.name}}</td>
+            <td>{{tableReport.soft.virtualization.name}}</td>
+            <td>{{tableReport.soft.virtualization.quantity}}</td>
+        </tr>
+        <tr>
+            <td>{{tableReport.soft.common.name}}</td>
+            <td>{{tableReport.soft.common.quantity}}</td>
+        </tr>
+        <tr class="table-line">
+            <td rowspan="2">{{tableReport.cloud.name}}</td>
+            <td>{{tableReport.cloud.aliyun.name}}</td>
+            <td>{{tableReport.cloud.aliyun.quantity}}</td>
+        </tr>
+        <tr>
+            <td>{{tableReport.cloud.aws.name}}</td>
+            <td>{{tableReport.cloud.aws.quantity}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,879 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="ServerListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddServer()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加服务器
+            </button>
+            <button ng-click="action.showUploadDialog()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-export"></i>&nbsp;上传服务器
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="serverTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="server.serverscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>服务器SN</label>
+                <input type="text" class="form-control" placeholder="请输入关键字" ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <p>服务器状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in serverStateList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.State[state.Id]"/>{{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>服务器制造商</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in serverManufacturerList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.Manufacturer[state.Id]"/>{{state.Manufacturer}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>服务器供应商</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in supplierList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.Supplier[state.Id]"/>
+                            {{state.Supplier}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>服务器所属机柜</p>
+                <ul class="list-inline">
+                    <li ng-repeat="rack in rackList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.Rack[rack.RackId]"/>
+                            {{rack.RackName}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>服务器创建时间</p>
+                <div class="editMenu-datatime">
+                    <label class="editMenu-datatime-line">创建时间大于 </label><input type="text" class="form-control" date-picker data-date-format="yyyy-mm-dd" ng-model="search.startTime"/>
+                    <!--<md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>-->
+                </div>
+                <div class="editMenu-datatime">
+                    <label class="editMenu-datatime-line">创建时间小于 </label><input type="text" class="form-control" date-picker data-date-format="yyyy-mm-dd" ng-model="search.endTime"/>
+                    <!--<md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>-->
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="testSearchByBody()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑服务器弹出框 START-->
+    <div ng-show="server.serveredits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑服务器</span>
+            <input type="hidden" ng-model="editServerId" class="hidden" />
+            <div class="edit-exits" ng-click="action.hideeditServer()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <ul class="nav nav-tabs" style="padding:10px 0 0 0;">
+                <li class="active"><a href="#navtb1" data-toggle="tab">常规信息</a></li>
+                <li><a href="#navtb2" data-toggle="tab">硬件信息</a></li>
+                <li><a href="#navtb3" data-toggle="tab">进程端口</a></li>
+                <li><a href="#navtb4" data-toggle="tab">维护窗口</a></li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <!--常规信息-->
+                <div class="tab-pane fade in active" id="navtb1">
+                    <div class="item">
+                        <label class="col-md-4">主机名称<span class="required">*</span></label>
+                        <input type="text" name="editServername" ng-model="editServername"
+                               class="col-md-5" placeholder="请输入主机名称" />
+                    </div>
+                    <div class="item">
+                        <label class="col-md-4">IP地址<span class="required">*</span></label>
+                        <input type="text" name="editIpaddress" ng-model="editIpaddress"
+                               class="col-md-5" placeholder="请输入IP地址" />
+                    </div>
+                    <div class="item">
+                        <label class="col-md-4">操作系统<span class="required">*</span></label>
+                        <select class="col-md-5"
+                                ng-model="hostSelected"
+                                ng-options="data.Id as data.Name for data in hostList">
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label class="col-md-4">状态<span class="required">*</span></label>
+                        <select class="col-md-5"
+                                ng-model="serverStateSelected"
+                                ng-options="data.Id as data.State for data in serverStateList">
+                        </select>
+                    </div>
+                    <div class="item">
+                        <label class="col-md-4">是否虚拟化<span class="required">*</span></label>
+                        <div class="col-md-5" name="editIsHypervisor">
+                            <label class="checkbox-inline _checkbox-inline">
+                                <input name="Hypeserver" ng-model="server.editIsHypervisor" type="radio" value="是">是
+                            </label>
+                            <label class="checkbox-inline _checkbox-inline">
+                                <input name="Hypeserver" ng-model="server.editIsHypervisor" type="radio" value="否">否
+                            </label>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <label class="col-md-4">型号</label>
+                        <input type="text" ng-model="editModle" name="editModle" class="col-md-5" placeholder="请输入型号" >
+                    </div>
+                    <div ng-show="server.editMore">
+                        <div class="item">
+                            <label class="col-md-4">服务器SN</label>
+                            <input type="text" name="editSn" ng-model="editSn"
+                                   class="col-md-5"  placeholder="请输入服务器SN" />
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">制造商</label>
+                            <select class="col-md-5"
+                                    ng-model="serverManufacturerSelected"
+                                    ng-options="data.Id as data.Manufacturer for data in serverManufacturerList">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">供应商</label>
+                            <select class="col-md-5"
+                                    ng-model="supplierSelected"
+                                    ng-options="data.Id as data.Supplier for data in supplierList">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">机柜</label>
+                            <select class="col-md-5"
+                                    ng-model="rackSelected"
+                                    ng-options="data.RackId as data.RackName for data in rackList">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">机柜U数</label>
+                            <select class="col-md-5" ng-model="editRackUnumber"
+                                    ng-options="data.num for data in RackNum track by data.id">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">业务</label>
+                            <select class="col-md-5"
+                                    ng-model="appSelected"
+                                    ng-options="data.AppId as data.AppName for data in appList">
+                            </select>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">是否服务</label>
+                            <div class="col-md-5" name="editIsServer">
+                                <label class="checkbox-inline _checkbox-inline">
+                                    <input name="server" ng-model="server.editIsServer" type="radio" value="是">是
+                                </label>
+                                <label class="checkbox-inline _checkbox-inline">
+                                    <input name="server" ng-model="server.editIsServer" type="radio" value="否">否
+                                </label>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">备注</label>
+                            <input type="text" class="col-md-5" name="editComment" ng-model="editComment" placeholder="备注" />
+                        </div>
+                    </div>
+                    <!--更多详细信息-->
+                    <a class="moreinfo" ng-click="action.editmore()"><div>更多详细信息</div></a>
+                </div>
+                <!--硬件信息-->
+                <div class="tab-pane fade" id="navtb2">
+                    <div class="item">
+                        <div class="row">
+                            <h6 class="col-md-3">CPU</h6>
+                            <div class="col-md-9">
+                                <ol class="list-inline">
+                                    <li style="vertical-align: middle">
+                                        <div id="cpuChart" style="width:30px;height:30px;"></div>
+                                    </li>
+                                    <li style="vertical-align: middle">50%已用</li>
+                                    <li style="vertical-align: middle">
+                                        <span class="badge" style="padding: 5px 15px;background-color: #eaf7ff;color: #20a0ff;">4</span>
+                                        <span>load</span>
+                                    </li>
+                                </ol>
+                                <div ng-repeat="cpu in cpuList track by $index">
+                                    <h6>CPU核数：{{cpu.cores}}核</h6>
+                                    <h6>型号：{{cpu.modelName}}</h6>
+                                    <h6>频率：{{cpu.mhz}}</h6>
+                                    <h6>缓存：{{cpu.cacheSize}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-md-3"><h5>内存</h5></div>
+                            <div class="col-md-9">
+                                <ol class="list-inline">
+                                    <li style="vertical-align: middle">
+                                        <div id="memoryChart" style="width:30px;height: 30px;"></div>
+                                    </li>
+                                    <li style="vertical-align: middle"><span>25%已用</span></li>
+                                    <li style="vertical-align: middle">
+                                        <div id="swapChart" style="width:30px;height: 30px;"></div>
+                                    </li>
+                                    <span>33% SWAP</span>
+                                </ol>
+                                <div ng-repeat="memory in memoryList track by $index">
+                                    <h6>内存总量:{{memory.virtual_total}}</h6>
+                                    <h6>SWAP:{{memory.swap_total}}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-md-3"><h5>硬盘</h5></div>
+                            <div class="col-md-9">
+                                <ol class="list-unstyled">
+                                    <li ng-repeat="hardDisk in harddiskList track by $index">
+                                        <input class="col-md-3" value="{{hardDisk.mountpoint}}" style="margin:0 10px 10px 0; padding:0; background-color: #eaf7ff;border: 1px solid #ececec;"/>
+                                        <div class="col-md-9" style="margin: -30px 0px 0px 55px;">文件系统:{{hardDisk.fstype}}</div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <div class="col-md-3"><h5>网卡</h5></div>
+                            <div class="col-md-9">
+                                <ol class="list-unstyled">
+                                    <li ng-repeat="networkAdapter in networkadapterList track by $index">
+                                        <input value="{{networkAdapter.name}}" class="col-md-3" style="padding:0;margin-top:10px;background-color: #eaf7ff;border: 1px solid #ececec;"/>
+                                        <div class="col-md-9" >
+                                            <div>MAC:{{networkAdapter.hardwareaddr}}</div>
+                                            <div>IP:{{networkAdapter.addrs}}</div>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--进程端口-->
+                <div class="tab-pane fade" id="navtb3">
+                    <div class="item">
+                        <div class="row">
+                            <h6 class="col-md-3 process-title">
+                                进程信息
+                            </h6>
+                            <div class="col-md-9">
+                                <span class="process-view">{{proccess}}</span>
+                                <ol class="list-inline row">
+                                    <li ng-click="action.portActive(portObject.id)"
+                                        ng-class="{true:'active',false:''}[Resource.flag]"
+                                        ng-repeat="portObject in portList track by $index"
+                                        class="col-md-4">{{portObject.port}}</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="row">
+                            <h6 class="col-md-3 process-title">
+                                进程端口
+                            </h6>
+                            <div class="col-md-9">
+                                <ol class="col-md-8 list-unstyled" style="padding: 0">
+                                    <span class="process-view">{{ip}}</span>
+                                    <span class="process-view">::22</span>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--维护窗口-->
+                <div class="tab-pane fade" id="navtb4">
+                    <div class="item" style="min-height:120px;">
+                        <label class="col-md-4" style="vertical-align: bottom">维护周期</label>
+                        <ul class="col-md-8 list-unstyled">
+                            <li style="width:100%;border: 1px solid #ececec;
+                                background-color:#eaf7ff; color:#20a0ff;padding:5px;margin:2px 0 "><span>2015/年</span><span>11/月</span><span>25/日</span></li>
+                            <li style="width:100%;border: 1px solid #ececec;
+                                background-color:#eaf7ff; color:#20a0ff;padding:5px;margin:2px 0"><span>2016/年</span><span>11/月</span><span>25/日</span></li>
+                            <li>
+                                <select name="" style="width:100%;border: 1px solid #ececec;
+                                background-color:#eaf7ff; color:#20a0ff;padding:5px;margin:2px 0">
+                                    <option value="1" selected>一次性</option>
+                                    <option value="2">两周</option>
+                                    <option value="3">一个月</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.svremove()">删除此服务器</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditServer()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateServer()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑服务器弹出框 END-->
+
+    <!--服务器导入弹出框 START-->
+    <div id="import_server_dialog" class="modal fade" data-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">导入服务器
+                        <span class="add-close" data-dismiss="modal">&times;</span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="file-tpis" id="fileToUpload" method="POST" enctype="multipart/form-data">
+                        <!--<input id="myfile" name="myfile" type="file">-->
+                    </form>
+                    <div class="file-tpis">
+                        <span class="red">注意：</span>您所选择导入文件格式必须符合<span class="blues">服务器导入模板.xlsx</span>中到格式请选下载模板,填写完毕后再导入
+                    </div>
+                    <!--<input type="file" id="fileToUpload">-->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" style="float: left" class="btn btn-blues" ng-click="action.download()"><i class="glyphicon glyphicon-save"></i>模板下载</button>
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="action.showUpload()">导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--服务器导入弹出框 END-->
+
+    <!--服务器制造商列表弹出框 START-->
+    <div id="server_manufacturer_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">制造商列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="serverManufacturer_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addServerManufacturer">
+                                    <i class="fa fa-plus"></i>
+                                    添加服务器制造商
+                                </button>
+                            </div>
+                            <table id="serverManufacturer_table"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--服务器制造商列表弹出框 END-->
+
+    <!--编辑服务器制造商列表弹出框 START-->
+    <div id="edit_serverManufacturer_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑服务器制造商</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editServerManufacturerId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">服务器制造商</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-truck"></i>
+                                                <input class="form-control"
+                                                       id="editServerManufacturer">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">制造商邮箱</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-envelope"></i>
+                                                <input class="form-control" id="editEmail">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">制造商电话</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-phone"></i>
+                                                <input class="form-control" id="editTelphone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">备注</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="editCom">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues"
+                            ng-click="serverManufacturer.updateServerManufacturer();">保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑服务器制造商列表弹出框 END-->
+
+    <!--服务器操作系统列表 START-->
+    <div id="server_host_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">制造商列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="host_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addHost">
+                                    <i class="fa fa-plus"></i>
+                                    添加操作系统
+                                </button>
+                            </div>
+                            <table id="host_table"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--服务器操作系统列表 END-->
+
+    <!--编辑操作系统弹出框 START-->
+    <div id="edit_host_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑操作系统</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editHostId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">操作系统</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editHostName">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="hostArray.updateHostArray();">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑操作系统弹出框 END-->
+</div>
+<!--添加服务器弹出框 START-->
+<script id="add_server.html" type="text/ng-template">
+    <form class="inside-content" name="addServerForm" ng-submit="action.addServer()">
+        <div class="modal-header">
+            <h5 class="modal-title">添加服务器
+                <span class="add-close" ng-click="action.addServerCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">主机名称<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="server.hostname" name="hostname" placeholder="请输入服务器名称" required/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">IP地址<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="server.ip" name="ip" placeholder="请输入IP地址" ng-pattern="/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/" required/>
+                    <span class="usererror" ng-show="addServerForm.ip.$error.pattern">格式不正确！</span>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">状态<span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="server.serverStateSelected"
+                                ng-options="data.Id as data.State for data in serverStateList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="action.showAddServerState()" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">是否虚拟化<span class="required">*</span></label>
+                <div class="col-md-7" name="ishypervisor">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="hypervisor" type="radio" value="1" ng-checked="true" ng-model="server.ishypervisor" required>是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="hypervisor" type="radio" value="0" ng-model="server.ishypervisor" required>否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">操作系统<span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="server.hostArraySelected"
+                                ng-options="data.Id as data.Name for data in hostArrayList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="action.showAddHost();" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div ng-show="server.addMore">
+                <div class="item">
+                    <label class="col-md-5">服务器SN</label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="server.sn" name="sn" placeholder="请输入服务器SN" ng-blur="action.testifyServer()"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">业务</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.appSelected"
+                                ng-options="data.AppName for data in appList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">型号</label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="server.modle" name="modle" placeholder="请输入型号">
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">制造商</label>
+                    <ul class="list-inline col-md-6">
+                        <li class="first">
+                            <select ng-model="server.serverManufacturerSelected"
+                                    ng-options="data.Id as data.Manufacturer for data in serverManufacturerList">
+                                <option value="">---请选择---</option>
+                            </select>
+                        </li>
+                        <li class="last" style="right:-44px;">
+                            <button type="button" ng-click="action.showAddManufacturer();" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                                <i class="glyphicon glyphicon-plus" ></i>添加
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">供应商</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.supplierSelected"
+                                ng-options="data.Id as data.Supplier for data in supplierList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- 需要动态构建
+                <div class="item">
+                    <label class="col-md-5">CPU</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.cpuSelected" ng-options="data.Id as data.Name for data in cpuList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">内存</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.memorySelected"
+                                ng-options="data.Id as data.Name for data in memoryList" >
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">硬盘</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.harddiskSelected"
+                                ng-options="data.Id as data.Name for data in harddiskList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="item">
+                    <label class="col-md-5">网卡</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.networkadapterSelected"
+                                ng-options="data.Id as data.Name for data in networkadapterList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                -->
+                <div class="item">
+                    <label class="col-md-5">机柜</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.rackSelected"
+                                ng-options="data.RackId as data.RackName for data in rackList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">机柜U数</label>
+                    <div class="col-md-7">
+                        <select ng-model="server.rackUnumber" name="rackUnumber" ng-options="data.num for data in RackNum track by data.id">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">是否服务</label>
+                    <div class="col-md-7" name="isserver">
+                        <label class="checkbox-inline _checkbox-inline">
+                            <input name="server" type="radio" value="1" ng-checked="true" ng-model="server.isserver" >是
+                        </label>
+                        <label class="checkbox-inline _checkbox-inline">
+                            <input name="server" type="radio" value="0" ng-model="server.isserver" >否
+                        </label>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">备注</label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="server.comment" name="comment" placeholder="备注"/>
+                    </div>
+                </div>
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="action.addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="action.addServerCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="addServerForm.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加服务器状态弹出框 START-->
+    <form id="addServerState" class="modal fade" >
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-item">
+                        <label>添加状态名称</label>
+                        <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="server.serverState" required/>
+                    </div>
+                    <div class="modal-item" style="margin-top: 20px">
+                        <label>选中状态颜色</label>
+                        <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                        <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addServerState()">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加服务器状态弹出框 END-->
+
+    <!--添加制造商弹出框 START-->
+    <form id="addServerManufacturer" name="addServerManufacturerfrom" class="modal fade">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-titles">
+                        <label class="col-md-3 control-label">服务器制造商</label>
+                    </div>
+                    <div class="modal-item">
+                        <input class="form-control" id="serverManufacturer" name="serverManufacturer" ng-model="addserverManufacturer" required placeholder="请输入服务器制造商名称">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addServerManufacturer();" ng-disabled="addServerManufacturerfrom.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加制造商弹出框 END-->
+
+    <!--添加操作系统弹出框 START-->
+    <form id="addHost" name="addSystem" class="modal fade" tabindex="-1" data-width="400">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-titles">
+                        <label>操作系统</label>
+                    </div>
+                    <div class="modal-item">
+                        <input class="form-control" ng-model="system" required placeholder="请输入操作系统">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addHostArray();" ng-disabled="addSystem.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加操作系统弹出框 END-->
+
+</script>
+<!--添加服务器弹出框 END-->
+
+<!-- 服务器状态弹出框--->
+<script id="server_state.html" type="text/ng-template">
+    <div class="inside-content" >
+        <div class="modal-body">
+            <h5 class="settings-h5"><a>配置服务器状态</a>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </h5>
+            <div class="settings"  ng-hide="showAddColors" >
+                <div ng-hide="showEditColors">
+                    <ul class="list-unstyled">
+                        <li class="item-inside" ng-repeat="state in ServerState">
+                            <div class="inside">
+                                <ol class="list-inline text-center first">
+                                    <li style="background-color: {{state.Color}}"></li>
+                                    <li>{{state.State}}</li>
+                                </ol>
+                                <ol class="list-inline text-center last" >
+                                    <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                    <li><a class="red" ng-click="settings.deleteState(state)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div ng-click="settings.addColors()">
+                                <span class="icon-big">+</span>
+                                <h6>添加新状态</h6>
+                            </div>
+                        </li>
+                    </ul>
+                   <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-close" ng-click="settings.settingsCancel()">关闭</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="showAddColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>添加状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称"
+                           ng-model="addServerState" required/>
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+            </div>
+        </div>
+        <div ng-show="showEditColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>编辑状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="editServerState" required/>
+                    <input type="hidden" class="hidden" ng-model="editServerStateId" />
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>已选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,206 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="AwsListController">
+    <div class="searchBar">
+        <div class="pull-right" ng-show="awsTable_recycle">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddAws();" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i> 添加AWS
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="awsTable"></table>
+
+    <!--筛选 START-->
+    <div ng-show="aws.screen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i>筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>架构名称</label>
+                <input type="text" class="form-control" ng-model="search.searchText"/>
+            </div>
+            <div class="editMenu-itme">
+                <p>aws启动时间</p>
+                <div class="editMenu-datatime">
+                    <input type="text" class="form-control" date-picker data-date-format="yyyy-mm-dd" ng-model="search.launchTime"/>
+                </div>
+            </div>
+            <div class="editMenu-itme">
+                <p>aws创建时间</p>
+                <div class="editMenu-datatime">
+                    <input type="text" class="form-control" date-picker data-date-format="yyyy-mm-dd" ng-model="search.startTime"/>
+                    <!--<md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>-->
+                </div>
+                <div class="editMenu-datatime-line">-</div>
+                <div class="editMenu-datatime">
+                    <input type="text" class="form-control" date-picker data-date-format="yyyy-mm-dd" ng-model="search.endTime"/>
+                    <!--<md-datepicker ng-model="myDate" md-placeholder="Enter date"></md-datepicker>-->
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑Aws弹出框 START-->
+    <div ng-show="aws.edits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" name="awsEditForm">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i> 编辑Aws</span>
+            <input ng-model="aws.editAwsId" class="hidden"/>
+            <div class="edit-exits" ng-click="action.hideeditAws()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-5">架构<span class="required">*</span></label>
+                <input type="text" name="editarchitecture" ng-model="aws.editarchitecture" placeholder="请输入架构" class="col-md-7" />
+            </div>
+            <div class="item">
+                <label class="col-md-5">镜像ID<span class="required">*</span></label>
+                <input type="text" name="editimageid" ng-model="aws.editimageid" class="col-md-7" placeholder="请输入镜像ID"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">实例ID</label>
+                <input type="text" name="editinstanceid" ng-model="aws.editinstanceid" placeholder="请输入实例ID" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">生命周期状态</label>
+                <input type="text" name="editinstancelifecycle" ng-model="aws.editinstancelifecycle"
+                       placeholder="请输入生命周期状态" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">启动时间</label>
+                <input type="text" name="editlaunchtime" ng-model="aws.editlaunchtime"
+                           placeholder="请输入启动时间" readonly class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">平台</label>
+                <input type="text" name="editplatform"
+                       ng-model="aws.editplatform" placeholder="请输入平台" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">私有DNS</label>
+                <input type="text" name="editprivatedns"
+                       ng-model="aws.editprivatedns" placeholder="请输入私有DNS" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">公共DNS</label>
+                <input type="text"  name="editpublicdns"
+                           ng-model="aws.editpublicdns" placeholder="请输入公共DNS" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">公共IP</label>
+                <input type="text"  name="editpublicip" ng-model="aws.editpublicip" placeholder="请输入公共IP" class="col-md-7"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">虚拟化类型</label>
+                <input type="text" name="editvirtualizationtype"
+                       ng-model="aws.editvirtualizationtype" placeholder="请输入虚拟化类型" class="col-md-7"/>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.awsremove()">删除此Aws</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditAws()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateAws()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑Aws弹出框 END-->
+</div>
+
+<!--添加Aws弹出框 START-->
+<script id="add_aws_dialog.html" type="text/ng-template">
+    <form name="awsForm" ng-submit="addAws()" class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">添加AWS
+                <span class="add-close" ng-click="addAwsCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-4">架构:</label>
+                <div class="col-md-8">
+                    <input type="text"  name="architecture" ng-model="aws.architecture"
+                           placeholder="架构" required ng-blur="awsValid(aws.architecture)" id="architecture"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">镜像ID:</label>
+                <div class="col-md-8">
+                    <input type="text" name="imageid"
+                           placeholder="镜像ID" ng-model="aws.imageid"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">实例ID:</label>
+                <div class="col-md-8">
+                    <input type="text" name="instanceid"
+                           placeholder="实例ID" ng-model="aws.instanceId" disabled/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">生命周期状态:</label>
+                <div class="col-md-8">
+                    <input type="text"  name="instancelifecycle"
+                           placeholder="生命周期状态" ng-model="aws.instanceLifeCycle"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">实例类型:</label>
+                <div class="col-md-8">
+                    <input type="text" name="instancetype"
+                           placeholder="实例类型" ng-model="aws.instanceType" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">启动时间:</label>
+                <div class="col-md-8">
+                    <input type="text"  name="launchtime"
+                           ng-model="aws.launchTime" placeholder="启动时间" date-picker/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">平台:</label>
+                <div class="col-md-8">
+                    <input type="text"  name="platform" id="platform"
+                           placeholder="平台">
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">私有DNS:</label>
+                <div class="col-md-8">
+                    <input type="text"  name="privatedns"
+                           ng-model="privateDns" placeholder="私有DNS"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">公共DNS:</label>
+                <div class="col-md-8">
+                    <input type="text" name="publicdns"
+                           ng-model="aws.publicDns" placeholder="公共DNS" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">虚拟化类型:</label>
+                <div class="col-md-8">
+                    <input type="text" name="virtualizationtype"
+                           ng-model="aws.virtualizationType" placeholder="虚拟化类型" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addAwsCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-disabled="awsForm.$invalid">添加</button>
+        </div>
+    </form>
+</script>
+<!--添加Aws弹出框 END-->

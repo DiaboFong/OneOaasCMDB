@@ -1,0 +1,142 @@
+<div ng-controller="ReportFinanceController">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="report" style="margin-left:-30px;">
+                <ul class="list-inline report-title">
+                    <li class="first"><i class="glyphicon glyphicon-search"></i>财务报表</li>
+                    <li class="last">
+                        <span class="calendar">
+                            <input size="16" type="text" value="2015-12-15" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                        至
+                        <span class="calendar">
+                            <input size="16" type="text" value="2016-12-25" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                    </li>
+                </ul>
+                <table cellspacing="0" cellpadding="0" class="report-table">
+                    <thead style="background-color:#EAF7FF">
+                    <th>{{tableReport.title.category}}</th>
+                    <th>{{tableReport.title.data}}</th>
+                    <th>{{tableReport.title.quantity}}</th>
+                    </thead>
+                    <tbody>
+                    <tr class="table-line">
+                        <td rowspan="2">{{tableReport.datacenter.name}}</td>
+                        <td>{{tableReport.datacenter.bandwidth.name}}</td>
+                        <td>{{tableReport.datacenter.bandwidth.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{tableReport.datacenter.rack.name}}</td>
+                        <td>{{tableReport.datacenter.rack.quantity}}</td>
+                    </tr>
+                    <tr class="table-line">
+                        <td rowspan="3">{{tableReport.device.name}}</td>
+                        <td>{{tableReport.device.server.name}}</td>
+                        <td>{{tableReport.device.server.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{tableReport.device.network.name}}</td>
+                        <td>{{tableReport.device.network.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{tableReport.device.storage.name}}</td>
+                        <td>{{tableReport.device.storage.quantity}}</td>
+                    </tr>
+                    <tr class="table-line">
+                        <td rowspan="2">{{tableReport.soft.name}}</td>
+                        <td>{{tableReport.soft.virtualization.name}}</td>
+                        <td>{{tableReport.soft.virtualization.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{tableReport.soft.common.name}}</td>
+                        <td>{{tableReport.soft.common.quantity}}</td>
+                    </tr>
+                    <tr class="table-line">
+                        <td rowspan="2">{{tableReport.cloud.name}}</td>
+                        <td>{{tableReport.cloud.aliyun.name}}</td>
+                        <td>{{tableReport.cloud.aliyun.quantity}}</td>
+                    </tr>
+                    <tr>
+                        <td>{{tableReport.cloud.aws.name}}</td>
+                        <td>{{tableReport.cloud.aliyun.quantity}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="report">
+                <ul class="list-inline report-title">
+                    <li class="first">费用趋势图</li>
+                    <li class="last">
+                        <span class="calendar">
+                            <input size="16" type="text" value="2015-12-15" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                        至
+                        <span class="calendar">
+                            <input size="16" type="text" value="2016-12-25" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                    </li>
+                </ul>
+                <ul class="list-inline report-icon">
+                    <li><i style="display: inline-block;width: 5px;height:5px; border-radius: 50%; background-color: #20A0FF; vertical-align: middle;"></i>月节点</li>
+                    <li><i style="display: inline-block;width:50px;height:2px; background-color: #20A0FF; vertical-align: middle"></i>趋势曲线</li>
+                </ul>
+                <div class="report-icon">
+                    <div id="cost_trend" class="report-canvas"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin:0 10px">
+        <div class="col-md-5">
+            <div class="report" style="margin-left:-30px;">
+                <ul class="list-inline report-title">
+                    <li class="first"><span>业务费用对比</span></li>
+                    <li class="last">
+                        <span class="calendar">
+                            <input size="16" type="text" value="2015-12-15" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                        至
+                        <span class="calendar">
+                            <input size="16" type="text" value="2016-12-25" readonly/>
+                            <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                    </li>
+                </ul>
+                <div class="report-icon">
+                    <div id="app_pie" class="report-pie"></div>
+                    <div id="app_finance_rate" class="report-canvas"></div>
+                </div>
+            </div>
+        </div>
+        <section class="col-md-7">
+            <div class="report">
+                <ul class="list-inline report-title">
+                    <li class="first"><span>费用对比</span></li>
+                    <li class="last">
+                       <span class="calendar">
+                                <input size="16" type="text" value="2015-12-15" readonly/>
+                                <i class="glyphicon glyphicon-chevron-down"></i>
+                       </span>
+                        至
+                        <span class="calendar">
+                                <input size="16" type="text" value="2016-12-25" readonly/>
+                                <i class="glyphicon glyphicon-chevron-down"></i>
+                        </span>
+                    </li>
+                </ul>
+                <div class="report-icon">
+                    <div id="app_straight" style="width:100%; top:-25px" class="report-pie"></div>
+                    <div id="finance_compare" class="report-canvas" style="margin-top:30px;"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

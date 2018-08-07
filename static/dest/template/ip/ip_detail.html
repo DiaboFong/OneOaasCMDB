@@ -1,0 +1,265 @@
+<div class="ip-detail">
+    <div class="ip-detail-header">
+        <ol class="breadcrumb">
+            <li><i class="glyphicon glyphicon-home"></i></li>
+            <li><a ui-sref="root.resource">资源管理</a></li>
+            <li class="active">IP详情</li>
+        </ol>
+    </div>
+    <div class="sidebar-right" style="left:0">
+        <div class="menu">
+            <div class="sidebar" id="accordion_ip">
+                <div class="panel">
+                    <div class="sidebar-header"><i class="glyphicon glyphicon-pencil"></i> IP子网</div>
+                    <div class="sidebar-list" >
+                        <ul class="list-inline list-ipul">
+                            <li ng-click="action.ipSubnetActive(ipSubnet.id)"
+                                ng-class="{true:'active',false:''}[ipSubnet.flag]"
+                                ng-repeat="ipSubnet in IpSubnetList track by $index">{{ipSubnet.subnet_address}}</li>
+                        </ul>
+                        <!--<div data-toggle="collapse" data-parent="#accordion_ip" href="#collapse_{{ipSubnet.id}}" >
+                            <ul ng-click="action.ipSubnetActive(ipSubnet.id)" class="list-inline list-ipul">
+                                <li><h5>{{ipSubnet.subnet_address}}</h5></li>
+                            </ul>
+                        </div>-->
+                        <!-- <div id="collapse_{{ipSubnet.id}}" ng-class="{true:'panel-collapse collapse in ',false:'panel-collapse collapse'}
+                         [activeIpSubnet == ipSubnet.id]">
+                             <ol class="list-unstyled submenu">
+                                 <li ng-repeat="ipObject in ipSubnet.ip_address track by $index"><a>{{ipObject.ip_address}}</a></li>
+                             </ol>
+                         </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-right ip-detail-body">
+        <div class="col-md-12" style="padding:0">
+            <ul class="list-inline ipdatail-number" style="padding:15px 0">
+                <li>已使用<a>{{ipAddressMonitor.used_ip_address}}</a>个</li>
+                <li>未使用<a>{{ipAddressMonitor.unused_ip_address}}</a>个</li>
+                <li>不可修改<a>{{ipAddressMonitor.disable_modify_ip_address}}</a>个</li>
+                <li>利用率<progress value="{{ipAddressMonitor.use_rate_ip_address}}" max="100" min="20" class="danger"></progress>{{ipAddressMonitor.use_rate_ip_address}}%</li>
+            </ul>
+        </div>
+        <div class="searchBar">
+            <div class="pull-right">
+                <button class="btn btn-default select" ng-click="action.search()">筛选 <i class="glyphicon glyphicon-glass"></i></button>
+                <button class="btn btn-blues" ng-click="action.displayAllocationIp();"><i class="glyphicon glyphicon-plus"></i> 分配IP地址</button>
+            </div>
+        </div>
+        <table bs-table-control="ipTable"></table>
+    </div>
+
+    <!--分配IP START-->
+    <form class="modal fade" data-backdrop="static" aria-hidden="true" id="add_sub_ip" name="IpForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="inside-content" >
+                    <div class="modal-header">
+                        <h5 class="modal-title">分配IP地址</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="item">
+                            <label class="col-md-3">IP地址范围</label>
+                            <label class="col-md-3" style="padding: 0">
+                                <!--<select ng-model="ipAddress.ipSubnetPrefix" ng-init="0"
+                                        ng-options="prefix for prefix in IpSubnetPrefixList"
+                                        name="ipSubnetPrefix">
+                                </select>-->
+                                <input type="text" ng-model="ipAddress.ipSubnetPrefix"  class="ipdatail-input" style="text-align: right" readonly>
+                            </label>
+                            <div class="col-md-6">
+                                <input type="number" name="ipSubnetMiddle" ng-model="ipAddress.ipSubnetMiddle" ng-pattern="/^([1-9]|[1-9][0-9]|[1-2][0-4]\d|25[0-4])$/" class="ipdatail-input" style="width: 50px;background:#EBF7FF;text-align: center"/>至
+                                <span class="usererror" ng-show="IpForm.ipSubnetMiddle.$error.pattern">格式不正确！</span>
+                                <input type="number" name="ipSubnetLast" ng-model="ipAddress.ipSubnetLast" ng-pattern="/^([1-9]|[1-9][0-9]|[1-2][0-4]\d|25[0-4])$/" class="ipdatail-input" style="width:50px;background:#EBF7FF;text-align: left"/>
+                                <span class="usererror" ng-show="IpForm.ipSubnetLast.$error.pattern">格式不正确！</span>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-6">是否批量分配主机名</label>
+                            <div class="col-md-6">
+                                <input type="checkbox" id="ipAddress.batchSetHostname" ng-model="ipAddress.batchSetHostname" class="ipdetail-check"/><label for="ipAddress.batchSetHostname"></label>
+                            </div>
+                        </div>
+                        <div class="item" ng-show="ipAddress.batchSetHostname">
+                            <label class="col-md-4">主机名前缀</label>
+                            <div class="col-md-8">
+                                <input type="text" ng-model="ipAddress.hostnamePrefix" placeholder="主机名前缀"/>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">设备类型</label>
+                            <div class="col-md-8">
+                                <select ng-model="ipAddress.deviceType" name="deviceType" ng-init="0"
+                                        ng-options="device as device for device in DeviceTypeList">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">所在地</label>
+                            <div class="col-md-8">
+                                <input type="text" ng-model="ipAddress.location" placeholder="所在地"/>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">端口</label>
+                            <div class="col-md-8">
+                                <input type="text" ng-model="ipAddress.port" name="port" placeholder="端口"/>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">负责人</label>
+                            <div class="col-md-8">
+                                <input type="text" ng-model="ipAddress.owner" name="owner" placeholder="负责人"/>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">描述</label>
+                            <div class="col-md-8">
+                                <input type="text" ng-model="ipAddress.description" placeholder="描述"/>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <label class="col-md-4">是否允许修改</label>
+                            <div class="col-md-8">
+                                <label class="checkbox-inline _checkbox-inline">
+                                    <input type="radio" ng-model="ipAddress.allowModify" name="allowModify" value="1" />是
+                                </label>
+                                <label class="checkbox-inline _checkbox-inline">
+                                    <input type="radio" ng-model="ipAddress.allowModify" name="allowModify" value="0" />否
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-close" ng-click="action.cancelAllocationIp()">取消</button>
+                        <button type="button" class="btn btn-blues" ng-click="action.saveAllocationIp()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--分配IP END-->
+
+    <!--筛选 START-->
+    <div ng-show="screenIpForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>IP地址</label>
+                <input type="text" ng-model="ipAddressSearch.ipAdress" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>主机名前缀</label>
+                <input type="text" ng-model="ipAddressSearch.hostnamePrefix" class="form-control"/>
+            </div>
+            <div class="editMenu-itme">
+                <label>设备类型</label>
+                <input type="text" ng-model="ipAddressSearch.deviceType" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>端口</label>
+                <input type="text" ng-model="ipAddressSearch.port" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>负责人</label>
+                <input type="text" ng-model="ipAddressSearch.owner" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>描述</label>
+                <input type="text" ng-model="ipAddressSearch.description" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>是否允许修改</label>
+                <input type="text" ng-model="ipAddressSearch.allowModify" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>所在地</label>
+                <input type="text" ng-model="ipAddressSearch.location" class="form-control"/>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑ip框 START-->
+    <div ng-show="editIpForm" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>编辑IP</span>
+            <input type="hidden" ng-model="ipAddressEdit.id" class="hidden"/>
+            <div class="edit-exits" ng-click="action.hideEdit()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-5">IP地址</label>
+                <input class="col-md-7" type="text" ng-model="ipAddressEdit.ip_address" ng-readonly="true" placeholder="IP地址"/>
+            </div>
+
+            <div class="item">
+                <label class="col-md-5">设备类型</label>
+                <select ng-model="ipAddressEdit.deviceType" name="deviceType" ng-init="0" class="col-md-7"
+                        ng-options="device as device for device in DeviceTypeList">
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+            <div class="item">
+                <label class="col-md-5">主机名</label>
+                <input class="col-md-7" type="text" ng-model="ipAddressEdit.hostname" placeholder="主机名"/>
+            </div>
+
+            <div class="item">
+                <label class="col-md-5">所在地</label>
+                <input type="text" class="col-md-7" ng-model="ipAddressEdit.location" placeholder="所在地"/>
+            </div>
+
+            <div class="item">
+                <label class="col-md-5">端口</label>
+                <input class="col-md-7" type="text" ng-model="ipAddressEdit.port" placeholder="端口"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">负责人</label>
+                <input class="col-md-7" type="text" ng-model="ipAddressEdit.owner" placeholder="负责人"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">描述</label>
+                <input class="col-md-7" type="text" ng-model="ipAddressEdit.description" placeholder="描述"/>
+            </div>
+
+            <div class="item">
+                <label class="col-md-5">是否允许修改</label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-model="ipAddressEdit.allowModify" name="allowModify" ng-value="1" />是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-model="ipAddressEdit.allowModify" name="allowModify" ng-value="0" />否
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideEdit()">取消</button>
+                <button class="btn btn-blues" ng-click="action.updateIp()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑ip框 END-->
+</div>
+
+

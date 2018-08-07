@@ -1,0 +1,162 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="IpSubNetListController">
+    <div class="searchBar">
+        <div class="pull-right" ng-show="ipTable_recycle">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddIpSubnet();" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>添加IP子网
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="ipTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="ip.ipscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>IP子网名称</label>
+                <input type="text" ng-model="ipSubnet.subnet_address" placeholder="IP子网名称" class="form-control"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <label>VLAN名称</label>
+                <input type="text" ng-model="ipSubnet.vlan" class="form-control" placeholder="VLAN名称"/>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑IP子网弹出框 START-->
+    <div ng-show="ip.ipedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>编辑IP子网</span>
+            <input type="hidden" ng-model="ipSubnetEdit.id" class="hidden"/>
+            <div class="edit-exits" ng-click="action.hideeditIp()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-5">IP子网<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="ipSubnetEdit.subnet_address" ng-disabled="true"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">描述</label>
+                <div class="col-md-7">
+                    <input type="text" placeholder="请输入子网用途" ng-model="ipSubnetEdit.subnetDescription" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">VLAN</label>
+                <div class="col-md-7">
+                    <input type="text" placeholder="请输入VLAN" ng-model="ipSubnetEdit.vlan"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-6">IP地址是否允许分配<span class="required">*</span></label>
+                <div class="col-md-6">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="allowAllocationEdit" type="radio" ng-value="1" ng-model="ipSubnetEdit.allowAllocation">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="allowAllocationEdit" type="radio" ng-value="0" ng-model="ipSubnetEdit.allowAllocation" required>否
+                    </label>
+                </div>
+            </div>
+
+            <div class="item">
+                <label class="col-md-6">检测IP状态<span class="required">*</span></label>
+                <div class="col-md-6">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="checkIpStateEdit" type="radio" ng-value="1" ng-model="ipSubnetEdit.checkIpState">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="checkIpStateEdit" type="radio" ng-value="0" ng-checked="true" ng-model="ipSubnetEdit.checkIpState" required>否
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.ipremove()">删除此IP</a>
+                <button type="button" class="btn btn-close" ng-click="action.hideeditIp()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateIp()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑IP子网弹出框 END-->
+</div>
+
+<!--添加IP子网弹出框 START-->
+<script id="add_ip.html" type="text/ng-template">
+    <form name="addIpForm"  class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">添加IP子网
+                <span class="add-close" ng-click="addIpCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">IP子网<span class="required">*</span></label>
+                <div class="col-md-7" style="position: relative">
+                    <input type="text" id="ipadd" name="subnetAddress" ng-model="ip.subnetAddress" ng-pattern="/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/" placeholder="10.198.168.222" required/>
+                    <span class="usererror" ng-show="addIpForm.subnetAddress.$error.pattern">格式不正确！</span>
+                    <span style="width: 25px;position: absolute;left: 48%;top: 0">/</span>
+                    <input type="number" style="width: 25px;color:red;position: absolute;left: 51%;top: 0" name="subnetMask" ng-model="ip.subnetMask" ng-pattern="/^([1-9]|[1-2][0-9]|3[0-2])$/" ng-maxlength="2" size="2" >
+                    <span class="usererror" ng-show="addIpForm.subnetMask.$error.pattern">格式不正确！</span>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">描述</label>
+                <div class="col-md-7">
+                    <input type="text" placeholder="请输入子网用途" ng-model="ip.subnetDescription" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">VLAN</label>
+                <div class="col-md-7">
+                    <input type="text"  placeholder="请输入VLAN" ng-model="ip.vlan"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">IP地址是否允许分配<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-value="1" ng-model="ip.allowAllocation" ng-checked="true">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-value="0" ng-model="ip.allowAllocation" >否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">检测IP状态<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-value="1" ng-model="ip.checkIpState">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input type="radio" ng-value="0" ng-model="ip.checkIpState" ng-checked="true">否
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer modal-btns">
+            <button type="button" class="btn btn-close" ng-click="addIpCancel();">取消</button>
+            <button type="button" class="btn btn-blues" ng-disabled="addIpForm.$invalid" ng-click="addIp()">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加IP弹出框 END-->

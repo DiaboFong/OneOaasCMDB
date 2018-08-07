@@ -1,0 +1,531 @@
+<div ncy-breadcrumb></div>
+<div class="portlet box blue" ng-controller="DomainListController">
+    <div class="searchBar">
+        <div class="pull-right" ng-show="dnspoddomainTable_recycle">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddDomain()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i> 添加域名
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="dnspoddomainTable" class="table table-striped"></table>
+
+    <!--编辑域名弹出框 START-->
+    <div ng-show="domain.domainedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑域名
+                <input type="hidden" ng-model="domain.editId">
+            </label>
+            <div class="exits" ng-click="action.hideeditDomain()">&times;</div>
+        </div>
+        <div class="editMenu-body" id="dnspoddomainEditForm">
+            <div class="item">
+                <span class="col-md-5">域名<span class="required">*</span></span>
+                <input type="text" ng-model="domain.editName" name="editName" class="col-md-7" placeholder="请输入域名">
+            </div>
+            <div class="item">
+                <span class="col-md-5">域名状态<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="domainStateSelected"
+                        ng-options="data.State for data in domainStateEditList">
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">域名供应商<span class="required">*</span></span>
+                <input type="text" ng-model="domain.editOwner" class="col-md-7" placeholder="域名供应商">
+            </div>
+            <div class="item">
+                <span class="col-md-5">域名默认的TTL<span class="required">*</span></span>
+                <input type="text" ng-model="domain.editTtl" class="col-md-7" placeholder="域名默认的TTL">
+            </div>
+            <!--<div class="item">
+               <span class="col-md-6">CNAME加速状态<span class="required">*</span></span>
+               <select ng-model="domain.editCnameSpeedup" class="col-md-6">
+                   <option value="">---请选择----</option>
+                   <option value="enable">已启用</option>
+                   <option value="disable">已禁用</option>
+               </select>
+           </div>
+          <div class="item">
+               <span class="col-md-5">添加时间</span>
+               <input type="text" ng-model="domain.editCreatedOn" class="col-md-7" readonly>
+           </div>
+           <div class="item">
+               <span class="col-md-5">修改时间</span>
+               <input type="text" ng-model="domain.editUpdatedOn" class="col-md-7" readonly>
+           </div>
+            <div class="item">
+                <span class="col-md-5">域名扩展状态</span>
+                <select ng-model="domain.editExtStatus" name="editExtStatus" class="col-md-7">
+                    <option value="">---请选择----</option>
+                    <option value="enable">未注册</option>
+                    <option value="dnserror">DNS还未设置</option>
+                    <option value="normal">正常</option>
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">域名等级<span class="required">*</span></span>
+                <select class="col-md-7"
+                        ng-model="domain.domainGradeSelected"
+                        ng-options="data.Id as data.Name for data in domainGradeEditList">
+                     <option value="">---请选择---</option>
+                </select>
+            </div>
+            <!-- <div class="item">
+                <span class="col-md-5">域名分组ID</span>
+                <input type="text" ng-model="domain.editGroupId" class="col-md-7">
+            </div>
+            <div class="item">
+                <span class="col-md-5">是否设置域名星标</span>
+                <div class="col-md-7" name="editIsMark">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editIsMark" type="radio" value="1" ng-model="domain.editIsMark">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editIsMark" type="radio" value="0" ng-model="domain.editIsMark">否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <span class="col-md-5">是否属于VIP</span>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editIsVip" type="radio" value="1" ng-model="domain.editIsVip">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editIsVip" type="radio" value="0" ng-model="domain.editIsVip">否
+                    </label>
+                </div>
+            </div>-->
+
+            <!--<div class="item">
+                <span class="col-md-5">转码后域名</span>
+                <input type="text" ng-model="domain.editPunycode" class="col-md-7">
+            </div>
+            <div class="item">
+                <span class="col-md-5">记录总条数</span>
+                <input type="text" ng-model="domain.editRecords" class="col-md-7" placeholder="请输入记录总条数">
+            </div>
+            <div class="item">
+                <span class="col-md-7">是否开启搜索引擎推送</span>
+                <div class="col-md-5" name="editSearchenginePush">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="SearchenginePush" type="radio" value="是" ng-model="domain.editSearchenginePush">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="SearchenginePush" type="radio" value="否" ng-model="domain.editSearchenginePush">否
+                    </label>
+                </div>
+            </div>-->
+
+            <!--<div class="item">
+                <span class="col-md-5">TokenID</span>
+                <input type="text" ng-model="domain.editTokenId" class="col-md-7" placeholder="请输入TokenID">
+            </div>-->
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" ng-model="domain.editRemark" class="col-md-7" placeholder="备注">
+            </div>
+            <div class="editMenu-footer">
+                <div class="searchBar text-center">
+                    <a class="btn btn-remover a-del" type="button" ng-click="action.domainremove()">删除此域名</a>
+                    <button type="button" class="btn btn-close" ng-click="action.hideeditDomain();">取消</button>
+                    <button class="btn btn-blues" ng-click="action.updateDomain();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑域名弹出框 END-->
+
+    <!--筛选 START-->
+    <div ng-show="domain.domainscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>域名名称</label>
+                <input type="text" class="form-control" placeholder="请输入域名名称" ng-model="search.searchText"/>
+            </div>
+            <div class="editMenu-itme">
+                <p>域名状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in domainStateList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.domainState[state.Id]">{{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <!--<div class="editMenu-itme">
+                <p>域名等级</p>
+                <ul class="list-inline">
+                    <li ng-repeat="level in domainGradeAddList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="search.domainLevel[level.Id]"/>{{level.Name}}
+                        </label>
+                    </li>
+                </ul>
+            </div>-->
+
+            <div class="editMenu-itme">
+                <p>域名创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.EndTime"/>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--域名状态列表 START-->
+    <div id="domain_state_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">域名状态列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="portlet-body">
+                        <div class="table-toolbar" id="dnspoddomainState_toolbar">
+                            <button class="btn btn-primary" data-toggle="modal" href="#addDomainState">
+                                <i class="fa fa-plus"></i>
+                                添加状态
+                            </button>
+                        </div>
+                        <table id="dnspoddomainState_table"></table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--域名状态列表 END-->
+
+    <!--编辑域名状态弹出框 START-->
+    <div id="edit_dnspoddomainState_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑域名状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editDnspoddomainStateId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-5 control-label">域名状态</label>
+                                        <div class="col-md-7">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control"
+                                                       id="editDnspoddomainState">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="domainState.updateDomainState();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑域名状态弹出框 END-->
+
+    <!--域名等级列表 START-->
+    <div id="domain_grade_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">域名等级列表</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="dnspoddomainGrade_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addDomainGrade">
+                                    <i class="fa fa-plus"></i>
+                                    添加等级
+                                </button>
+                            </div>
+                            <table id="dnspoddomainGrade_table"></table>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--域名等级列表 END-->
+
+    <!--编辑域名等级弹出框 START-->
+    <div id="edit_dnspoddomainGrade_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑域名等级</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editDnspoddomainGradeId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-5 control-label">域名等级</label>
+                                        <div class="col-md-7">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bar-chart-o"></i>
+                                                <input class="form-control"
+                                                       id="editDnspoddomainGrade">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues"
+                            ng-click="domainGrade.updateDomainGrade();">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑域名等级弹出框 END-->
+</div>
+
+<!--添加域名弹出框 START-->
+<script id="add_domain_dialog.html" type="text/ng-template">
+    <form class="inside-content" ng-submit="addDomain()" name="dnspoddomainAddForm">
+        <div class="modal-header">
+            <h5 class="modal-title">添加域名
+                <span class="add-close" ng-click="addDomainCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body" id="dnspoddomainAddForm">
+            <div class="item">
+                <label class="col-md-5">域名<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="Name" ng-model="domain.Name" placeholder="域名"
+                        ng-blur="testifyDomain()"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">域名状态<span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="domain.domainStateSelected"
+                                ng-options="data.Id as data.State for data in domainStateAddList">
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button type="button" ng-click="showAddDomainState();" class="btn btn-default" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">域名供应商<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="Owner" ng-model="domain.Owner" placeholder="域名供应商">
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">域名默认的TTL<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="Ttl" ng-model="domain.Ttl" placeholder="域名默认的TTL">
+                </div>
+
+            </div>
+           <!-- <div class="item">
+                <label class="col-md-5">TokenID</label>
+                <div class="col-md-7">
+                    <input type="text" name="TokenId" ng-model="domain.TokenId" placeholder="TokenId">
+                </div>
+            </div>-->
+            <div class="item">
+                <label class="col-md-5">备注</label>
+                <div class="col-md-7">
+                    <input type="text" name="Remark" ng-model="domain.Remark" placeholder="备注">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addDomainCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="dnspoddomainAddForm.$invalid">保存</button>
+        </div>
+    </form>
+
+    <!--添加域名状态弹出框 START-->
+    <form id="addDomainState" name="addDomainState" class="modal fade">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-item">
+                        <label>添加状态名称</label>
+                        <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="AdddnspoddomainState" required/>
+                    </div>
+                    <div class="modal-item" style="margin-top: 20px">
+                        <label>选中状态颜色</label>
+                        <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                        <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addDomainState2()" ng-disabled="addDomainState.$invalid">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加域名状态弹出框 END-->
+
+    <!--添加域名等级弹出框 START-->
+    <div id="addDomainGrade" class="modal fade" tabindex="-1" data-width="400" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">添加域名等级</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <div clasi sees="form-group has-success">
+                                        <label class="col-md-3 control-label">域名等级</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bar-chart-o"></i>
+                                                <input class="form-control" ng-model="dnspoddomainGrade">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="domainGrade.addDomainGrade();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--添加域名等级弹出框 END-->
+</script>
+<!--添加域名弹出框 END-->
+
+<!-- 配置状态弹出框 -->
+<script id="domain_state.html" type="text/ng-template">
+    <div class="inside-content" >
+        <div class="modal-body">
+            <h5 class="settings-h5"><a>配置域名状态</a>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </h5>
+            <div class="settings" ng-hide="showAddColors">
+                <div ng-hide="showEditColors">
+                    <ul class="list-unstyled">
+                        <li class="item-inside" ng-repeat="state in DomainState">
+                            <div class="inside">
+                                <ol class="list-inline text-center first">
+                                    <li style="background-color: {{state.Color}}"></li>
+                                    <li>{{state.State}}</li>
+                                </ol>
+                                <ol class="list-inline text-center last" >
+                                    <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                    <li><a class="red" ng-click="settings.deleteState(state)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div ng-click="settings.addColors()">
+                                <span class="icon-big">+</span>
+                                <h6>添加新状态</h6>
+                            </div>
+                        </li>
+                    </ul>
+                   <!-- <div class="modal-footer">
+                        <button type="button" class="btn default" ng-click="settings.settingsCancel()">取消</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAddColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>添加状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称"
+                           ng-model="addDomainState" required/>
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+            </div>
+        </div>
+        <div ng-show="showEditColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>编辑状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="editDomainState" required/>
+                    <input type="hidden" class="hidden" ng-model="editDomainStateId" />
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>已选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</script>

@@ -1,0 +1,89 @@
+<nav class="navbar" style="height: 60px" role="navigation">
+    <div class="navbar-component">
+        <div class="navbar-head topbar-left">
+            <a ui-sref="root.dashboard"><img class="logoimg" src="../../../assets/img/cmdb/logo.png" alt=""></a>
+        </div>
+        <div class="topbar-info">
+            <ul class="nav navbar-nav">
+                <li ng-repeat="m in menus" ng-switch="m.children.length>0">
+                    <a ui-sref="{{m.name}}" ui-sref-active="active">
+                        {{m.text}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="topbar-right" style="position: relative;">
+            <ul class="nav navbar-nav">
+               <li>
+                   <!--<a class="global-search">
+                       <input type="text" class="form-control" placeholder="search..." ng-focus="showSearch()"/>
+                       <i class="glyphicon glyphicon-search"></i>
+                   </a>-->
+                </li>
+                <!--<li>-->
+                    <!--<a class="dropdown-toggle" data-toggle="dropdown" style="padding:15px 5px"><span class="cmdb-icon icon-set"></span></a>-->
+                    <!--<dl class="dropdown-menu sys-bgcolor">-->
+                        <!--<dt><b class="bgdefault" href="#" onClick="change(1)"></b></dt>-->
+                        <!--<dt><b class="bgblack" href="#" onClick="change(2)"></b></dt>-->
+                        <!--<dt><b class="bgred" href="#" onClick="change(3)"></b></dt>-->
+                    <!--</dl>-->
+                <!--</li>-->
+                <li class="dropdown user">
+                    <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" href="javasript:;">
+                        <span class="glyphicon glyphicon-user"></span>
+                        <span class="username">{{loginUserName}}</span>
+                        <i class="fa fa-angle-down" style="font-size: 2rem"></i>
+                    </a>
+                    <ul class="dropdown-menu" style="min-width:100px">
+                        <li class="dropdown-menu-max">
+                            <a href="javascript:;" id="trigger_fullscreen">
+                                <i class="glyphicon glyphicon-fullscreen"></i> 全屏
+                            </a>
+                        </li>
+                        <li class="dropdown-menu-max" ng-controller="LogoutController">
+                            <a href="javascript:;" ng-click="logout()">
+                                <i class="glyphicon glyphicon-remove-circle"></i> 退出
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div ui-view></div>
+<div ui-view="slidebar"></div>
+<div ui-view="wrappercontent"></div>
+<div id="show_search" class="modal fade" data-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="inside-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title">搜索</h5>
+                </div>
+                <div class="modal-body">
+            <h6>搜索对象</h6>
+            <ul class="list-inline">
+                <li>
+                    <select name="" class="form-control"  style="margin-top: 10px">
+                        <option value="1">云主机</option>
+                        <option value="2">服务器</option>
+                        <option value="3">虚拟机</option>
+                    </select>
+                </li>
+                <li>
+                    <input type="text" class="form-control"/>
+                </li>
+                <li>
+                    <button class="btn btn-blues" type="submit">搜索</button>
+                </li>
+            </ul>
+        </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!--<div class="footer text-center navbar-fixed-bottom">-->
+    <!--2015 &copy; OneOaaS.<span class="go-top"><i class="glyphicon glyphicon-chevron-up pull-right"></i></span>-->
+<!--</div>-->

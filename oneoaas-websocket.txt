@@ -1,0 +1,50 @@
+//package main
+//
+//import (
+//	"golang.org/x/net/websocket"
+//	"log"
+//	"net/http"
+//	"github.com/jasonlvhit/gocron"
+//	"fmt"
+//	"encoding/json"
+//	"oneoaas.com/cmdb/task"
+//)
+//
+//
+//type CmdbMsg struct {
+//	Total int64
+//	Zabbix int64
+//	Vmware int64
+//	Aliyun int64
+//	Aws int64
+//}
+//
+//func Echo(ws *websocket.Conn) {
+//	s := gocron.NewScheduler()
+//	s.Every(1).Seconds().Do(func() {
+//		msg := CmdbMsg{
+//			Total:task.SyncTotalNum,
+//			Zabbix:task.SyncZabbixNum,
+//			Vmware:task.SyncVmwareNum,
+//			Aliyun:task.SyncAliyunNum,
+//			Aws:task.SyncAliyunNum,
+//		}
+//		jsonByte, err := json.Marshal(msg)
+//		fmt.Println(string(jsonByte))
+//		if err == nil{
+//			websocket.Message.Send(ws,  string(jsonByte))
+//		}else{
+//			fmt.Println("msg err",err.Error())
+//		}
+//
+//
+//	})
+//	<-s.Start()
+//}
+//
+//func main() {
+//	http.Handle("/", websocket.Handler(Echo))
+//	if err := http.ListenAndServe(":1234", nil); err != nil {
+//		log.Fatal("ListenAndServe:", err)
+//	}
+//}

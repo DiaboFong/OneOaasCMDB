@@ -1,0 +1,161 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="AliyunListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button ng-click="action.showEdit()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddAliyun()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加阿里云
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="aliyunTable"></table>
+    <!--筛选 START-->
+    <div ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="aliyun.screen">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>实例名称</label>
+                <input type="text" class="form-control" ng-model="search.searchText" placeholder="请输入实例名称"/>
+            </div>
+
+            <div class="editMenu-itme">
+                <p>阿里云创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.endTime"/>
+                </div>
+            </div>
+        </div>
+
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideEdit()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑Aliyun弹出框 START-->
+    <div ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="aliyun.edits">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>编辑Aliyun</span>
+            <input type="hidden" class="hidden" ng-model="aliyun.editAliyunId" />
+            <div class="edit-exits" ng-click="action.editAliyunCancel()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-4">实例名称<span class="required">*</span></label>
+                <input type="text" class="col-md-8" name="editinstancename"
+                       ng-model="aliyun.editinstancename" placeholder="实例名称">
+            </div>
+            <div class="item">
+                <label class="col-md-4">主机名</label>
+                <input type="text" class="col-md-8" name="edithostname" ng-model="aliyun.edithostname" placeholder="请输入主机名">
+            </div>
+            <div class="item">
+                <label class="col-md-4">CPU个数</label>
+                <input type="text" class="col-md-8" name="editcpu" ng-model="aliyun.editcpu"
+                       placeholder="CPU个数">
+            </div>
+            <div class="item">
+                <label class="col-md-4">内存大小(M)</label>
+                <input type="text" class="col-md-8" name="editmemory" ng-model="aliyun.editmemory"
+                       placeholder="内存大小">
+            </div>
+            <div class="item">
+                <label class="col-md-4">IP地址</label>
+                <input type="text" class="col-md-8" name="editip" ng-model="aliyun.editip"
+                       placeholder="IP" />
+            </div>
+            <div class="item">
+                <label class="col-md-4">备注</label>
+                <input type="text" class="col-md-8" name="editdescription"
+                          ng-model="aliyun.editdescription" placeholder="请输入描述" />
+            </div>
+        </div>
+        <div class="editMenu-footer">
+           <div class="searchBar text-center">
+               <a class="btn btn-remover a-del" type="button" ng-click="action.aliyunremove()">删除此Aliyun</a>
+               <button type="button" class="btn btn-close" ng-click="action.editAliyunCancel()">取消</button>
+               <button type="submit" class="btn btn-blues" ng-click="action.updateAliyun()">保存</button>
+           </div>
+        </div>
+    </div>
+    <!--编辑Aliyun弹出框 END-->
+</div>
+
+<!--添加Aliyun弹出框 START-->
+<script id="add_aliyun_dialog.html" type="text/ng-template">
+    <form name="aliyunForm" ng-submit="addAliyun()" class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">添加Aliyun
+                <span class="add-close" ng-click="aliyunCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-4">实例名称<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" name="instancename"
+                           id="instancename" placeholder="实例名称"
+                           ng-blur="validAliyun(Aliyun.instanceName)"
+                           ng-model="Aliyun.instanceName" required/>
+                    <div class="form-error" ng-show="aliyunForm.instancename.$dirty &&
+                       aliyunForm.instancename.$invalid">
+                        <small class="error"
+                               ng-show="aliyunForm.instancename.$error.required">
+                            实例名称不能为空！
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">主机名</label>
+                <div class="col-md-8">
+                    <input type="text" name="hostname" id="hostname" placeholder="主机名" ng-model="Aliyun.hostName"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">CPU个数</label>
+                <div class="col-md-8">
+                    <input type="text" name="cpu" id="cpu"
+                           placeholder="CPU个数" ng-model="Aliyun.cpu" ng-pattern="/^\d+(\.\d+)?$/"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">内存大小(M)</label>
+                <div class="col-md-8">
+                    <input type="text" name="memory" id="memory" placeholder="内存大小" ng-model="Aliyun.memory" ng-pattern="/^\d+(\.\d+)?$/" />
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">IP地址</label>
+                <div class="col-md-8">
+                    <input type="text" name="ip" id="ip" placeholder="IP" ng-model="Aliyun.ip" ng-pattern="/^((?:(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(?:25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d))))$/"/>
+                        <span class="usererror" ng-show="aliyunForm.ip.$error.pattern">格式不正确！</span>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">备注</label>
+                <div class="col-md-8">
+                    <input type="text" name="description" id="description" placeholder="备注" ng-model="Aliyun.description"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="aliyunCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-disabled="aliyunForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加Aliyun弹出框 END-->

@@ -1,0 +1,59 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="AccesskeyListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button ng-click="action.showAddAccessKey()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>创建API密钥</button>
+        </div>
+    </div>
+    <table bs-table-control="accesskeyTable"></table>
+</div>
+
+<!--添加API弹出框 START-->
+<script id="add_accesskey.html" type="text/ng-template">
+    <div class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">创建API密钥</h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-3">名称</label>
+                <div class="col-md-9">
+                    <input type="text" name="name" ng-model="accesskey.name" placeholder="请输入密钥名称">
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3 control-label">描述</label>
+                <div class="col-md-9">
+                    <input type="text" value="" name="desc" ng-model="accesskey.desc" placeholder="请输入密钥描述"/>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addAccessKeyCancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-click="addAccessKey()">保存</button>
+        </div>
+    </div>
+</script>
+<!--添加API弹出框 END-->
+
+<!--复制API弹出框 START-->
+<script id="copy_accesskey.html" type="text/ng-template">
+    <div class="inside-content">
+        <div class="modal-header">
+            <h5 class="modal-title">API密钥</h5>
+            <div class="underline-divide"></div>
+        </div>
+        <div class="modal-body">
+            <div class="modal-item">
+               <input type="text" ng-model="accesskey" class="form-control inline-input"/>
+                <button class="btn btn-blues" clipboard supported="supported"
+                    text="accesskey" on-copied="success()" on-error="fail(err)">复制</button>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="copyAccessKeyCancel()">关闭</button>
+        </div>
+    </div>
+</script>
+<!--复制API弹出框 END-->

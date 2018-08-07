@@ -1,0 +1,557 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>数据中心API &mdash; OneOaaS-CMDB API</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="OneOaaS-CMDB API" href="index.html"/>
+        <link rel="next" title="机房API" href="room.html"/>
+        <link rel="prev" title="文档索引" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> oneoaas-cmdb-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">数据中心API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id1">1.获取数据中心</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#url">1.1 请求URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1.2 请求参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">1.3 响应结果</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">1.3.1 响应结果说明</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">2.添加数据中心</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id6">2.1 请求URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">2.2 请求参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">2.3 响应结果</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id9">3.更新数据中心</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id10">3.1 请求URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id11">3.2 请求参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">3.3 响应结果</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id13">4.删除数据中心</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id14">4.1 请求URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">4.2 请求参数</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id16">4.3 响应结果</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="room.html">机房API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rack.html">机柜API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networkBandwidth.html">网络带宽API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">硬件API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">服务器 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">IP API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">DNS API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">业务API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supplier.html">提供商 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agreement.html">合同API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vcenter.html">VCENTER API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aliyun.html">阿里云API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">AWS API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">oneoaas-cmdb-api</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>数据中心API</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>数据中心API<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id1">
+<h2>1.获取数据中心<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<div class="section" id="url">
+<h3>1.1 请求URL<a class="headerlink" href="#url" title="永久链接至标题">¶</a></h3>
+<div class="highlight-html"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>http://console.dev.oneoaas.com:8080/api/datacenter?limit=10&amp;offset=0&amp;format=total&amp;sort=Dcid&amp;order=asc
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="id2">
+<h3>1.2 请求参数<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li>limit:查询条数</li>
+<li>offset:开始查询记录数</li>
+<li>format:返回请求格式,如果值为total</li>
+<li>sort:排序字段</li>
+<li>order:排序方式desc,asc</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id3">
+<h3>1.3 响应结果<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="highlight-javascript"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s2">&quot;rows&quot;</span><span class="o">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Dcid&quot;</span><span class="o">:</span> <span class="mi">33</span><span class="p">,</span>
+      <span class="s2">&quot;Dcname&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcprovince&quot;</span><span class="o">:</span> <span class="s2">&quot;天津&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccity&quot;</span><span class="o">:</span> <span class="s2">&quot;市辖区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccounty&quot;</span><span class="o">:</span> <span class="s2">&quot;河东区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcaddress&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcgeo&quot;</span><span class="o">:</span> <span class="s2">&quot;120.00&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Region&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;RegionName&quot;</span><span class="o">:</span> <span class="s2">&quot;华南&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:48:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:48:14+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="s2">&quot;下线&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:50:52+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-06-21T13:21:33+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="s2">&quot;DELL&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessContact&quot;</span><span class="o">:</span> <span class="s2">&quot;李&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessTelPhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-6095 0835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;3243@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyContact&quot;</span><span class="o">:</span> <span class="s2">&quot;赵&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyTelphone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;456564565&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;2323@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;OfficeAddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;oneoaas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Agreement&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Server&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Room&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Dcid&quot;</span><span class="o">:</span> <span class="mi">34</span><span class="p">,</span>
+      <span class="s2">&quot;Dcname&quot;</span><span class="o">:</span> <span class="s2">&quot;test2&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcprovince&quot;</span><span class="o">:</span> <span class="s2">&quot;安徽&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccity&quot;</span><span class="o">:</span> <span class="s2">&quot;安庆市&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccounty&quot;</span><span class="o">:</span> <span class="s2">&quot;太湖县&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcaddress&quot;</span><span class="o">:</span> <span class="s2">&quot;test2&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcgeo&quot;</span><span class="o">:</span> <span class="s2">&quot;22.44&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Region&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;RegionName&quot;</span><span class="o">:</span> <span class="s2">&quot;华西&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:39:55+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-09-05T14:48:38+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="s2">&quot;使用中&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:50:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-06-21T13:07:27+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="s2">&quot;DELL&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessContact&quot;</span><span class="o">:</span> <span class="s2">&quot;李&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessTelPhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-6095 0835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;3243@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyContact&quot;</span><span class="o">:</span> <span class="s2">&quot;赵&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyTelphone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;456564565&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;2323@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;OfficeAddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;oneoaas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Agreement&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Server&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Room&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Dcid&quot;</span><span class="o">:</span> <span class="mi">35</span><span class="p">,</span>
+      <span class="s2">&quot;Dcname&quot;</span><span class="o">:</span> <span class="s2">&quot;test3&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcprovince&quot;</span><span class="o">:</span> <span class="s2">&quot;安徽&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccity&quot;</span><span class="o">:</span> <span class="s2">&quot;安庆市&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccounty&quot;</span><span class="o">:</span> <span class="s2">&quot;太湖县&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcaddress&quot;</span><span class="o">:</span> <span class="s2">&quot;test2&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcgeo&quot;</span><span class="o">:</span> <span class="s2">&quot;22.44&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Region&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;RegionName&quot;</span><span class="o">:</span> <span class="s2">&quot;华西&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:39:55+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-09-05T14:48:38+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="s2">&quot;使用中&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:50:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-06-21T13:07:27+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="s2">&quot;DELL&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessContact&quot;</span><span class="o">:</span> <span class="s2">&quot;李&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessTelPhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-6095 0835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;3243@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyContact&quot;</span><span class="o">:</span> <span class="s2">&quot;赵&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyTelphone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;456564565&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;2323@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;OfficeAddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;oneoaas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Agreement&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Server&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Room&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Dcid&quot;</span><span class="o">:</span> <span class="mi">37</span><span class="p">,</span>
+      <span class="s2">&quot;Dcname&quot;</span><span class="o">:</span> <span class="s2">&quot;test4&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcprovince&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccity&quot;</span><span class="o">:</span> <span class="s2">&quot;市辖区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccounty&quot;</span><span class="o">:</span> <span class="s2">&quot;黄浦区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcaddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海市普陀区天地软件园&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcgeo&quot;</span><span class="o">:</span> <span class="s2">&quot;110.22&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;华为上海数据中心&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Region&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">&quot;RegionName&quot;</span><span class="o">:</span> <span class="s2">&quot;华南&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:48:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:48:14+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="s2">&quot;使用中&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:50:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-06-21T13:07:27+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="s2">&quot;HUAWEI&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessContact&quot;</span><span class="o">:</span> <span class="s2">&quot;孙&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessTelPhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-6095 0835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;5454@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyContact&quot;</span><span class="o">:</span> <span class="s2">&quot;杨&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyTelphone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;234234234&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;2323@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;OfficeAddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;oneoaas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Agreement&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Server&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Room&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+      <span class="s2">&quot;Dcid&quot;</span><span class="o">:</span> <span class="mi">38</span><span class="p">,</span>
+      <span class="s2">&quot;Dcname&quot;</span><span class="o">:</span> <span class="s2">&quot;aaaa&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcprovince&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccity&quot;</span><span class="o">:</span> <span class="s2">&quot;市辖区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dccounty&quot;</span><span class="o">:</span> <span class="s2">&quot;黄浦区&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcaddress&quot;</span><span class="o">:</span> <span class="s2">&quot;22&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Dcgeo&quot;</span><span class="o">:</span> <span class="s2">&quot;22.22&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;Region&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;RegionName&quot;</span><span class="o">:</span> <span class="s2">&quot;华西&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:39:55+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-09-05T14:48:38+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;State&quot;</span><span class="o">:</span> <span class="s2">&quot;使用中&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Enable&quot;</span><span class="o">:</span> <span class="kc">false</span><span class="p">,</span>
+        <span class="s2">&quot;CreateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-05-30T15:50:12+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;CreateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateBy&quot;</span><span class="o">:</span> <span class="s2">&quot;han&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;UpdateTime&quot;</span><span class="o">:</span> <span class="s2">&quot;2016-06-21T13:07:27+08:00&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;Id&quot;</span><span class="o">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;Supplier&quot;</span><span class="o">:</span> <span class="s2">&quot;DELL&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessContact&quot;</span><span class="o">:</span> <span class="s2">&quot;李&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessTelPhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-6095 0835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;BusinessEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;3243@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyContact&quot;</span><span class="o">:</span> <span class="s2">&quot;赵&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyTelphone&quot;</span><span class="o">:</span> <span class="s2">&quot;021-60950835&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyMobilePhone&quot;</span><span class="o">:</span> <span class="s2">&quot;456564565&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;TechnologyEmail&quot;</span><span class="o">:</span> <span class="s2">&quot;2323@&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;OfficeAddress&quot;</span><span class="o">:</span> <span class="s2">&quot;上海&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Comment&quot;</span><span class="o">:</span> <span class="s2">&quot;oneoaas&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;Datacenter&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Agreement&quot;</span><span class="o">:</span> <span class="kc">null</span><span class="p">,</span>
+        <span class="s2">&quot;Server&quot;</span><span class="o">:</span> <span class="kc">null</span>
+      <span class="p">},</span>
+      <span class="s2">&quot;Room&quot;</span><span class="o">:</span> <span class="kc">null</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s2">&quot;total&quot;</span><span class="o">:</span> <span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="id4">
+<h4>1.3.1 响应结果说明<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h4>
+<ol class="arabic simple">
+<li>rows:表示返回的具体结果集合</li>
+<li>total:表示返回具体记录数</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>2.添加数据中心<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h3>2.1 请求URL<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id7">
+<h3>2.2 请求参数<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id8">
+<h3>2.3 响应结果<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>3.更新数据中心<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id10">
+<h3>3.1 请求URL<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id11">
+<h3>3.2 请求参数<a class="headerlink" href="#id11" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id12">
+<h3>3.3 响应结果<a class="headerlink" href="#id12" title="永久链接至标题">¶</a></h3>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>4.删除数据中心<a class="headerlink" href="#id13" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id14">
+<h3>4.1 请求URL<a class="headerlink" href="#id14" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id15">
+<h3>4.2 请求参数<a class="headerlink" href="#id15" title="永久链接至标题">¶</a></h3>
+</div>
+<div class="section" id="id16">
+<h3>4.3 响应结果<a class="headerlink" href="#id16" title="永久链接至标题">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="room.html" class="btn btn-neutral float-right" title="机房API" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="文档索引" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, oneoaas.com.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<div ng-controller="CustomListController">
+    <div class="tab-pane">
+        <table id="mycustom_table"></table>
+    </div>
+
+    <div id="edit_custom_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑自定义资产</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <div class="form-body">
+                                    <div class="form-group" ng-repeat="asset in assets">
+                                        <label class="col-md-3 control-label">//asset.description//</label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon">
+                                                <i class="fa fa-edit"></i>
+                                                <input type="text" class="form-control" dynamic-model="asset.name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                    <button type="button" class="btn green" ng-click="updateCustomAssets();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

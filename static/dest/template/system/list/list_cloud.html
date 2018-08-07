@@ -1,0 +1,136 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="CloudController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <!--<button ng-click="action.showEdit()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>-->
+            <button ng-click="action.showAddCloud()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加云帐号
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="cloudTable"></table>
+
+    <!--编辑云资源弹出框 START-->
+    <div ng-show="cloudedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑云资源
+                <input type="hidden" ng-model="cloud.editCloudId" class="hidden">
+            </label>
+            <div class="edit-exits" ng-click="action.hideeditCloud()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <span class="col-md-5">云帐号名称</span>
+                <input type="text" name="editCloudName" ng-model="cloud.editCloudName" class="col-md-7"  placeholder="请输入名称">
+            </div>
+            <div class="item">
+                <label class="col-md-5">资源平台</label>
+                <div class="col-md-7">
+                    <select name="editSelectedCloudPlat" ng-model="cloud.editSelectedCloudPlat" ng-options="data.cloudplat for data in cloudplats">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item {{cloud.editSelectedCloudPlat.show}}">
+                <label class="col-md-5">{{cloud.editSelectedCloudPlat.address}}</label>
+                <div class="col-md-7">
+                    <input type="text" name="" ng-model="cloud.editAccountIp"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">{{cloud.editSelectedCloudPlat.id}}</label>
+                <div class="col-md-7">
+                    <input type="text" name="" ng-model="cloud.editAccountId"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">{{cloud.editSelectedCloudPlat.secret}}</label>
+                <div class="col-md-7">
+                    <input type="password" name="" ng-model="cloud.editAccountSecret"/>
+                </div>
+            </div>
+            <div class="item">
+                <span class="col-md-5">帐号状态</span>
+                <input type="text" class="col-md-7" ng-model="cloud.editCloudState" name="editCloudState" placeholder="帐号状态"/>
+            </div>
+            <div class="item">
+                <span class="col-md-5">同步状态</span>
+                <input type="text" class="col-md-7" ng-model="cloud.editSyncState" name="editSyncState" placeholder="同步状态"/>
+            </div>
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" class="col-md-7" ng-model="cloud.editCloudComment" name="editComment" placeholder="备注">
+            </div>
+            <div class="editMenu-footer">
+                <div class="searchBar text-center">
+                    <a class="btn btn-remover a-del" type="button" ng-click="action.cloudremove()">删除此云资源</a>
+                    <button type="button" class="btn btn-close" ng-click="action.hideeditCloud()">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="action.updateCloud()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑云资源弹出框 END-->
+    <div ng-show="synProgressbar.showProgressbar" class="progress-striped active">
+        <uib-progressbar max="synProgressbar.max" value="synProgressbar.progressValue" type="success"><b>{{synProgressbar.progressValue}}%</b></uib-progressbar>
+    </div>
+</div>
+
+<!--添加云帐号弹出框 START-->
+<script id="add_cloud.html" type="text/ng-template">
+    <form class="inside-content" name="addCloudForm">
+        <div class="modal-header">
+            <h5 class="modal-title">添加云帐号
+                <span class="add-close" ng-click="action.addCloudCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body modal-user">
+            <div class="item">
+                <label class="col-md-5">云帐号名称<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="" ng-model="cloud.cloudName" placeholder="请输入云帐号名称" required="required">
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">资源平台<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <select name="" ng-model="cloud.selectedCloudPlat" ng-options="data.cloudplat for data in cloudplats">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item {{cloud.selectedCloudPlat.show}}">
+                <label class="col-md-5">{{cloud.selectedCloudPlat.address}}<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="" ng-model="cloud.accountIp" placeholder="请输入{{cloud.selectedCloudPlat.ip}}"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">{{cloud.selectedCloudPlat.id}}<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="" ng-model="cloud.accountId" placeholder="请输入{{cloud.selectedCloudPlat.id}}" required="required"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">{{cloud.selectedCloudPlat.secret}}<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="password" name="" ng-model="cloud.accountSecret" placeholder="请输入{{cloud.selectedCloudPlat.secret}}" required="required"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">备注</label>
+                <div class="col-md-7">
+                    <input type="text" ng-model="cloud.comment" name="comment" placeholder="备注">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="action.addCloudCancel()">取消</button>
+            <button class="btn btn-blues" ng-click="action.addCloud()" ng-disabled="addCloudForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加云帐号用户弹出框 END-->

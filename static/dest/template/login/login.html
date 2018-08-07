@@ -1,0 +1,56 @@
+<div class="index">
+    <div class="login">
+        <div class="logincontent">
+            <div class="login-description">
+                <div class="login-lgimg">
+                    <img src="../../../assets/img/cmdb/loginlogo.png" alt="login-logo">
+                </div>
+                <h1>CMDB资产管理系统</h1>
+                <h3><hr>开启资产管理云时代</h3>
+                <div class="login-ulist">
+                    <ul>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">功能全面</span></li>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">简洁易用</span></li>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">资源变更</span></li>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">资源查询</span></li>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">五分钟部署</span></li>
+                        <li class="cmdb-icon icon-selects"> <span style="padding-left: 10px">全功能API</span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="login-form">
+                <h1>Welcome!</h1>
+                <h3>开始你的企业资产管理</h3>
+                <form class="form-content" name="loginForm" ng-submit="login()" novalidate>
+                    <div class="from-datatable">
+                        <div class="from-datatable-gruop" style="position: relative" >
+                            <input class="gruop-name" maxlength="16" id="username" type="text" autocomplete="off" placeholder="请输入用户名" name="username" ng-model="user.username" ng-minlength="3"
+                                   ng-maxlength="16" ng-keypress="submit($event)" required/>
+                            <!--<span id="usernametpis" class="user-ok"></span>-->
+                        </div>
+                        <div class="from-datatable-gruop" style="position: relative" >
+                            <input class="gruop-name" maxlength="16" id="password" type="password" autocomplete="off" placeholder="请输入密码" ng-model="user.password" name="password" ng-minlength="6"
+                                   ng-maxlength="16" ng-keypress="submit($event)" required/>
+                            <!--<span id="passwordtpis" class="user-error"></span>-->
+                        </div>
+                        <div class="from-datatable-paswd">
+                            <div class="checkbox">
+                                <label>
+                                    <input style="position: relative" class="gruop-paswd" type="checkbox" name="remember" ng-model="remember" ng-click="rememberMe()"> 记住密码
+                                </label>
+                                <small class="error">登录名不能为空</small>
+                            </div>
+                        </div>
+                        <div class="from-datatable-paswd">
+                            <button type="submit" id="login" class="from-datatable-login" ng-disabled="form.$invalid">登 录</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <h4>Copyright &copy; 2016 OneOaaS丨上海皓西信息科技有限公司</h4>
+        </div>
+    </div>
+</div>
+

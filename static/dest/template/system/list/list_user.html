@@ -1,0 +1,252 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="UserTableController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <!--<button ng-click="action.showEdit()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>-->
+            <button ng-click="action.showAddUser()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加用户
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="userTable"></table>
+
+    <form class="editMenu" ng-show="user.screen">
+        <div class="editMenu-header">
+            <span class="header">选择</span>
+        </div>
+        <div class="editMenu-body"></div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button class="btn btn-close" ng-click="action.hideEdit()">取消</button>
+                <button class="btn btn-blues">保存</button>
+            </div>
+        </div>
+    </form>
+
+    <!--编辑用户弹出框 START-->
+    <div ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" ng-show="user.edits">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑用户</span>
+            <span class="hidden" ng-model="user.editId"></span>
+        </div>
+        <form name="editUserForm" class="editMenu-body">
+            <div class="item">
+                <label class="col-md-4">用户姓名<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input name="editUserName" ng-model="user.editUserName" type="text"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">用户角色<span class="required">*</span></label>
+                <select id="editUserRole" name="editUserRole" ng-model="user.editUserRoleId" class="col-md-8"
+                        ng-options="role.Id as role.Name for role in editUserRoleList">
+                </select>
+            </div>
+            <div class="item">
+                <label class="col-md-4">登录名称<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input name="editLoginName" ng-maxlength="16" ng-minlength="5" maxlength="16" required ng-model="user.editLoginName" type="text" placeholder="请输入登录名称"/>
+
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">修改密码<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <a ng-click="action.showEditPasswd();" style="text-decoration: underline!important;cursor: pointer">修改</a>
+                </div>
+            </div>
+
+            <div class="item" ng-show="showPasswd">
+                <label class="col-md-4">密码<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="password" ng-minlength="6" maxlength="16" id="editPassword" ng-maxlength="16" placeholder="请输入密码" name="editPassword" ng-model="user.editPassword" style="border: transparent;outline: 0;background: transparent;"/>
+                </div>
+            </div>
+
+            <div class="item" ng-show="showPasswd">
+                <label class="col-md-4">确认密码<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="password" ng-minlength="6" ng-maxlength="16" maxlength="16" disabled="disabled" id="editPassword2" placeholder="请输入确认密码" name="editPassword2" ng-model="user.editPassword2" style="border: transparent;outline: 0;background: transparent;"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">联系电话<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input name="editContactPhone" type="tel" maxlength="11" required ng-model="user.editContactPhone" placeholder="请输入联系电话"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">用户邮箱<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="email" name="editEmail" style="width: 100%" ng-model="user.editEmail" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" placeholder="请输入邮箱" required/>
+
+                    <span class="edit-error" ng-show="!editUserequiredrForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editLoginName.$error.required &&
+                    editUserForm.editEmail.$error.required">邮箱必填!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editLoginName.$error.required &&
+                    editUserForm.editEmail.$error.email">邮箱格式错误!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    editUserForm.editLoginName.$error.required">登录名称必填!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    !editUserForm.editLoginName.$error.required &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    editUserForm.editLoginName.$error.minlength">登录名称太短!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.required &&
+                    !editUserForm.editLoginName.$error.required &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    editUserForm.editPassword.$error.minlength">密码太短!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editLoginName.$error.required &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    editUserForm.editPassword.$error.required">密码不能为空!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editContactPhone.$error.required &&
+                    !editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editLoginName.$error.required &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    user.editPassword!=user.editPassword2 && editUserForm.editPassword2.$valid">两次密码输入不一致!</span>
+
+                    <span class="edit-error" ng-show="!editUserForm.editPassword.$error.minlength &&
+                    !editUserForm.editLoginName.$error.required &&
+                    !editUserForm.editPassword2.$error.minlength &&
+                    !editUserForm.editPassword2.$error.required &&
+                    !editUserForm.editEmail.$error.email &&
+                    !editUserForm.editLoginName.$error.minlength &&
+                    !editUserForm.editPassword.$error.required &&
+                    editUserForm.editContactPhone.$error.required">联系电话必填!</span>
+
+                </div>
+            </div>
+        </form>
+        <div class="editMenu-footer">
+            <div class="searBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.editRemoveUser()">删除此用户</a>
+                <button type="button" class="btn btn-close" ng-click="action.editCancelUser()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateUser()" ng-disabled="editUserForm.$invalid">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑用户弹出框 END-->
+</div>
+
+<!--添加用户弹出框 START-->
+<script id="add_user.html" type="text/ng-template">
+    <form class="inside-content" name="addUserForm" ng-submit="action.addUser()">
+        <div class="modal-header">
+            <h5 class="modal-title">添加用户
+                <span class="add-close" ng-click="action.addUserCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body modal-user">
+            <div class="item">
+                <label class="col-md-3">用户姓名<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <input type="text" name="username" ng-minlength="3" ng-maxlength="20" ng-model="user.name" placeholder="请输入用户姓名" required="required">
+                    <small class="userok" ng-show="addUserForm.username.$dirty && addUserForm.username.$valid"><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="addUserForm.username.$error.required">用户姓名必填!</span>
+                    <span class="usererror" ng-show="addUserForm.username.$error.minlength">用户姓名太短!</span>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3">用户角色<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <select ng-model="user.role" name="userrole" ng-options="role.Name for role in roleList">
+                        <option value="">--请选择--</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3">登录名称<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <input type="text" id="loginname" ng-minlength="5" ng-maxlength="16" maxlength="16" name="login" placeholder="请输入登录名称" ng-model="user.loginName" required="required"/>
+                    <small class="userok" ng-show="addUserForm.login.$dirty && addUserForm.login.$valid"><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="addUserForm.login.$error.minlength">登录名太短!</span>
+                    <span class="usererror" ng-show="addUserForm.login.$error.required">登录名必填!</span>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3">登录密码<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <input type="password" id="loginpswd" ng-minlength="6" ng-maxlength="16" maxlength="16" name="password" placeholder="请输入(6~16位)登录密码" ng-model="user.psd" required="required"/>
+                    <small class="userok" ng-show="addUserForm.password.$dirty && addUserForm.password.$valid"><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="addUserForm.password.$error.minlength">密码太短!</span>
+                    <span class="usererror" ng-show="addUserForm.password.$error.maxlength">密码太长!</span>
+                    <span class="usererror" ng-show="addUserForm.password.$error.required">密码必填!</span>
+
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-sm-3">确认密码<span class="required">*</span></label>
+                <div class="col-sm-9">
+                    <input type="password" id="loginpswds" ng-minlength="6" ng-maxlength="16" maxlength="16" name="comfirm_password"  placeholder="确认密码(与密码保持一致)" ng-model="user.confirmPsd" required="required"/>
+                    <small class="userok" ng-show="addUserForm.comfirm_password.$valid && user.confirmPsd == user.psd "><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="user.confirmPsd != user.psd">两次密码输入不一致!</span>
+                    <!--<span class="usererror" ng-show="addUserForm.comfirm_password.$error.required">密码必填!</span>-->
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3">联系电话<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <input type="tel" id="userphone" ng-maxlength="11" maxlength="11" name="contactphone" style="text-align: left"  ng-model="user.contactphone" required="required" placeholder="请输入用户联系电话">
+                    <small class="userok" ng-show="addUserForm.contactphone.$dirty && addUserForm.contactphone.$valid"><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="addUserForm.contactphone.$error.required">联系电话必填!</span>
+                <!--    <span class="usererror" ng-show="addUserForm.contactphone.$touched">联系电话格式错误!</span>--><!--ng-pattern="/^1[34578]\d{9}$/" -->
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-3 control-label">用户邮箱<span class="required">*</span></label>
+                <div class="col-md-9">
+                    <input type="email" id="useremail" ng-pattern="/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/" name="email" ng-model="user.email" required="required" placeholder="请输入用户邮箱"/>
+                    <small class="userok" ng-show="addUserForm.email.$dirty && addUserForm.email.$valid"><i class="glyphicon glyphicon-ok"></i></small>
+                    <span class="usererror" ng-show="addUserForm.email.$error.required">邮箱必填!</span>
+                    <span class="usererror" ng-show="addUserForm.email.$error.email">邮箱格式错误!</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="action.addUserCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="addUserForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加用户弹出框 END-->

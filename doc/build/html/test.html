@@ -1,0 +1,308 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API文档编写规范 &mdash; OneOaaS-CMDB API</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="OneOaaS-CMDB API" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> oneoaas-cmdb-api
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="datacenter.html">数据中心API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="room.html">机房API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rack.html">机柜API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="networkBandwidth.html">网络带宽API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hardware.html">硬件API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="server.html">服务器 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ip.html">IP API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dns.html">DNS API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">业务API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="supplier.html">提供商 API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agreement.html">合同API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vcenter.html">VCENTER API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aliyun.html">阿里云API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="aws.html">AWS API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">oneoaas-cmdb-api</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>API文档编写规范</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="api">
+<h1>API文档编写规范<a class="headerlink" href="#api" title="永久链接至标题">¶</a></h1>
+<p>一级标题： =
+二级标题： -
+三级标题： +
+四级标题： ^</p>
+<div class="section" id="id1">
+<h2>API子标题<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h2>
+<p>二级子标题 &#8216;-&#8216;</p>
+<p>无序列表:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Item Foo</li>
+<li>Item Bar</li>
+</ul>
+</div></blockquote>
+<p>有序列表:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Item 1</li>
+<li>Item 2</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="id2">
+<h2>API行内标记<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>Words can have <em>emphasis in italics</em> or be <strong>bold</strong> and you can define
+code samples with back quotes, like when you talk about a command: <code class="docutils literal"><span class="pre">sudo</span></code>
+gives you super user powers!</p>
+<ul class="simple">
+<li>这是一个项目符号列表.</li>
+<li>它有两项，
+第二项使用两行.</li>
+</ul>
+<ol class="arabic simple">
+<li>这是个有序列表.</li>
+<li>也有两项.</li>
+<li>是个有序列表.</li>
+<li>也有两项.</li>
+</ol>
+<ul class="simple">
+<li>这是</li>
+<li>一个列表<ul>
+<li>嵌套列表</li>
+<li>子项</li>
+</ul>
+</li>
+<li>父列表继续</li>
+</ul>
+<div class="highlight-ruby"><div class="highlight"><pre><span></span><span class="no">Some</span> <span class="no">Ruby</span> <span class="n">code</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">some_function</span><span class="p">():</span>
+    <span class="n">interesting</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="hll">    <span class="k">print</span> <span class="s1">&#39;This line is highlighted.&#39;</span>
+</span>    <span class="k">print</span> <span class="s1">&#39;This one is not...&#39;</span>
+<span class="hll">    <span class="k">print</span> <span class="s1">&#39;...but this one is.&#39;</span>
+</span></pre></div>
+</div>
+<div class="highlight-c"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/oneoaas_logo.png"><img alt="_images/oneoaas_logo.png" src="_images/oneoaas_logo.png" style="width: 500px; height: 500px;" /></a>
+</div>
+<div class="section" id="id3">
+<h2>表格<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="21%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Header row, column 1
+(header rows optional)</th>
+<th class="head">Header 2</th>
+<th class="head">Header 3</th>
+<th class="head">Header 4</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>body row 1, column 1</td>
+<td>column 2</td>
+<td>column 3</td>
+<td>column 4</td>
+</tr>
+<tr class="row-odd"><td>body row 2</td>
+<td>...</td>
+<td>...</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h2>超链接<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h2>
+<p>段落里包含
+<a class="reference external" href="http://example.com/">a link</a></p>
+<p><a class="reference external" href="http://www.baidu.com/">百度</a></p>
+<p><a class="reference external" href="http://www.ubuntu.org.cn/">Ubuntu cn</a></p>
+</div>
+<div class="section" id="id6">
+<h2>评论<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; 版权所有 2016, oneoaas.com.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.1.2',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

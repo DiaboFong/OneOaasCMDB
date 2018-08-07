@@ -1,0 +1,19 @@
+<div ng-controller="HomeController">
+    <div class="app-alerts alert bullet fade in">
+        <h5>
+            <span><i class="fa fa-dropbox"></i>欢迎使用oneoaas CMDB管理系统</span>
+            <span class="pull-right"><a href="help.html">帮助中心<i class="fa fa-question-circle"></i></a></span>
+        </h5>
+    </div>
+    <div class="text-center search-index">
+        <select ng-options="item.name for item in gResourceTypes track by item.id" ng-model="gCurrentResourceType" ng-change="gSearch()" class="form-control table-group-action-input input-inline input-small" style="margin-top:-3px;">
+        </select>
+        <input  ng-model="gSearchText" type="text" placeholder="搜索....." class="form-control" autocomplete="on" value="" id="search_index" />
+        <button class="btn btn-danger" ng-click="gSearch();">搜索</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-advance table-hover" id="globalSearchTable">
+        </table>
+    </div>
+</div>

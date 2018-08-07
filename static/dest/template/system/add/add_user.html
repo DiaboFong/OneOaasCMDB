@@ -1,0 +1,69 @@
+<div class="tab-pane" ng-controller="UserAddController">
+    <div class="portlet">
+        <div class="portlet-title">
+            <div class="caption" style="margin-top:14px;margin-left: 10px;">
+                <i class="fa fa-plus"></i>用户属性添加
+            </div>
+        </div>
+        <div class="portlet-body form">
+            <div class="form-horizontal" role="form">
+                <div class="form-body" style="margin-left: 41px;width:510px" id="userAddForm">
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">用户角色 <span class="required">*</span></label>
+                        <div class="col-md-9">
+                            <select class="form-control" id="userrole">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">登录名称 <span class="required">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="login" maxlength="16" minlength="3" placeholder="请输入登录名称  长度为3~~16位">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">登录密码 <span class="required">*</span></label>
+                        <div class="col-md-9">
+                            <input class="form-control" maxlength="16" minlength="6" type="password" value=""
+                                   name="password" placeholder="请输入登录密码  长度为3~~16位"/>
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-sm-3 control-label">确认密码 <span class="required">*</span></label>
+                        <div class="col-sm-9">
+                            <input class="form-control" maxlength="16" minlength="6" type="password"
+                                   name="comfirm_password" placeholder="再次确认密码，请与登录密码保持一致">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">用户姓名 <span class="required">*</span></label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="username"
+                                   id="username" placeholder="请输入用户姓名">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">联系电话</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" name="contactphone" maxlength="11"
+                                   id="contactphone" placeholder="请输入用户联系电话">
+                        </div>
+                    </div>
+                    <div class="form-group has-success">
+                        <label class="col-md-3 control-label">用户邮箱 <span class="required">*</span></label>
+                        <div class="col-md-9">
+                            <input class="form-control" size="16" type="text" value="" name="email"
+                                   id="email" placeholder="请输入用户邮箱"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-close" ng-click="user.cancel()">取消</button>
+            <button type="submit" class="btn btn-blues" ng-click="user.addUser()">
+                添加
+            </button>
+        </div>
+    </div>
+</div>

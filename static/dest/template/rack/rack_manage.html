@@ -1,0 +1,469 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="RackListController">
+    <div class="searchBar">
+        <div class="pull-right" ng-show="rackTable_recycle">
+            <button type="button" ng-click="action.showSearch()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <!--<button ng-click="action.showHistory();action.showbtnback()" class="btn btn-warning">
+                <i class="glyphicon glyphicon-trash"></i>&nbsp;回收站
+            </button>-->
+            <button ng-click="action.showAddRack();" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i> 添加机柜
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="rackTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="rackscreen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearAll()">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>机柜名称</label>
+                <input type="text" class="form-control" placeholder="请输入机柜名称"
+                       ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <p>机柜状态</p>
+                <ul class="list-inline">
+                    <li ng-repeat="state in rackStateList">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.rackState[state.Id]"/>{{state.State}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>是否有UPS</p>
+                <ul class="list-inline">
+                    <li ng-repeat="ups in rackUps">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="" ng-model="search.rackUps[ups.id]"  />{{ups.value}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>是否有A/B供电</p>
+                <ul class="list-inline">
+                    <li ng-repeat="power in rackPower">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value=""  ng-model="search.isPower[power.id]"  />{{power.value}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideSearch()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑机柜弹出框 START-->
+    <div ng-show="rackedits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <label class="header">
+                <i class="glyphicon glyphicon-edit"></i> 编辑机柜
+                <input type="hidden" ng-model="rack.editRackId" class="hidden">
+            </label>
+            <div class="edit-exits" ng-click="action.hideeditRack()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <span class="col-md-5">名称<span class="required">*</span></span>
+                <input type="text" name="editRackName" ng-model="rack.editRackName" class="col-md-7"  placeholder="请输入名称">
+            </div>
+            <div class="item">
+                <span class="col-md-5">状态<span class="required">*</span></span>
+                <select class="col-md-7" ng-model="rack.rackStateSelected"
+                        ng-options="data.Id as data.State for data in rackStateList">
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">所属机房<span class="required">*</span></span>
+                <select class="col-md-7" ng-model="rack.roomSelected" ng-options="rows.RoomId as rows.RoomName for rows in roomList">
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">机柜标准U数<span class="required">*</span></span>
+                <span  class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.plusStandardNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                <input type="number" name="editStandardNum" placeholder="请输入1-100正整数"
+                       ng-model="rack.editStandardNum" maxlength="2" size="2" class="col-md-4" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa" onchange="if(!/(^0$)|(^100$)|(^\d{1,2}$)/.test(value)){value='';alert('输入格式不正确!');}"/>
+                <span  class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.addStandardNum()"><i class="glyphicon glyphicon-plus"></i></span>
+            </div>
+            <div class="item">
+                <span class="col-md-5">顶部不可用U数<span class="required">*</span></span>
+                <span  class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.plustopAvailNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                <input type="number" name="editTopNotAvailableNum" placeholder="请输入正整数"
+                       ng-model="rack.editTopNotAvailableNum" maxlength="2" class="col-md-4" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa"/></button>
+                <span class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.addtopAvailNum()"><i class="glyphicon glyphicon-plus"></i></span>
+            </div>
+            <div class="item">
+                <span class="col-md-5">是否有UPS<span class="required">*</span></span>
+                <div class="col-md-7" name="editUps">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editUps" type="radio" ng-model="rack.editUps" value="是">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editUps" type="radio" ng-model="rack.editUps" value="否">否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <span class="col-md-5">是否A/B路供电<span class="required">*</span></span>
+                <div class="col-md-7" name="editAb">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editAb" type="radio" value="是" ng-model="rack.editAb">是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="editAb" type="radio" value="否" ng-model="rack.editAb">否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <span class="col-md-5">底部不可用U数</span>
+                <span  class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.plusbottomAvailNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                <input type="number" name="editBottomNotAvailableNum" placeholder="请输入正整数"
+                       ng-model="rack.editBottomNotAvailableNum" maxlength="2" class="col-md-4" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa"/></button>
+                <span  class="col-md-1" style="padding: 1px 6px;border: 1px solid #aaa;" ng-click="action.addbottomAvailNum()"><i class="glyphicon glyphicon-plus"></i></span>
+            </div>
+            <div class="item">
+                <span class="col-md-5">机柜可用U数</span>
+                <input type="text" class="col-md-7" ng-model="rack.editAvaliableNum" name="editAvaliableNum"
+                       placeholder="机柜可用U数" readonly>
+            </div>
+            <div class="item">
+                <span class="col-md-5">托盘数</span>
+                <select class="col-md-7" name="editTaryNum" ng-model="rack.editTaryNum" ng-options="data.num for data in TaryListNum" >
+                    <option value="">---请选择---</option>
+                </select>
+            </div>
+            <div class="item">
+                <span class="col-md-5">带宽流量(M)</span>
+                <input type="text" class="col-md-7" ng-model="rack.editRackNetflow" name="editRackNetflow" placeholder="带宽流量(M)"/>
+            </div>
+
+            <div class="item">
+                <span class="col-md-5">机柜功率(KW)</span>
+                <input type="text" class="col-md-7" ng-model="rack.editPower" name="editPower" placeholder="机柜功率(KW)"/>
+            </div>
+            <div class="item">
+                <span class="col-md-5">备注</span>
+                <input type="text" class="col-md-7" ng-model="rack.editComment" name="editComment" placeholder="备注">
+            </div>
+            <div class="editMenu-footer">
+                <div class="searchBar text-center">
+                    <a class="btn btn-remover a-del" type="button" ng-click="action.rackremove()">删除此机柜</a>
+                    <button type="button" class="btn btn-close" ng-click="action.hideeditRack()">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="action.updateRack()">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑机柜弹出框 END-->
+
+    <!--机柜状态列表 START-->
+    <div id="rack_state_list" class="modal fade bs-modal-lg" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">机柜状态列表</h4>
+                </div>
+                <div class="modal-body">
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="rackState_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal" href="#addRackState">
+                                    <i class="fa fa-plus"></i>
+                                    添加状态
+                                </button>
+                            </div>
+                            <table id="rackState_table"></table>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-close" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--机柜状态列表 END-->
+
+    <!--编辑机柜状态弹出框 START-->
+    <div id="edit_rackState_dialog" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-hidden="true"></button>
+                    <h4 class="modal-title">编辑机柜状态</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="form-horizontal" role="form">
+                                <input type="hidden" id="editRackStateId"/>
+                                <div class="form-body">
+                                    <div class="form-group has-success">
+                                        <label class="col-md-3 control-label">机柜状态</label>
+                                        <div class="col-md-7">
+                                            <div class="input-icon">
+                                                <i class="fa fa-bars"></i>
+                                                <input class="form-control" id="editRackState">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="rackState.updateRackState();">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑机柜状态弹出框 END-->
+</div>
+
+<!--添加机柜弹出框 START-->
+<script id="add_rack_dialog.html" type="text/ng-template">
+    <form class="inside-content" ng-submit="addRack()" name="addRackForm" >
+        <div class="modal-header">
+            <h5 class="modal-title">添加机柜
+                <span class="add-close" ng-click="addRackCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-5">机柜名称<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text"  name="rackName" placeholder="机柜名称"
+                           ng-model="rack.rackName" required ng-blur="action.testifyRack()"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">机柜状态<span class="required">*</span></label>
+                <ul class="list-inline col-md-6">
+                    <li class="first">
+                        <select ng-model="rack.rackStateSelected" ng-options="data.State for data in rackStateList" required>
+                            <option value="">---请选择---</option>
+                        </select>
+                    </li>
+                    <li class="last" style="right:-44px;">
+                        <button ng-click="showAddRackStates()" class="btn btn-default" type="button" style="margin-top:-9px; margin-left:17px;">
+                            <i class="glyphicon glyphicon-plus"></i>添加
+                        </button>
+                    </li>
+                </ul>
+            </div>
+            <div class="item">
+                <label class="col-md-5">所属机房<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <select ng-model="rack.roomSelected" ng-options="rows.RoomName for rows in roomList" required>
+                        <option value="">---请选择---</option>
+                    </select>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">标准U数<span class="required">*</span></label>
+                <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.plusStandardNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                <input ng-change="action.chStandardNum()"  type="number" name="StandardNum" class="col-md-4" ng-model="rack.StandardNum" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa" placeholder="1-100正整数" required/>
+                <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.addStandardNum()"><i class="glyphicon glyphicon-plus"></i></span>
+            </div>
+            <div class="item">
+                <label class="col-md-5">设备可用U数<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <input type="text" name="avaliableNum" value="" ng-model="rack.avaliableNum" required readonly>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">是否有UPS<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="ups" type="radio" value="1" ng-checked="true" ng-model="rack.ups" required>是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="ups" type="radio" value="0" ng-model="rack.ups" required>否
+                    </label>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-5">是否A/B路供电<span class="required">*</span></label>
+                <div class="col-md-7">
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="ab" type="radio" value="1" ng-checked="true" ng-model="rack.ab" required>是
+                    </label>
+                    <label class="checkbox-inline _checkbox-inline">
+                        <input name="ab" type="radio" value="0" ng-model="rack.ab" required>否
+                    </label>
+                </div>
+            </div>
+            <div ng-show="rack.addmore">
+                <div class="item">
+                    <label class="col-md-5">顶部不可用U数</label>
+                    <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.plustopAvailNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                    <input type="number" name="topAvailNum" placeholder="1-100正整数"
+                           class="col-md-4" ng-model="rack.topAvailNum" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa"/>
+                    <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.addtopAvailNum()"><i class="glyphicon glyphicon-plus"></i></span>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">底部不可用U数</label>
+                    <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.plusbottomAvailNum()"><i class="glyphicon glyphicon-minus"></i></span>
+                    <input type="number" name="bottomAvailNum" placeholder="1-100正整数"
+                           class="col-md-4" ng-model="rack.bottomAvailNum" style="padding:1px;text-align:center;width: 33.33%;border: 1px solid #aaa"/>
+                    <span class="col-md-1" style="padding: 1px 10px;border: 1px solid #aaa;" ng-click="action.addbottomAvailNum()"><i class="glyphicon glyphicon-plus"></i></span>
+                </div>
+
+                <div class="item">
+                    <label class="col-md-5">托盘数</label>
+                    <div class="col-md-7">
+                        <select ng-model="rack.taryNum" name="taryNum" ng-options="data.num for data in TaryListNum">
+                            <option value="">请选择---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">带宽流量(兆)</label>
+                    <div class="col-md-7">
+                        <input type="text" name="rackNetflow" placeholder="机柜带宽流量(兆)" ng-model="rack.rackNetflow">
+                    </div>
+                </div>
+
+                <div class="item">
+                    <label class="col-md-5">机柜功率(千瓦)</label>
+                    <div class="col-md-7">
+                        <input type="text" placeholder="机柜功率(千瓦)" ng-model="rack.power" name="power">
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-5">备注</label>
+                    <div class="col-md-7">
+                        <input type="text" ng-model="rack.comment" name="comment" placeholder="备注">
+                    </div>
+                </div>
+            </div>
+            <a class="moreinfo" ng-click="action.addMore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addRackCancel()">取消</button>
+            <button class="btn btn-blues" type="submit" ng-disabled="addRackForm.$invalid">保存</button>
+        </div>
+    </form>
+    <!--添加机柜状态 START-->
+    <form id="addRackState" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-state">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                        <div class="portlet-body form">
+                            <div class="modal-body">
+                                <div class="modal-item">
+                                    <label>添加状态名称</label>
+                                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="rack.addrackState" required/>
+                                </div>
+                                <div class="modal-item" style="margin-top: 20px">
+                                    <label>选中状态颜色</label>
+                                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" class="btn btn-close">取消</button>
+                    <button type="submit" class="btn btn-blues" ng-click="addRackState()">保存</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--添加机柜状态 START-->
+
+</script>
+<!--添加机柜弹出框 END-->
+
+<!-- 机柜状态弹出框--->
+<script id="rack_state.html" type="text/ng-template">
+    <div class="inside-content" >
+        <div class="modal-body">
+            <h5 class="settings-h5"><a>配置机柜状态</a>
+                <div class="exits" ng-click="settings.settingsCancel()">&times;</div>
+            </h5>
+            <div class="settings" ng-hide="showAddColors">
+                <div ng-hide="showEditColors">
+                    <ul class="list-unstyled">
+                        <li class="item-inside" ng-repeat="state in RackState">
+                            <div class="inside">
+                                <ol class="list-inline text-center first">
+                                    <li style="background-color: {{state.Color}}"></li>
+                                    <li>{{state.State}}</li>
+                                </ol>
+                                <ol class="list-inline text-center last" >
+                                    <li><a class="maincolor" ng-click="settings.editState(state)"><i class="glyphicon glyphicon-pencil"></i>编辑</a></li>
+                                    <li><a class="red" ng-click="settings.deleteState(state)"><i class="glyphicon glyphicon-trash"></i>删除</a></li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li class="last">
+                            <div ng-click="settings.addColors()">
+                                <span class="icon-big">+</span>
+                                <h6>添加新状态</h6>
+                            </div>
+                        </li>
+                    </ul>
+                 <!--   <div class="modal-footer">
+                        <button type="button" class="btn default" ng-click="settings.settingsCancel()">取消</button>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div ng-show="showAddColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>添加状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="addRackState" required/>
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="selectedColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.addCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.addState()">保存</button>
+            </div>
+        </div>
+        <div ng-show="showEditColors">
+            <div class="modal-body">
+                <div class="modal-item">
+                    <label>编辑状态名称</label>
+                    <input type="text" class="form-control addstate" placeholder="请输入状态名称" ng-model="editRackState" required/>
+                    <input type="hidden" class="hidden" ng-model="editRackStateId" />
+                </div>
+                <div class="modal-item" style="margin-top: 20px">
+                    <label>已选中状态颜色</label>
+                    <ng-state-color colors="mycolors" selected="currentColor"></ng-state-color>
+                    <p>*每个状态颜色独立，已选取的状态颜色不能重复选取</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-close" ng-click="settings.editCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="settings.editSave()">保存</button>
+            </div>
+        </div>
+    </div>
+</script>

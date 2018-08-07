@@ -1,0 +1,6364 @@
+swagger: "2.0"
+info:
+  title: oneoaas-cmdb api
+  description: oneoaas-cmdb open api docs
+  version: 1.3.2
+  termsOfService: http://oneoaas.com
+  contact:
+    email: bin.liu@oneoaas.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+basePath: /api
+paths:
+  /ResourcePlatformAccount/:
+    get:
+      tags:
+      - ResourcePlatformAccount
+      description: 查询云帐号
+      operationId: ResourcePlatformAccountController.cloud
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 筛选名称
+        type: string
+      - in: query
+        name: cloudName
+        description: 筛选云帐号名称
+        type: string
+      - in: query
+        name: cloudPlat
+        description: 筛选云帐号平台类型
+        type: string
+      - in: query
+        name: cloudState
+        description: 筛选云帐号状态
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询云帐号失败
+    put:
+      tags:
+      - ResourcePlatformAccount
+      description: 更新云帐号
+      operationId: ResourcePlatformAccountController.cloud
+      parameters:
+      - in: query
+        name: cloudid
+        description: 云帐号ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: cloudName
+        description: 云帐号名称
+        required: true
+        type: string
+      - in: query
+        name: cloudPlat
+        description: 云帐号类型
+        type: string
+      - in: query
+        name: cloudState
+        description: 云帐号状态
+        required: true
+        type: string
+      - in: query
+        name: cloudHostNum
+        description: 云主机数量
+        type: integer
+        format: int64
+      - in: query
+        name: syncState
+        description: 同步状态
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新云帐号失败
+    post:
+      tags:
+      - ResourcePlatformAccount
+      description: 添加云帐号
+      operationId: ResourcePlatformAccountController.cloud
+      parameters:
+      - in: query
+        name: cloudName
+        description: 云帐号名称
+        required: true
+        type: string
+      - in: query
+        name: cloudPlat
+        description: 云帐号类型
+        type: string
+      - in: query
+        name: cloudState
+        description: 云帐号状态
+        required: true
+        type: string
+      - in: query
+        name: cloudHostNum
+        description: 云主机数量
+        type: integer
+        format: int64
+      - in: query
+        name: syncState
+        description: 同步状态
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加云帐号失败
+    delete:
+      tags:
+      - ResourcePlatformAccount
+      description: 通过id删除云帐号
+      operationId: ResourcePlatformAccountController.cloud
+      parameters:
+      - in: query
+        name: id
+        description: 云帐号ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除云帐号失败
+  /SyncAliyun/:
+    post:
+      tags:
+      - SyncAliyun
+      description: 同步远程aliyun信息
+      operationId: SyncAliyunController.syncaliyun
+      parameters:
+      - in: query
+        name: id
+        description: 云帐号ID
+        required: true
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 同步远程aliyun信息
+  /SyncAws/:
+    post:
+      tags:
+      - SyncAws
+      description: 同步远程aws信息
+      operationId: SyncAwsController.syncaws
+      parameters:
+      - in: query
+        name: id
+        description: 云帐号ID
+        required: true
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 同步远程aws信息
+  /SyncVcenter/:
+    post:
+      tags:
+      - SyncVcenter
+      description: 同步远程vmware信息
+      operationId: SyncVcenterController.syncvcenter
+      parameters:
+      - in: query
+        name: id
+        description: 云帐号ID
+        required: true
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 同步远程vmware信息
+  /aliyun/:
+    get:
+      tags:
+      - aliyun
+      description: 查询Aliyun
+      operationId: AliyunController.aliyun
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询Aliyun失败
+    put:
+      tags:
+      - aliyun
+      description: 更新Aliyun
+      operationId: AliyunController.aliyun
+      parameters:
+      - in: query
+        name: editAliyunId
+        description: AliyunID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: editinstancename
+        description: 实例名称
+        type: string
+      - in: query
+        name: editinstanceid
+        description: 实例ID
+        type: string
+      - in: query
+        name: editcpu
+        description: CPU
+        type: integer
+        format: int64
+      - in: query
+        name: editmemory
+        description: 内存
+        type: integer
+        format: int64
+      - in: query
+        name: editip
+        description: IP
+        type: string
+      - in: query
+        name: edithostname
+        description: 主机名
+        type: string
+      - in: query
+        name: editimage
+        description: 镜像
+        type: string
+      - in: query
+        name: editdescription
+        description: 描述
+        type: string
+      - in: query
+        name: editzoneid
+        description: ZoneId
+        type: string
+      - in: query
+        name: editcreationtime
+        description: 创建时间
+        type: string
+      - in: query
+        name: editexpiredtime
+        description: 过期时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新Aliyun失败
+    post:
+      tags:
+      - aliyun
+      description: 添加Aliyun
+      operationId: AliyunController.aliyun
+      parameters:
+      - in: query
+        name: instancename
+        description: 实例名称
+        required: true
+        type: string
+      - in: query
+        name: instanceid
+        description: 实例ID
+        type: string
+      - in: query
+        name: cpu
+        description: CPU
+        type: integer
+        format: int64
+      - in: query
+        name: memory
+        description: 内存
+        type: integer
+        format: int64
+      - in: query
+        name: ip
+        description: IP
+        type: string
+      - in: query
+        name: hostname
+        description: 主机名
+        type: string
+      - in: query
+        name: image
+        description: 镜像
+        type: string
+      - in: query
+        name: description
+        description: 描述
+        type: string
+      - in: query
+        name: zoneid
+        description: ZoneId
+        type: string
+      - in: query
+        name: creationtime
+        description: 创建时间
+        type: string
+      - in: query
+        name: expiredtime
+        description: 过期时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加Aliyun失败
+    delete:
+      tags:
+      - aliyun
+      description: 通过id删除Aliyun
+      operationId: AliyunController.aliyun
+      parameters:
+      - in: query
+        name: aliyunid
+        description: AliyunID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除Aliyun失败
+  /apicall/:
+    get:
+      tags:
+      - apicall
+      description: 查询API调用次数
+      operationId: ApiCallController.change record
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询API调用次数失败
+  /app/:
+    get:
+      tags:
+      - app
+      description: 查询业务
+      operationId: AppController.app
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 筛选业务名称
+        type: string
+      - in: query
+        name: level
+        description: 筛选业务等级
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询业务失败
+    put:
+      tags:
+      - app
+      description: 更新业务
+      operationId: AppController.app
+      parameters:
+      - in: query
+        name: Id
+        description: 业务ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: appName
+        description: 业务名称
+        required: true
+        type: string
+      - in: query
+        name: appLevel
+        description: 业务等级
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: teamOwn
+        description: 团队负责人
+        type: string
+      - in: query
+        name: appCode
+        description: 业务代号
+        type: string
+      - in: query
+        name: appOwn
+        description: 业务负责人
+        type: string
+      - in: query
+        name: devOwn
+        description: 开发负责人
+        type: string
+      - in: query
+        name: opsOwn
+        description: 运维负责人
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新业务失败
+    post:
+      tags:
+      - app
+      description: 添加业务
+      operationId: AppController.app
+      parameters:
+      - in: query
+        name: appName
+        description: 业务名称
+        required: true
+        type: string
+      - in: query
+        name: appLevel
+        description: 业务等级
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: teamOwn
+        description: 团队负责人
+        type: string
+      - in: query
+        name: appCode
+        description: 业务代号
+        type: string
+      - in: query
+        name: appOwn
+        description: 业务负责人
+        type: string
+      - in: query
+        name: devOwn
+        description: 开发负责人
+        type: string
+      - in: query
+        name: opsOwn
+        description: 运维负责人
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加业务失败
+    delete:
+      tags:
+      - app
+      description: 通过id删除业务
+      operationId: AppController.app
+      parameters:
+      - in: query
+        name: appid
+        description: 业务ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除业务失败
+  /app/level:
+    get:
+      tags:
+      - app
+      description: 查询业务等级
+      operationId: AppLevelController.app level
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询业务等级失败
+    put:
+      tags:
+      - app
+      description: 更新业务等级
+      operationId: AppLevelController.app level
+      parameters:
+      - in: query
+        name: appLevelId
+        description: 业务等级ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: appLevel
+        description: 业务等级
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新业务等级失败
+    post:
+      tags:
+      - app
+      description: 添加业务等级
+      operationId: AppLevelController.app level
+      parameters:
+      - in: query
+        name: appLevel
+        description: 业务等级
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加业务等级失败
+    delete:
+      tags:
+      - app
+      description: 通过id删除业务等级
+      operationId: AppLevelController.app level
+      parameters:
+      - in: query
+        name: appLevelId
+        description: 业务等级ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除业务等级失败
+  /assets/:
+    get:
+      tags:
+      - assets
+      description: 获取基础资产类型
+      operationId: AssetsController.获取根类资产类型
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/models.Asserts'
+        "400":
+          description: 获取资产类型错误
+    post:
+      tags:
+      - assets
+      description: 添加资产类型
+      operationId: AssetsController.资产
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加资产错误
+  /assets/{id}:
+    get:
+      tags:
+      - assets
+      description: 通过id获取资产类型
+      operationId: AssetsController.获取资产类型
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/models.Asserts'
+        "400":
+          description: 获取资产类型错误
+  /aws/:
+    get:
+      tags:
+      - aws
+      description: 查询Aws
+      operationId: AwsController.aws
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: launch_time
+        description: 筛选启动时间
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询Aws失败
+    put:
+      tags:
+      - aws
+      description: 更新Aws
+      operationId: AwsController.aws
+      parameters:
+      - in: query
+        name: editawsid
+        description: AwsID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: editarchitecture
+        description: 架构
+        required: true
+        type: string
+      - in: query
+        name: editimageid
+        description: 镜像ID
+        type: string
+      - in: query
+        name: editinstanceid
+        description: 实例ID
+        type: string
+      - in: query
+        name: editinstancelifecycle
+        description: 生命周期状态
+        type: string
+      - in: query
+        name: editinstancetype
+        description: 实例类型
+        type: string
+      - in: query
+        name: editplatform
+        description: 平台
+        type: string
+      - in: query
+        name: editprivatedns
+        description: 私有DNS
+        type: string
+      - in: query
+        name: editpublicdns
+        description: 公共DNS
+        type: string
+      - in: query
+        name: editpublicip
+        description: 公共IP
+        type: string
+      - in: query
+        name: editvirtualizationtype
+        description: 虚拟化类型
+        type: string
+      - in: query
+        name: editlaunchtime
+        description: 启动时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新Aws失败
+    post:
+      tags:
+      - aws
+      description: 添加Aws
+      operationId: AwsController.aws
+      parameters:
+      - in: query
+        name: architecture
+        description: 架构
+        required: true
+        type: string
+      - in: query
+        name: imageid
+        description: 镜像ID
+        type: string
+      - in: query
+        name: instanceid
+        description: 实例ID
+        type: string
+      - in: query
+        name: instancelifecycle
+        description: 生命周期状态
+        type: string
+      - in: query
+        name: instancetype
+        description: 实例类型
+        type: string
+      - in: query
+        name: platform
+        description: 平台
+        type: string
+      - in: query
+        name: privatedns
+        description: 私有DNS
+        type: string
+      - in: query
+        name: publicdns
+        description: 公共DNS
+        type: string
+      - in: query
+        name: publicip
+        description: 公共IP
+        type: string
+      - in: query
+        name: virtualizationtype
+        description: 虚拟化类型
+        type: string
+      - in: query
+        name: launchtime
+        description: 启动时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加Aws失败
+    delete:
+      tags:
+      - aws
+      description: 通过id删除Aws
+      operationId: AwsController.aws
+      parameters:
+      - in: query
+        name: awsid
+        description: AwsID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除Aws失败
+  /change/:
+    get:
+      tags:
+      - change
+      description: 查询变更记录
+      operationId: ChangeController.change record
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询添加变更记录
+  /cpu/:
+    get:
+      tags:
+      - cpu
+      description: 获取所有cpu资源
+      operationId: CpuController.get 获取所有cpu资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 获取所有cpu资源
+    post:
+      tags:
+      - cpu
+      description: 添加cpu资源
+      operationId: CpuController.server
+      parameters:
+      - in: query
+        name: ModelName
+        description: cpu ModelName
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: cpu资源失败
+  /cpu/query:
+    get:
+      tags:
+      - cpu
+      description: 获取所有cpu资源
+      operationId: CpuController.根据server id 获取cpu资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 获取所有cpu资源
+  /dashboard/count:
+    get:
+      tags:
+      - dashboard
+      description: 统计资源总数
+      operationId: DashboardController.dashboard 统计资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 统计资源总数失败
+  /dashboard/countByMonth:
+    get:
+      tags:
+      - dashboard
+      description: 按月统计资源
+      operationId: DashboardController.dashboard 按月统计资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 按月统计资源失败
+  /dashboard/device:
+    get:
+      tags:
+      - dashboard
+      description: 统计设备数量环形对比
+      operationId: DashboardController.dashboard 统计设备
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 设备数量环形对比失败
+  /dashboard/uposition:
+    get:
+      tags:
+      - dashboard
+      description: 统计U位利用率
+      operationId: DashboardController.dashboard
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 统计U位利用率失败
+  /dashboard/usage:
+    get:
+      tags:
+      - dashboard
+      description: 统计资源利用率
+      operationId: DashboardController.dashboard 统计利用率
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 统计资源利用率失败
+  /datacenter/:
+    get:
+      tags:
+      - datacenter
+      description: 查询数据中心
+      operationId: DatacenterController.datacenter
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: dcname
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: region
+        description: 按区域筛选
+        type: string
+      - in: query
+        name: supplier
+        description: 按供应商筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询数据中心失败
+    put:
+      tags:
+      - datacenter
+      description: 更新数据中心
+      operationId: DatacenterController.datacenter
+      parameters:
+      - in: query
+        name: dcid
+        description: 数据中心ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: dcname
+        description: 数据中心名字
+        required: true
+        type: string
+      - in: query
+        name: supplierId
+        description: 供应商
+        required: true
+        type: string
+      - in: query
+        name: regionId
+        description: 数据中心区域
+        required: true
+        type: string
+      - in: query
+        name: stateId
+        description: 数据中心状态
+        required: true
+        type: string
+      - in: query
+        name: dcprovince
+        description: 省份
+        type: string
+      - in: query
+        name: dccounty
+        description: 城市
+        type: string
+      - in: query
+        name: dcaddress
+        description: 地址
+        required: true
+        type: string
+      - in: query
+        name: dcgeo
+        description: 地理坐标
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新数据中心失败
+    post:
+      tags:
+      - datacenter
+      description: 添加数据中心
+      operationId: DatacenterController.datacenter
+      parameters:
+      - in: query
+        name: dcname
+        description: 数据中心名字
+        required: true
+        type: string
+      - in: query
+        name: regionId
+        description: 数据中心区域
+        required: true
+        type: string
+      - in: query
+        name: stateId
+        description: 数据中心状态
+        required: true
+        type: string
+      - in: query
+        name: dcaddress
+        description: 地址
+        required: true
+        type: string
+      - in: query
+        name: supplierId
+        description: 供应商
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加数据中心失败
+    delete:
+      tags:
+      - datacenter
+      description: 通过id删除数据中心
+      operationId: DatacenterController.datacenter
+      parameters:
+      - in: query
+        name: dcid
+        description: 数据中心ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除数据中心失败
+  /datacenter/region:
+    get:
+      tags:
+      - datacenter
+      description: 查询数据中心区域
+      operationId: DcRegionController.datacenter region
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询数据中心区域失败
+    put:
+      tags:
+      - datacenter
+      description: 更新数据中心区域
+      operationId: DcRegionController.datacenter region
+      parameters:
+      - in: query
+        name: dcRegionId
+        description: 数据中心区域ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: dcRegion
+        description: 数据中心区域
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新数据中心区域失败
+    post:
+      tags:
+      - datacenter
+      description: 添加数据中心区域
+      operationId: DcRegionController.datacenter region
+      parameters:
+      - in: query
+        name: dcRegion
+        description: 数据中心区域
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加数据中心区域失败
+    delete:
+      tags:
+      - datacenter
+      description: 通过id删除数据中心区域
+      operationId: DcRegionController.datacenter region
+      parameters:
+      - in: query
+        name: dcRegionId
+        description: 数据中心区域ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除数据中心区域失败
+  /datacenter/valid:
+    get:
+      tags:
+      - datacenter
+      description: 验证数据中心名称是否存在
+      operationId: DatacenterController.datacenter
+      parameters:
+      - in: query
+        name: dcname
+        description: 验证名称
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/controllers.ValidResult'
+        "400":
+          description: 验证失败
+  /dnspoddomain/:
+    get:
+      tags:
+      - dnspoddomain
+      description: 查询域名
+      operationId: DnspoddomainController.dnspoddomain
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 筛选域名
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: grade
+        description: 按等级筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询域名失败
+    put:
+      tags:
+      - dnspoddomain
+      description: 更新域名
+      operationId: DnspoddomainController.dnspoddomain
+      parameters:
+      - in: query
+        name: id
+        description: 域名ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 域名
+        required: true
+        type: string
+      - in: query
+        name: stateId
+        description: 域名状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: gradeId
+        description: 域名等级
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: extStatus
+        description: 域名扩展状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: cnameSpeedup
+        description: CNAME加速状态
+        type: integer
+        format: int64
+      - in: query
+        name: createdOn
+        description: 添加时间
+        type: integer
+        format: int64
+      - in: query
+        name: groupId
+        description: 域名分组ID
+        type: string
+      - in: query
+        name: isMark
+        description: 是否设置域名星标
+        type: integer
+        format: int64
+      - in: query
+        name: isVip
+        description: 是否属于VIP
+        type: integer
+        format: int64
+      - in: query
+        name: owner
+        description: 域名所有者
+        type: string
+      - in: query
+        name: punycode
+        description: 转码后域名
+        type: string
+      - in: query
+        name: records
+        description: 记录总条数
+        type: string
+      - in: query
+        name: searchenginePush
+        description: 是否开启搜索引擎推送
+        type: integer
+        format: int64
+      - in: query
+        name: ttl
+        description: 域名默认的TTL值
+        type: string
+      - in: query
+        name: updatedOn
+        description: 修改时间
+        type: string
+      - in: query
+        name: tokenId
+        description: TokenID
+        type: integer
+        format: int64
+      - in: query
+        name: remark
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新域名失败
+    post:
+      tags:
+      - dnspoddomain
+      description: 添加域名
+      operationId: DnspoddomainController.dnspoddomain
+      parameters:
+      - in: query
+        name: name
+        description: 域名
+        required: true
+        type: string
+      - in: query
+        name: stateId
+        description: 域名状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: gradeId
+        description: 域名等级
+        type: integer
+        format: int64
+      - in: query
+        name: extStatus
+        description: 域名扩展状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: cnameSpeedup
+        description: CNAME加速状态
+        type: integer
+        format: int64
+      - in: query
+        name: createdOn
+        description: 添加时间
+        type: integer
+        format: int64
+      - in: query
+        name: groupId
+        description: 域名分组ID
+        type: string
+      - in: query
+        name: isMark
+        description: 是否设置域名星标
+        type: integer
+        format: int64
+      - in: query
+        name: isVip
+        description: 是否属于VIP
+        type: integer
+        format: int64
+      - in: query
+        name: owner
+        description: 域名所有者
+        type: string
+      - in: query
+        name: punycode
+        description: 转码后域名
+        type: string
+      - in: query
+        name: records
+        description: 记录总条数
+        type: string
+      - in: query
+        name: searchenginePush
+        description: 是否开启搜索引擎推送
+        type: integer
+        format: int64
+      - in: query
+        name: ttl
+        description: 域名默认的TTL值
+        type: string
+      - in: query
+        name: updatedOn
+        description: 修改时间
+        type: string
+      - in: query
+        name: tokenId
+        description: TokenID
+        type: integer
+        format: int64
+      - in: query
+        name: remark
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加域名失败
+    delete:
+      tags:
+      - dnspoddomain
+      description: 通过id删除域名
+      operationId: DnspoddomainController.dnspoddomain
+      parameters:
+      - in: query
+        name: id
+        description: 域名ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除域名失败
+  /dnspoddomain/grade:
+    get:
+      tags:
+      - dnspoddomain
+      description: 查询域名等级
+      operationId: DnspoddomainGradeController.dnspoddomain grade
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询域名等级失败
+    put:
+      tags:
+      - dnspoddomain
+      description: 更新域名等级
+      operationId: DnspoddomainGradeController.dnspoddomain grade
+      parameters:
+      - in: query
+        name: dnspoddomainGradeId
+        description: 域名等级ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: dnspoddomainGrade
+        description: 域名等级
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新域名等级失败
+    post:
+      tags:
+      - dnspoddomain
+      description: 添加域名等级
+      operationId: DnspoddomainGradeController.dnspoddomain grade
+      parameters:
+      - in: query
+        name: dnspoddomainGrade
+        description: 域名等级
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加域名等级失败
+    delete:
+      tags:
+      - dnspoddomain
+      description: 通过id删除域名等级
+      operationId: DnspoddomainGradeController.dnspoddomain grade
+      parameters:
+      - in: query
+        name: dnspoddomainGradeId
+        description: 域名等级ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除域名等级失败
+  /harddisk/:
+    post:
+      tags:
+      - harddisk
+      description: 添加硬盘资源
+      operationId: HarddiskController.硬盘
+      parameters:
+      - in: query
+        name: Name
+        description: 硬盘名称
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加硬盘资源
+  /hardware/:
+    get:
+      tags:
+      - hardware
+      description: 查询硬件
+      operationId: HardwareController.hardware
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: hardwaretype
+        description: 按类型筛选
+        type: string
+      - in: query
+        name: online
+        description: 按是否在线筛选
+        type: integer
+        format: int64
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询硬件失败
+    put:
+      tags:
+      - hardware
+      description: 更新硬件
+      operationId: HardwareController.hardware
+      parameters:
+      - in: query
+        name: Id
+        description: 硬件ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareName
+        description: 硬件名称
+        required: true
+        type: string
+      - in: query
+        name: stateId
+        description: 硬件类型
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareType
+        description: 硬件状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 所属机柜
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: online
+        description: 是否在线
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareSn
+        description: 序列号
+        type: string
+      - in: query
+        name: manageIp
+        description: 管理IP
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新硬件失败
+    post:
+      tags:
+      - hardware
+      description: 添加硬件
+      operationId: HardwareController.hardware
+      parameters:
+      - in: query
+        name: hardwareName
+        description: 硬件名称
+        required: true
+        type: string
+      - in: query
+        name: state
+        description: 硬件类型
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareType
+        description: 硬件状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 所属机柜
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: online
+        description: 是否在线
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareSn
+        description: 序列号
+        type: string
+      - in: query
+        name: manageIp
+        description: 管理IP
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加硬件失败
+    delete:
+      tags:
+      - hardware
+      description: 通过id删除硬件
+      operationId: HardwareController.hardware
+      parameters:
+      - in: query
+        name: Id
+        description: 硬件ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除硬件失败
+  /hardware/type:
+    get:
+      tags:
+      - hardware
+      description: 查询硬件类型
+      operationId: HardwareTypeController.hardware type
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询硬件类型失败
+    put:
+      tags:
+      - hardware
+      description: 更新硬件类型
+      operationId: HardwareTypeController.hardware type
+      parameters:
+      - in: query
+        name: hardwareTypeId
+        description: 硬件类型ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareType
+        description: 硬件类型
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新硬件类型失败
+    post:
+      tags:
+      - hardware
+      description: 添加硬件类型
+      operationId: HardwareTypeController.hardware type
+      parameters:
+      - in: query
+        name: hardwareType
+        description: 硬件类型
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加硬件类型失败
+    delete:
+      tags:
+      - hardware
+      description: 通过id删除硬件类型
+      operationId: HardwareTypeController.hardware type
+      parameters:
+      - in: query
+        name: hardwareTypeId
+        description: 硬件类型ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除硬件类型失败
+  /ip/:
+    get:
+      tags:
+      - ip
+      description: 查询IP
+      operationId: IpController.IP地址
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询IP失败
+    put:
+      tags:
+      - ip
+      description: Ip分配
+      operationId: IpController.IP分配设置
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 分配IP地址
+    delete:
+      tags:
+      - ip
+      description: 通过id删除IP
+      operationId: IpController.删除IP
+      parameters:
+      - in: query
+        name: id
+        description: id
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除IP地址失败
+  /ip/monitor:
+    get:
+      tags:
+      - ip
+      description: 监控Ip地址
+      operationId: IpController.IP监控
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: ip地址监控
+  /ip/update:
+    put:
+      tags:
+      - ip
+      description: 更新IP
+      operationId: IpController.IP
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 分配IP地址
+  /login/:
+    post:
+      tags:
+      - login
+      description: 用户登录
+      operationId: LoginController.用户登录
+      parameters:
+      - in: query
+        name: user
+        description: 用户名
+        required: true
+        type: string
+      - in: query
+        name: pass
+        description: 用户密码
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 登录用户失败
+  /memory/:
+    get:
+      tags:
+      - memory
+      description: 获取所有memory资源
+      operationId: MemoryController.get 获取所有memory资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 获取所有memory资源
+    post:
+      tags:
+      - memory
+      description: 添加memory资源
+      operationId: MemoryController.添加内存信息
+      parameters:
+      - in: query
+        name: Name
+        description: memory Name
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加memory资源
+  /memory/query:
+    get:
+      tags:
+      - memory
+      description: 获取所有memory资源
+      operationId: MemoryController.根据server id 获取memory资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 获取所有memory资源
+  /menus/:
+    get:
+      tags:
+      - menus
+      description: 根据类型获取菜单数组
+      operationId: MenuController.获取没有根菜单的菜单数组列表
+      parameters:
+      - in: query
+        name: type
+        description: 菜单类型
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/controllers.MenuNode'
+        "400":
+          description: get menu error
+    put:
+      tags:
+      - menus
+      description: 添加菜单信息
+      operationId: MenuController.添加菜单
+      parameters:
+      - in: query
+        name: displayName
+        description: 菜单显示名称
+        required: true
+        type: string
+      - in: query
+        name: name
+        description: 菜单英文名称
+        required: true
+        type: string
+      - in: query
+        name: url
+        description: 菜单url
+        required: true
+        type: string
+      - in: query
+        name: logo
+        description: 菜单logo
+        required: true
+        type: string
+      - in: query
+        name: level
+        description: 菜单级别
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: parentId
+        description: 父级菜单
+        required: true
+        type: integer
+        format: int64
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加菜单失败
+    delete:
+      tags:
+      - menus
+      description: 更新菜单
+      operationId: MenuController.通过id更新菜单
+      parameters:
+      - in: query
+        name: menuId
+        description: 菜单Id
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: displayName
+        description: 菜单显示名称
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: delete menu error
+  /menus/object:
+    get:
+      tags:
+      - menus
+      description: 获取菜单对象
+      operationId: MenuController.获取带有根菜单的对象
+      parameters:
+      - in: query
+        name: type
+        description: 菜单类型
+        type: integer
+        format: int64
+      responses:
+        "200":
+          schema:
+            $ref: '#/definitions/controllers.MenuNode'
+        "400":
+          description: get menu error
+  /menus/v2:
+    get:
+      tags:
+      - menus
+      description: 根据类型获取菜单数组
+      operationId: MenuController.获取没有根菜单的菜单数组列表
+      parameters:
+      - in: query
+        name: type
+        description: 菜单类型
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/controllers.MenuNode'
+        "400":
+          description: get menu error
+  /networkadapter/:
+    post:
+      tags:
+      - networkadapter
+      description: 添加网络适配器资源
+      operationId: NetworkAdapterController.network adapter
+      parameters:
+      - in: query
+        name: Name
+        description: 网络适配器名称
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加网络适配器资源
+  /networkadapter/query:
+    get:
+      tags:
+      - networkadapter
+      description: 根据server id 获取网络适配器资源
+      operationId: NetworkAdapterController.根据server id 获取网络适配器资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 根据server id 获取网络适配器资源
+  /networkbandwidth/:
+    get:
+      tags:
+      - networkbandwidth
+      description: 查询带宽
+      operationId: NetworkbandwidthController.networkbandwidth
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: isp
+        description: 按制造商筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询带宽失败
+    put:
+      tags:
+      - networkbandwidth
+      description: 更新带宽
+      operationId: NetworkbandwidthController.networkbandwidth
+      parameters:
+      - in: query
+        name: Id
+        description: 带宽ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 带宽名称
+        required: true
+        type: string
+      - in: query
+        name: state
+        description: 带宽状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: room
+        description: 所属机房
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 所属机柜
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: isp
+        description: 网络服务提供商
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: maxBandwidth
+        description: 采购最大带宽(百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: minBandwidth
+        description: 保底带宽(百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: minCost
+        description: 保底费用(元)
+        type: integer
+        format: int64
+      - in: query
+        name: unitCost
+        description: 单位成本(元/百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新带宽失败
+    post:
+      tags:
+      - networkbandwidth
+      description: 添加带宽
+      operationId: NetworkbandwidthController.networkbandwidth
+      parameters:
+      - in: query
+        name: name
+        description: 带宽名称
+        required: true
+        type: string
+      - in: query
+        name: state
+        description: 带宽状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: room
+        description: 所属机房
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 所属机柜
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: isp
+        description: 网络服务提供商
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: maxBandwidth
+        description: 采购最大带宽(百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: minBandwidth
+        description: 保底带宽(百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: minCost
+        description: 保底费用(元)
+        type: integer
+        format: int64
+      - in: query
+        name: unitCost
+        description: 单位成本(元/百兆)
+        type: integer
+        format: int64
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加带宽失败
+    delete:
+      tags:
+      - networkbandwidth
+      description: 通过id删除带宽
+      operationId: NetworkbandwidthController.networkbandwidth
+      parameters:
+      - in: query
+        name: Id
+        description: 带宽ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除带宽失败
+  /networkbandwidth/isp:
+    get:
+      tags:
+      - networkbandwidth
+      description: 查询网络服务提供商
+      operationId: InternetServiceProviderController.networkbandwidth isp
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询网络服务提供商失败
+    put:
+      tags:
+      - networkbandwidth
+      description: 更新网络服务提供商
+      operationId: InternetServiceProviderController.networkbandwidth isp
+      parameters:
+      - in: query
+        name: ispId
+        description: 网络服务提供商ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: isp
+        description: 网络服务提供商
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新网络服务提供商失败
+    post:
+      tags:
+      - networkbandwidth
+      description: 添加网络服务提供商
+      operationId: InternetServiceProviderController.networkbandwidth isp
+      parameters:
+      - in: query
+        name: isp
+        description: 网络服务提供商
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加网络服务提供商失败
+    delete:
+      tags:
+      - networkbandwidth
+      description: 通过id删除网络服务提供商
+      operationId: InternetServiceProviderController.networkbandwidth isp
+      parameters:
+      - in: query
+        name: ispId
+        description: 网络服务提供商ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除网络服务提供商失败
+  /rack/:
+    get:
+      tags:
+      - rack
+      description: 查询机柜
+      operationId: RackController.rack
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: rackname
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: room
+        description: 按所属机房筛选
+        type: string
+      - in: query
+        name: isups
+        description: 按是否有UPS筛选
+        type: integer
+        format: int64
+      - in: query
+        name: isab
+        description: 按是否有A/B供电筛选
+        type: integer
+        format: int64
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询机柜失败
+    put:
+      tags:
+      - rack
+      description: 更新机柜
+      operationId: RackController.rack
+      parameters:
+      - in: query
+        name: rackid
+        description: 机柜ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rackName
+        description: 机柜名字
+        required: true
+        type: string
+      - in: query
+        name: status
+        description: 机柜状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: room
+        description: 所属机房
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: standardNum
+        description: 机柜标准U数
+        type: integer
+        format: int64
+      - in: query
+        name: topNotAvailableNum
+        description: 顶部不可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: bottomNotAvailableNum
+        description: 底部不可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: avaliableNum
+        description: 机柜可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: taryNum
+        description: 托盘数
+        type: integer
+        format: int64
+      - in: query
+        name: rackNetflow
+        description: 带宽流量(兆)
+        type: integer
+        format: int64
+      - in: query
+        name: isUps
+        description: 是否有UPS
+        type: integer
+        format: int64
+      - in: query
+        name: isAb
+        description: 是否A/B路供电
+        type: integer
+        format: int64
+      - in: query
+        name: power
+        description: 机柜功率(千瓦)
+        type: integer
+        format: int64
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新机柜失败
+    post:
+      tags:
+      - rack
+      description: 添加机柜
+      operationId: RackController.rack
+      parameters:
+      - in: query
+        name: rackName
+        description: 机柜名字
+        required: true
+        type: string
+      - in: query
+        name: status
+        description: 机柜状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: room
+        description: 所属机房
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: standardNum
+        description: 机柜标准U数
+        type: integer
+        format: int64
+      - in: query
+        name: topNotAvailableNum
+        description: 顶部不可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: bottomNotAvailableNum
+        description: 底部不可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: avaliableNum
+        description: 机柜可用U数
+        type: integer
+        format: int64
+      - in: query
+        name: taryNum
+        description: 托盘数
+        type: integer
+        format: int64
+      - in: query
+        name: rackNetflow
+        description: 带宽流量(兆)
+        type: integer
+        format: int64
+      - in: query
+        name: isUps
+        description: 是否有UPS
+        type: integer
+        format: int64
+      - in: query
+        name: isAb
+        description: 是否A/B路供电
+        type: integer
+        format: int64
+      - in: query
+        name: power
+        description: 机柜功率(千瓦)
+        type: integer
+        format: int64
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加机柜失败
+    delete:
+      tags:
+      - rack
+      description: 通过id删除机柜
+      operationId: RackController.rack
+      parameters:
+      - in: query
+        name: rackid
+        description: 机柜ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除机柜失败
+  /room/:
+    get:
+      tags:
+      - room
+      description: 查询机房
+      operationId: RoomController.room
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: roomname
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: datacenter
+        description: 按所属数据中心筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询机房失败
+    put:
+      tags:
+      - room
+      description: 更新机房
+      operationId: RoomController.room
+      parameters:
+      - in: query
+        name: roomid
+        description: 机房ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: roomname
+        description: 机房名字
+        required: true
+        type: string
+      - in: query
+        name: floor
+        description: 楼层
+        required: true
+        type: string
+      - in: query
+        name: roomno
+        description: 房间号
+        type: string
+      - in: query
+        name: stateId
+        description: 机房状态
+        required: true
+        type: string
+      - in: query
+        name: dcId
+        description: 所属数据中心
+        required: true
+        type: string
+      - in: query
+        name: businessContact
+        description: 机房商务联系人
+        type: string
+      - in: query
+        name: technicalContact
+        description: 机房技术联系人
+        type: string
+      - in: query
+        name: receivingContact
+        description: 机房收获联系人
+        type: string
+      - in: query
+        name: maintenanceContact
+        description: 我司运维负责人
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新机房失败
+    post:
+      tags:
+      - room
+      description: 添加机房
+      operationId: RoomController.room
+      parameters:
+      - in: query
+        name: roomname
+        description: 机房名字
+        required: true
+        type: string
+      - in: query
+        name: floor
+        description: 楼层
+        required: true
+        type: string
+      - in: query
+        name: roomno
+        description: 房间号
+        type: string
+      - in: query
+        name: stateId
+        description: 机房状态
+        required: true
+        type: string
+      - in: query
+        name: dcId
+        description: 所属数据中心
+        required: true
+        type: string
+      - in: query
+        name: businessContact
+        description: 机房商务联系人
+        type: string
+      - in: query
+        name: technicalContact
+        description: 机房技术联系人
+        type: string
+      - in: query
+        name: receivingContact
+        description: 机房收获联系人
+        type: string
+      - in: query
+        name: maintenanceContact
+        description: 我司运维负责人
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加机房失败
+    delete:
+      tags:
+      - room
+      description: 通过id删除机房
+      operationId: RoomController.room
+      parameters:
+      - in: query
+        name: roomid
+        description: 机房ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除机房失败
+  /room/{id}:
+    get:
+      tags:
+      - room
+      description: 根据id查询机房
+      operationId: RoomController.根据id查询机房
+      parameters:
+      - in: query
+        name: id
+        description: 机房id
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 根据id查询机房
+  /server/:
+    get:
+      tags:
+      - server
+      description: 查询服务器
+      operationId: ServerController.server
+      parameters:
+      - in: query
+        name: enable
+        description: 记录是否有效,0无效1有效
+        type: string
+      - in: query
+        name: format
+        description: 请求响应格式,默认为json
+        type: string
+      - in: query
+        name: order
+        description: 公共参数,排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 公共参数,排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 查询条数
+        type: integer
+        format: int64
+      - in: query
+        name: offset
+        description: 开始查询记录位置
+        type: integer
+        format: int64
+      - in: query
+        name: sn
+        description: 按SN筛选
+        type: string
+      - in: query
+        name: state
+        description: 按状态筛选
+        type: string
+      - in: query
+        name: manufacturer
+        description: 按制造商筛选
+        type: string
+      - in: query
+        name: supplier
+        description: 按供应商筛选
+        type: string
+      - in: query
+        name: rack
+        description: 按所属机柜筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 公共参数,认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 公共参数,时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询服务器失败
+    put:
+      tags:
+      - server
+      description: 更新服务器
+      operationId: ServerController.server
+      parameters:
+      - in: query
+        name: serverid
+        description: 服务器ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: sn
+        description: 序列号
+        type: string
+      - in: query
+        name: state
+        description: 状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: manufacturer
+        description: 制造商
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: supplier
+        description: 供应商
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: cpu
+        description: CPU
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: memory
+        description: 内存
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: harddisk
+        description: 硬盘
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: networkadapter
+        description: 网卡
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: host
+        description: 操作系统
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 机柜
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: app
+        description: 业务
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rackUnumber
+        description: 机柜U数
+        type: integer
+        format: int64
+      - in: query
+        name: modle
+        description: 型号
+        type: string
+      - in: query
+        name: ishypervisor
+        description: 是否虚拟化
+        type: integer
+        format: int64
+      - in: query
+        name: isserver
+        description: 是否服务
+        type: integer
+        format: int64
+      - in: query
+        name: ipaddress
+        description: IP
+        type: string
+      - in: query
+        name: hostname
+        description: 主机名
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新服务器失败
+    post:
+      tags:
+      - server
+      description: 添加服务器
+      operationId: ServerController.server
+      parameters:
+      - in: query
+        name: sn
+        description: 序列号
+        required: true
+        type: string
+      - in: query
+        name: state
+        description: 状态
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: app
+        description: 业务
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: host
+        description: 操作系统
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: manufacturer
+        description: 制造商
+        type: integer
+        format: int64
+      - in: query
+        name: supplier
+        description: 供应商
+        type: integer
+        format: int64
+      - in: query
+        name: cpu
+        description: CPU
+        type: integer
+        format: int64
+      - in: query
+        name: memory
+        description: 内存
+        type: integer
+        format: int64
+      - in: query
+        name: harddisk
+        description: 硬盘
+        type: integer
+        format: int64
+      - in: query
+        name: networkadapter
+        description: 网卡
+        type: integer
+        format: int64
+      - in: query
+        name: rack
+        description: 机柜
+        type: integer
+        format: int64
+      - in: query
+        name: rackUnumber
+        description: 机柜U数
+        type: integer
+        format: int64
+      - in: query
+        name: modle
+        description: 型号
+        type: string
+      - in: query
+        name: ishypervisor
+        description: 是否虚拟化
+        type: integer
+        format: int64
+      - in: query
+        name: isserver
+        description: 是否服务
+        type: integer
+        format: int64
+      - in: query
+        name: ipaddress
+        description: Ipaddress
+        type: string
+      - in: query
+        name: hostname
+        description: 主机名
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加服务器失败
+    delete:
+      tags:
+      - server
+      description: 通过id删除服务器
+      operationId: ServerController.server
+      parameters:
+      - in: query
+        name: serverid
+        description: 服务器ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除服务器失败
+  /server/host:
+    get:
+      tags:
+      - server
+      description: 查询操作系统
+      operationId: HostController.server host
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询操作系统失败
+    put:
+      tags:
+      - server
+      description: 更新操作系统
+      operationId: HostController.server host
+      parameters:
+      - in: query
+        name: hostId
+        description: 操作系统ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 硬件状态
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新操作系统失败
+    post:
+      tags:
+      - server
+      description: 添加操作系统
+      operationId: HostController.server host
+      parameters:
+      - in: query
+        name: name
+        description: 操作系统
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加操作系统失败
+    delete:
+      tags:
+      - server
+      description: 通过id删除操作系统
+      operationId: HostController.server host
+      parameters:
+      - in: query
+        name: hostId
+        description: 操作系统ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除操作系统失败
+  /server/manufacturer:
+    get:
+      tags:
+      - server
+      description: 查询制造商
+      operationId: ManufacturerController.server manufacturer
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询制造商失败
+    put:
+      tags:
+      - server
+      description: 更新制造商
+      operationId: ManufacturerController.server manufacturer
+      parameters:
+      - in: query
+        name: serverManufacturerId
+        description: 制造商ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: serverManufacturer
+        description: 制造商
+        required: true
+        type: string
+      - in: query
+        name: email
+        description: 邮箱
+        type: string
+      - in: query
+        name: telphone
+        description: 电话
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新制造商失败
+    post:
+      tags:
+      - server
+      description: 添加制造商
+      operationId: ManufacturerController.server manufacturer
+      parameters:
+      - in: query
+        name: serverManufacturer
+        description: 制造商
+        required: true
+        type: string
+      - in: query
+        name: email
+        description: 邮箱
+        type: string
+      - in: query
+        name: telphone
+        description: 电话
+        type: string
+      - in: query
+        name: manufacturerComment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加制造商失败
+    delete:
+      tags:
+      - server
+      description: 通过id删除制造商
+      operationId: ManufacturerController.server manufacturer
+      parameters:
+      - in: query
+        name: serverManufacturerId
+        description: 制造商ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除制造商失败
+  /server/port:
+    get:
+      tags:
+      - server
+      description: 根据server id 获取端口资源
+      operationId: ServerController.根据server id 获取端口资源
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 根据server id 获取端口资源
+  /server/pull:
+    get:
+      tags:
+      - server
+      description: 拉取服务器数据
+      operationId: ServerController.pull server data into tui
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器数据
+  /server/push/cpu/{uuid}:
+    post:
+      tags:
+      - server
+      description: 上报服务器cpu数据
+      operationId: ServerController.push server cpu data into cmdb
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器cpu数据
+  /server/push/harddisk/{uuid}:
+    post:
+      tags:
+      - server
+      description: 上报服务器harddisk数据
+      operationId: ServerController.push server harddisk data into cmdb
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器harddisk数据
+  /server/push/memory/{uuid}:
+    post:
+      tags:
+      - server
+      description: 上报服务器Memory数据
+      operationId: ServerController.push server Memory data into cmdb
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器Memory数据
+  /server/push/network/{uuid}:
+    post:
+      tags:
+      - server
+      description: 上报服务器network数据
+      operationId: ServerController.push server network data into cmdb
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器network数据
+  /server/push/port/{uuid}:
+    post:
+      tags:
+      - server
+      description: 上报服务器port数据
+      operationId: ServerController.push server port data into cmdb
+      parameters:
+      - in: query
+        name: uuid
+        description: 服务器uuid
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 上报服务器Port数据
+  /state/datacenter:
+    get:
+      tags:
+      - state
+      description: 查询数据中心状态
+      operationId: DcStateController.datacenter state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询数据中心状态失败
+    put:
+      tags:
+      - state
+      description: 更新数据中心状态
+      operationId: DcStateController.datacenter state
+      parameters:
+      - in: query
+        name: dcStateId
+        description: 数据中心状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: dcState
+        description: 数据中心状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新数据中心状态失败
+    post:
+      tags:
+      - state
+      description: 添加数据中心状态
+      operationId: DcStateController.datacenter state
+      parameters:
+      - in: query
+        name: dcState
+        description: 数据中心状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加数据中心状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除数据中心状态
+      operationId: DcStateController.datacenter state
+      parameters:
+      - in: query
+        name: dcStateId
+        description: 数据中心状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除数据中心状态失败
+  /state/dnspoddomain:
+    get:
+      tags:
+      - state
+      description: 查询域名状态
+      operationId: DnspoddomainStateController.dnspoddomain state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询域名状态失败
+    put:
+      tags:
+      - state
+      description: 更新域名状态
+      operationId: DnspoddomainStateController.dnspoddomain state
+      parameters:
+      - in: query
+        name: dnspoddomainStateId
+        description: 域名状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: dnspoddomainState
+        description: 域名状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新域名状态失败
+    post:
+      tags:
+      - state
+      description: 添加域名状态
+      operationId: DnspoddomainStateController.dnspoddomain state
+      parameters:
+      - in: query
+        name: dnspoddomainState
+        description: 域名状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加域名状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除域名状态
+      operationId: DnspoddomainStateController.dnspoddomain state
+      parameters:
+      - in: query
+        name: dnspoddomainStateId
+        description: 域名状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除域名状态失败
+  /state/hardware:
+    get:
+      tags:
+      - state
+      description: 查询硬件状态
+      operationId: HardwareStateController.hardware state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询硬件状态失败
+    put:
+      tags:
+      - state
+      description: 更新硬件状态
+      operationId: HardwareStateController.hardware state
+      parameters:
+      - in: query
+        name: hardwareStateId
+        description: 硬件状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: hardwareState
+        description: 硬件状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新硬件状态失败
+    post:
+      tags:
+      - state
+      description: 添加硬件状态
+      operationId: HardwareStateController.hardware state
+      parameters:
+      - in: query
+        name: hardwareState
+        description: 硬件状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加硬件状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除硬件状态
+      operationId: HardwareStateController.hardware state
+      parameters:
+      - in: query
+        name: hardwareStateId
+        description: 硬件状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除硬件状态失败
+  /state/networkbandwidth:
+    get:
+      tags:
+      - state
+      description: 查询带宽状态
+      operationId: NetworkBandwidthStateController.networkbandwidth state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询带宽状态失败
+    put:
+      tags:
+      - state
+      description: 更新带宽状态
+      operationId: NetworkBandwidthStateController.networkbandwidth state
+      parameters:
+      - in: query
+        name: bandwidthStateId
+        description: 带宽状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: bandwidthState
+        description: 带宽状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新带宽状态失败
+    post:
+      tags:
+      - state
+      description: 添加带宽状态
+      operationId: NetworkBandwidthStateController.networkbandwidth state
+      parameters:
+      - in: query
+        name: bandwidthState
+        description: 带宽状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加带宽状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除带宽状态
+      operationId: NetworkBandwidthStateController.networkbandwidth state
+      parameters:
+      - in: query
+        name: bandwidthStateId
+        description: 带宽状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除带宽状态失败
+  /state/rack:
+    get:
+      tags:
+      - state
+      description: 查询机柜状态
+      operationId: RackStateController.rack state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询机柜状态失败
+    put:
+      tags:
+      - state
+      description: 更新机柜状态
+      operationId: RackStateController.rack state
+      parameters:
+      - in: query
+        name: rackStateId
+        description: 机柜状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: rackState
+        description: 机柜状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新机柜状态失败
+    post:
+      tags:
+      - state
+      description: 添加机柜状态
+      operationId: RackStateController.rack state
+      parameters:
+      - in: query
+        name: rackState
+        description: 机柜状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加机柜状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除机柜状态
+      operationId: RackStateController.rack state
+      parameters:
+      - in: query
+        name: rackStateId
+        description: 机柜状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除机柜状态失败
+  /state/room:
+    get:
+      tags:
+      - state
+      description: 查询机房状态
+      operationId: RoomStateController.room state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询机房状态失败
+    put:
+      tags:
+      - state
+      description: 更新机房状态
+      operationId: RoomStateController.room state
+      parameters:
+      - in: query
+        name: roomStateId
+        description: 机房状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: roomState
+        description: 机房状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新机房状态失败
+    post:
+      tags:
+      - state
+      description: 添加机房状态
+      operationId: RoomStateController.room state
+      parameters:
+      - in: query
+        name: roomState
+        description: 机房状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加机房状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除机房状态
+      operationId: RoomStateController.room state
+      parameters:
+      - in: query
+        name: roomStateId
+        description: 机房状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除机房状态失败
+  /state/server:
+    get:
+      tags:
+      - state
+      description: 查询服务器状态
+      operationId: ServerStateController.server state
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询服务器状态失败
+    put:
+      tags:
+      - state
+      description: 更新服务器状态
+      operationId: ServerStateController.server state
+      parameters:
+      - in: query
+        name: serverStateId
+        description: 服务器状态ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: serverState
+        description: 服务器状态
+        required: true
+        type: string
+      - in: query
+        name: color
+        description: 颜色
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新服务器状态失败
+    post:
+      tags:
+      - state
+      description: 添加服务器状态
+      operationId: ServerStateController.server state
+      parameters:
+      - in: query
+        name: serverState
+        description: 服务器状态
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加服务器状态失败
+    delete:
+      tags:
+      - state
+      description: 通过id删除服务器状态
+      operationId: ServerStateController.server state
+      parameters:
+      - in: query
+        name: serverStateId
+        description: 服务器状态ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除服务器状态失败
+  /statecolor/:
+    get:
+      tags:
+      - statecolor
+      description: 查询系统颜色
+      operationId: StateColorController.systemcolor
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询系统颜色失败
+  /subnet/:
+    get:
+      tags:
+      - subnet
+      description: 查询IP子网
+      operationId: IpSubNetController.IP子网
+      parameters:
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{} "'
+        "400":
+          description: 查询IP子网失败
+    put:
+      tags:
+      - subnet
+      description: 更新IP子网
+      operationId: IpSubNetController.IP子网
+      parameters:
+      - in: query
+        name: id
+        description: IP子网id
+        required: true
+        type: string
+      - in: query
+        name: subnetDescription
+        description: IP子网描述
+        required: true
+        type: string
+      - in: query
+        name: vlan
+        description: vlan名称
+        required: true
+        type: string
+      - in: query
+        name: allowAllocation
+        description: 是否允许分配
+        required: true
+        type: string
+      - in: query
+        name: checkIpState
+        description: 检查IP状态
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加IP失败
+    post:
+      tags:
+      - subnet
+      description: 添加IP子网
+      operationId: IpSubNetController.IP子网
+      parameters:
+      - in: query
+        name: subnetAddress
+        description: IP子网地址
+        required: true
+        type: string
+      - in: query
+        name: subnetDescription
+        description: IP子网描述
+        required: true
+        type: string
+      - in: query
+        name: vlan
+        description: vlan名称
+        required: true
+        type: string
+      - in: query
+        name: allowAllocation
+        description: 是否允许分配
+        required: true
+        type: string
+      - in: query
+        name: checkIpState
+        description: 检查IP状态
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加IP失败
+    delete:
+      tags:
+      - subnet
+      description: 通过id删除IP子网
+      operationId: IpSubNetController.IP子网删除
+      parameters:
+      - in: query
+        name: subnetId
+        description: subnetId
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除IP子网失败
+  /supplier/:
+    get:
+      tags:
+      - supplier
+      description: 查询供应商
+      operationId: SupplierController.supplier
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 筛选名称
+        type: string
+      - in: query
+        name: businesscontact
+        description: 筛选商务联系人
+        type: string
+      - in: query
+        name: technologycontact
+        description: 筛选技术联系人
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询供应商失败
+    put:
+      tags:
+      - supplier
+      description: 更新供应商
+      operationId: SupplierController.supplier
+      parameters:
+      - in: query
+        name: supplierid
+        description: 供应商ID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: supplier
+        description: 供应商名称
+        required: true
+        type: string
+      - in: query
+        name: businesscontact
+        description: 商务联系人
+        type: string
+      - in: query
+        name: businesstelphone
+        description: 商务联系手机
+        required: true
+        type: string
+      - in: query
+        name: mobilephone
+        description: 商务联系电话
+        type: string
+      - in: query
+        name: businessemail
+        description: 商务邮箱
+        type: string
+      - in: query
+        name: technologycontact
+        description: 技术联系人
+        type: string
+      - in: query
+        name: telphone
+        description: 技术联系手机
+        type: string
+      - in: query
+        name: technologymobilephone
+        description: 技术联系电话
+        required: true
+        type: string
+      - in: query
+        name: technologyemail
+        description: 技术邮箱
+        type: string
+      - in: query
+        name: officeaddress
+        description: 公司地址
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新供应商失败
+    post:
+      tags:
+      - supplier
+      description: 添加供应商
+      operationId: SupplierController.supplier
+      parameters:
+      - in: query
+        name: supplier
+        description: 供应商名称
+        required: true
+        type: string
+      - in: query
+        name: businesscontact
+        description: 商务联系人
+        type: string
+      - in: query
+        name: businesstelphone
+        description: 商务联系手机
+        required: true
+        type: string
+      - in: query
+        name: mobilephone
+        description: 商务联系电话
+        type: string
+      - in: query
+        name: businessemail
+        description: 商务邮箱
+        type: string
+      - in: query
+        name: technologycontact
+        description: 技术联系人
+        type: string
+      - in: query
+        name: telphone
+        description: 技术联系手机
+        type: string
+      - in: query
+        name: technologymobilephone
+        description: 技术联系电话
+        required: true
+        type: string
+      - in: query
+        name: technologyemail
+        description: 技术邮箱
+        type: string
+      - in: query
+        name: officeaddress
+        description: 公司地址
+        type: string
+      - in: query
+        name: comment
+        description: 备注
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加供应商失败
+    delete:
+      tags:
+      - supplier
+      description: 通过id删除供应商
+      operationId: SupplierController.supplier
+      parameters:
+      - in: query
+        name: id
+        description: 供应商ID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除供应商失败
+  /system/licence:
+    get:
+      tags:
+      - system
+      description: 生成系统Licence,默认30天
+      operationId: LicenceController.生成 Licence
+      parameters:
+      - in: query
+        name: day
+        description: lisence天数
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 生成系统Licence失败
+    delete:
+      tags:
+      - system
+      description: 删除Licence
+      operationId: LicenceController.删除 Licence
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "403":
+          description: licence 不存在
+  /vcenter/:
+    get:
+      tags:
+      - vcenter
+      description: 查询Vcenter
+      operationId: VcenterController.vcenter
+      parameters:
+      - in: query
+        name: enable
+        description: 数据是否有效 0/1
+        type: string
+      - in: query
+        name: format
+        description: json:返回带有总记录条数
+        type: string
+      - in: query
+        name: order
+        description: 排序方式asc/desc
+        type: string
+      - in: query
+        name: sort
+        description: 排序字段
+        type: string
+      - in: query
+        name: limit
+        description: 每页的数据量
+        type: integer
+        format: int64
+      - in: query
+        name: name
+        description: 按名称筛选
+        type: string
+      - in: query
+        name: guest_fullname
+        description: 按操作系统全称筛选
+        type: string
+      - in: query
+        name: start_time
+        description: 筛选起始时间
+        type: string
+      - in: query
+        name: end_time
+        description: 筛选结束时间
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 查询Vcenter失败
+    put:
+      tags:
+      - vcenter
+      description: 更新Vcenter
+      operationId: VcenterController.vcenter
+      parameters:
+      - in: query
+        name: editVcenterId
+        description: VcenterID
+        required: true
+        type: integer
+        format: int64
+      - in: query
+        name: editinstancename
+        description: 实例名称
+        required: true
+        type: string
+      - in: query
+        name: editistemplate
+        description: 是否为模板
+        type: string
+      - in: query
+        name: editvmpath
+        description: 虚拟机路径
+        type: string
+      - in: query
+        name: editmemory
+        description: 内存大小
+        type: integer
+        format: int64
+      - in: query
+        name: editcpu
+        description: CPU个数
+        type: integer
+        format: int64
+      - in: query
+        name: editethernetcards
+        description: 网卡个数
+        type: integer
+        format: int64
+      - in: query
+        name: editvirtualdisks
+        description: 虚拟机磁盘个数
+        type: integer
+        format: int64
+      - in: query
+        name: editguestfullname
+        description: 操作系统全称
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 更新Vcenter失败
+    post:
+      tags:
+      - vcenter
+      description: 添加Vcenter
+      operationId: VcenterController.vcenter
+      parameters:
+      - in: query
+        name: instancename
+        description: 实例名称
+        required: true
+        type: string
+      - in: query
+        name: istemplate
+        description: 是否为模板
+        type: string
+      - in: query
+        name: vmpath
+        description: 虚拟机路径
+        type: string
+      - in: query
+        name: memory
+        description: 内存大小
+        type: integer
+        format: int64
+      - in: query
+        name: cpu
+        description: CPU个数
+        type: integer
+        format: int64
+      - in: query
+        name: ethernetcards
+        description: 网卡个数
+        type: integer
+        format: int64
+      - in: query
+        name: virtualdisks
+        description: 虚拟机磁盘个数
+        type: integer
+        format: int64
+      - in: query
+        name: guestfullname
+        description: 操作系统全称
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map} map[string]interface{}'
+        "400":
+          description: 添加Vcenter失败
+    delete:
+      tags:
+      - vcenter
+      description: 通过id删除Vcenter
+      operationId: VcenterController.vcenter
+      parameters:
+      - in: query
+        name: vcenterid
+        description: VcenterID
+        required: true
+        type: string
+      - in: header
+        name: Authorization
+        description: 认证信息
+        required: true
+        type: string
+      - in: query
+        name: timestamp
+        description: 时间戳
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{map}'
+        "400":
+          description: 删除Vcenter失败
+definitions:
+  .FinancialReport:
+    type: object
+  .ResourceReport":
+    type: object
+  .Time:
+    type: object
+  controllers.MenuNode:
+    title: MenuNode
+    type: object
+    properties:
+      business:
+        type: array
+        items:
+          $ref: '#/definitions/controllers.MenuNode'
+      children:
+        type: array
+        items:
+          $ref: '#/definitions/controllers.MenuNode'
+      class:
+        type: string
+      cloud:
+        type: array
+        items:
+          $ref: '#/definitions/controllers.MenuNode'
+      datacenter:
+        type: array
+        items:
+          $ref: '#/definitions/controllers.MenuNode'
+      id:
+        type: integer
+        format: int64
+      level:
+        type: integer
+        format: int64
+      logo:
+        type: string
+      name:
+        type: string
+      state:
+        $ref: '#/definitions/controllers.MenuState'
+      text:
+        type: string
+      url:
+        type: string
+  controllers.MenuState:
+    title: MenuState
+    type: object
+    properties:
+      opened:
+        type: string
+      selected:
+        type: string
+  controllers.ValidResult:
+    title: ValidResult
+    type: object
+    properties:
+      message:
+        type: string
+      valid:
+        type: boolean
+  models.Asserts:
+    title: Asserts
+    type: object
+    properties:
+      Active:
+        type: boolean
+      AssertsInstance:
+        type: array
+        items:
+          $ref: '#/definitions/models.AssertsInstance'
+      CreateBy:
+        type: string
+      CreateTime:
+        $ref: '#/definitions/time.Time'
+      Description:
+        type: string
+      Enable:
+        type: boolean
+      Icon:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Inherits:
+        type: boolean
+      Name:
+        type: string
+      Superclass:
+        type: boolean
+      UpdateBy:
+        type: string
+      UpdateTime:
+        $ref: '#/definitions/time.Time'
+  models.AssertsInstance:
+    title: AssertsInstance
+    type: object
+    properties:
+      Active:
+        type: boolean
+      Asserts:
+        $ref: '#/definitions/models.Asserts'
+      CreateBy:
+        type: string
+      CreateTime:
+        $ref: '#/definitions/time.Time'
+      Description:
+        type: string
+      Enable:
+        type: boolean
+      Icon:
+        type: string
+      Id:
+        type: integer
+        format: int64
+      Inherits:
+        type: boolean
+      Name:
+        type: string
+      Number:
+        type: integer
+        format: int64
+      Superclass:
+        type: boolean
+      UpdateBy:
+        type: string
+      UpdateTime:
+        $ref: '#/definitions/time.Time'
+  models.DevicePerformanceReport:
+    title: DevicePerformanceReport
+    type: object
+    properties:
+      cpu:
+        type: integer
+        format: int64
+      device:
+        type: string
+      disk_usage:
+        type: number
+        format: double
+      id:
+        type: integer
+        format: int64
+      memory:
+        type: integer
+        format: int64
+      nic_usage:
+        type: number
+        format: double
+tags:
+- name: room
+  description: |
+    机房操作
+- name: rack
+  description: |
+    机柜操作
+- name: ip
+  description: |
+    IP操作
+- name: subnet
+  description: |
+    IP子网操作
+- name: supplier
+  description: |
+    供应商操作
+- name: vcenter
+  description: |
+    Vcenter操作
+- name: aliyun
+  description: |
+    Aliyun操作
+- name: aws
+  description: |
+    Aws操作
+- name: menus
+  description: |
+    系统配置操作
+- name: login
+  description: |
+    系统登录
+- name: statecolor
+  description: |
+    状态颜色操作
+- name: change
+  description: |
+    变更统计
+- name: apicall
+  description: |
+    api调用次数

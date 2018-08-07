@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h4><i class="glyphicon glyphicon-edit"></i>菜单权限添加</h4>
+</div>
+<div class="modal-body">
+    <div class="modal-item">
+        <label class="col-md-3 control-label">菜单权限名称</label>
+        <div class="col-md-9">
+            <input class="form-control" size="16" type="text" ng-model="role.roleName" name="role" style="border: 1px solid #aaa" placeholder="菜单权限名称"/>
+        </div>
+    </div>
+    <div class="modal-item">
+        <label style="padding:0 15px;">选择菜单</label>
+        <div class="form-horizontal" role="form" >
+            <div id="menu_select_div" class="demo" style="margin-left: 135px;width:69%;overflow-y: auto;max-height: 350px;height: auto;"></div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-close" ng-click="action.roleCancel()">取消</button>
+    <button type="button" class="btn btn-blues" ng-click="action.roleAddRole()">保存</button>
+</div>

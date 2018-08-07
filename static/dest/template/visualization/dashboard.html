@@ -1,0 +1,58 @@
+<div class="dashboard" ng-controller="DashboardController">
+    <div class="row" style="margin-top: 5px;margin-bottom: 5px;">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div id="datacenterMap" style="width: 100%;min-height: 360px;"></div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="row" style="margin: 8px">
+                <div id="countByMonthGraph" style="width:100%;min-height: 340px;border:1px solid #e5e5e5;padding: 20px"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row chart" style="margin-top: 5px">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="chart-pic-contents" style="position: relative">
+                <div class="cols-pic-graph" id="changeRecord"></div>
+                <select ng-model="changeRecordTime"
+                        ng-init="changeRecordTime = changeRecordTime || options[0].value"
+                        ng-change="updateChangeRecordTime(changeRecordTime);"
+                        ng-options="option.value as option.name for option in options"
+                        style="position: absolute; right:10px; top:10px; z-index:2">
+                </select>
+                <div class="cols-pic-graphtwo" id="apiCall"></div>
+                <select ng-model="apiCallTime"
+                        ng-init="apiCallTime = apiCallTime || options[0].value"
+                        ng-change="updateApiCallTime(apiCallTime);"
+                        ng-options="option.value as option.name for option in options"
+                        style="position: absolute; right:10px; top:187px; z-index:2">
+                </select>
+            </div>
+            <div class="chart-big-contents">
+                <div class="dfist dlast">
+                   <div class="cols-headr">
+                      <span class="headr-block">数据中心</span>
+                   </div>
+                   <div class="cols-body">
+                     <div class="headr-name"><span class="bignum">{{reports.datacenter}}</span><span class="outcolor">数据中心</span></div>
+                     <div class="headr-text"><span class="bignum">{{reports.rack}}</span><span class="outcolor">机柜</span></div>
+                   </div>
+                </div>
+                <div class="dfist dlast" style="margin-top:10px">
+                   <div class="cols-headr">
+                            <span class="headr-block">IP/业务</span>
+                        </div>
+                        <div class="cols-body">
+                            <div class="headr-name"><span class="bignum">{{reports.ip}}</span><span class="outcolor">IP</span></div>
+                            <div class="headr-text"><span class="bignum">{{reports.app}}</span><span class="outcolor">业务</span></div>
+                        </div>
+                </div>
+            </div>
+            <div class="chart-contents">
+                <div class="contents-drawing" id="uPositionReport"></div>
+            </div>
+            <div class="chart-contents">
+                <div class="contents-drawing" id="deviceReport" style="margin-right:0px"></div>
+            </div>
+        </div>
+    </div>
+</div>

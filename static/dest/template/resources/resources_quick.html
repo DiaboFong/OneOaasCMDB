@@ -1,0 +1,53 @@
+<div class="resource-quick">
+  <div class="row">
+    <div id="resource_quick">
+       <div ng-class="{true:'col-lg-9 col-md-9 col-sm-12 col-xs-12',false:'col-lg-12 col-md-12 col-sm-12 col-xs-12'}[Settings]">
+            <div class="item" ng-sortable="sortableConfig">
+                <div class="layer" ng-repeat="obj in datas">
+                    <div class="tile__name">
+                        <span style="font-size:14px;padding-bottom: 10px;border-bottom: 3px solid #20a0ff">{{obj.Description}}</span>
+                    </div>
+                    <div class="tile__list">
+                        <div class="tile_list_item text-center" ng-repeat="item in obj.AssertsInstance" ng-click="toModules(obj,item)">
+                            <i class="{{item.Icon}}"></i>
+                            <h3>{{item.Description}}</h3>
+                        </div>
+                    </div>
+                </div>
+                <!--<div class="layer">
+                    <div class="tile__name" style="padding-bottom: 30px;border: 0">
+                        <span style="font-size:14px;padding-bottom: 20px;"></span>
+                    </div>
+                    <div class="tile__list">
+                        <div ui-sref="root.system.modeling" class="tile_list_item text-center" ng-click="addresource()">
+                            <i class="icon-index-newadd"></i>
+                            <h3>添加新资源</h3>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+
+            <!--添加资源 START-->
+            <!--<div ng-show="editaddresource" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+               <div class="editMenu-header">
+                   <label class="header">
+                       <i class="glyphicon glyphicon-edit"></i> 添加资源
+                       <input type="hidden" ng-model="datacenter.editDcId" class="hidden" />
+                   </label>
+               </div>
+               <div class="editMenu-body" id="datacenterEditForm">
+
+               </div>
+               <div class="editMenu-footer">
+                   <div class="searchBar text-center">
+                       &lt;!&ndash;<a class="btn btn-remover a-del" type="button" ng-click="action.dcremove()">删除此数据中心</a>&ndash;&gt;
+                       <button type="button" class="btn btn-default" ng-click="addresourceclose()">取消</button>
+                       <button class="btn add" ng-click="action.updateDatacenter()">保存</button>
+                   </div>
+               </div>
+           </div>-->
+           <!--添加资源 END-->
+        </div>
+    </div>
+  </div>
+</div>

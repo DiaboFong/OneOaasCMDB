@@ -1,0 +1,6 @@
+<ul class="ulcolors" ng-if="colors.length > 0">
+    <li ng-repeat="state in colors" ng-click="selected(state)" ng-class="{active:selectedColor==state.Color}">
+        <div ng-style="{'background-color':state.Color}">
+        </div>
+    </li>
+</ul>

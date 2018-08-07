@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>404 Not Found</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="assets/scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/icon">
+</head>
+
+<body>
+
+<div class="container">
+    <div>
+        <div class="span12">
+            <div class="error-container">
+
+                <h2 class="text-center">{{.content}}</h2>
+                <img src="assets/img/404.png" alt="出错页面提示">
+                <div class="text-center"><img src="../../../assets/img/404.png" alt="出错页面提示"></div>
+                <div class="error-details">
+                    <h3>可能原因：</h3>
+                    <ul>
+                        <li>网络信号弱</li>
+                       <li>找不到请求页面</li>
+                       <li>输入的网址不正确</li>
+                   </ul>
+                </div>
+                <!-- /error-details -->
+
+                <div class="error-actions text-center">
+                    <a href="javascript:history.back();" class="btn btn-large btn-primary">
+                        <i class="icon-chevron-left"></i>
+                        &nbsp;
+                        返回上一页
+                    </a>
+                </div> <!-- /error-actions -->
+
+            </div> <!-- /error-container -->
+        </div> <!-- /span12 -->
+    </div> <!-- /row -->
+</div> <!-- /container -->
+
+<script src="assets/scripts/jquery.min.js"></script>
+<script src="assets/scripts/bootstrap/js/bootstrap.js"></script>
+</body>
+</html>

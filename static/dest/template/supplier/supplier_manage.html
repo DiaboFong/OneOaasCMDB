@@ -1,0 +1,222 @@
+<div ncy-breadcrumb></div>
+<div ng-controller="SupplierListController">
+    <div class="searchBar">
+        <div class="pull-right">
+            <button ng-click="action.showEdit()" class="btn btn-default select">
+                筛选<i class="glyphicon glyphicon-glass"></i>
+            </button>
+            <button ng-click="action.showAddSupplier()" class="btn btn-blues">
+                <i class="glyphicon glyphicon-plus"></i>&nbsp;添加供应商
+            </button>
+        </div>
+    </div>
+    <table bs-table-control="supplierTable" class="table table-striped"></table>
+
+    <!--筛选 START-->
+    <div ng-show="supplier.screen" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]">
+        <div class="editMenu-header">
+            <div class="editMenu-screen"><i class="glyphicon glyphicon-glass"></i> 筛选</div>
+            <div class="editMenu-clear-screen" ng-click="action.clearSearch($event)">清除所有筛选</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="editMenu-itme">
+                <label>供应商名称</label>
+                <input type="text" class="form-control" placeholder="请输入供应商名称" ng-model="search.searchText">
+            </div>
+            <div class="editMenu-itme">
+                <label>商务联系人：</label>
+                <ul class="list-inline">
+                    <li ng-repeat="person in businessContact track by $index">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="person" style="vertical-align: middle"
+                                   ng-model="search.selectedBusinessContact[person]"/>{{person}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <label>技术联系人：</label>
+                <ul class="list-inline" >
+                    <li ng-repeat="person in technologyContact track by $index">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" value="person" style="vertical-align: middle"
+                                   ng-model="search.selectedTechnologyContact[person]"/>{{person}}
+                        </label>
+                    </li>
+                </ul>
+            </div>
+            <div class="editMenu-itme">
+                <p>供应商创建时间</p>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间大于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.startTime"/>
+                </div>
+                <div class="editMenu-datatime input-append">
+                    <label class="editMenu-datatime-line">创建时间小于</label>
+                    <input type="text" class="form-control" date-picker ng-model="search.endTime"/>
+                </div>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <button type="button" class="btn btn-close" ng-click="action.hideEdit()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.searchAll()">搜索</button>
+            </div>
+        </div>
+    </div>
+    <!--筛选 END-->
+
+    <!--编辑供应商弹出框 START-->
+    <div ng-show="supplier.edits" ng-class="{true:'editMenu',false:'editMenuhide'}[isActive]" name="editSupplierForm">
+        <div class="editMenu-header">
+            <span class="header"><i class="glyphicon glyphicon-edit"></i>编辑供应商</span>
+            <input type="text" name="editSupplier" class="hidden" ng-model="supplier.editSupplierId"/>
+            <div class="edit-exits" ng-click="action.editSupplierCancel()">&times;</div>
+        </div>
+        <div class="editMenu-body">
+            <div class="item">
+                <label class="col-md-5">供应商名称<span class="required">*</span></label>
+                <input type="text" name="editSupplier" ng-model="supplier.editSupplier" class="col-md-7" placeholder="供应商名称"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">供应商联系地址</label>
+                <input type="text" ng-model="supplier.editOfficeAddress" class="col-md-7" placeholder="供应商联系地址"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">商务联系人</label>
+                <input type="text" ng-model="supplier.editBusinessContact" name="editBusinessContact" class="col-md-7" placeholder="商务联系人"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">商务联系手机</label>
+                <input type="text" ng-model="supplier.editBusinessMobilePhone"
+                       name="editBusinessMobilePhone" class="col-md-7" placeholder="商务联系手机"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">商务联系电话</label>
+                <input type="text" ng-model="supplier.editBusinessTelPhone" class="col-md-7" placeholder="商务联系电话"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">商务联系邮箱</label>
+                <input type="text" ng-model="supplier.editBusinessEmail" class="col-md-7" placeholder="商务邮箱"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">技术联系人</label>
+                <input type="text" ng-model="supplier.editTechnologyContact" class="col-md-7" placeholder="技术联系人"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">技术联系电话</label>
+                <input type="text" ng-model="supplier.editTechnologyMobilePhone" class="col-md-7" name="editTechnologyMobilePhone" placeholder="技术联系电话"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">技术联系手机</label>
+                <input type="text" ng-model="supplier.editTechnologyTelphone" class="col-md-7" placeholder="技术联系手机"/>
+            </div>
+            <div class="item">
+                <label class="col-md-5">技术联系邮箱</label>
+                <input type="text" ng-model="supplier.editTechnologyEmail" class="col-md-7" placeholder="技术邮箱"/>
+            </div>
+
+            <div class="item">
+                <label class="col-md-5">备注</label>
+                <input type="text" ng-model="supplier.editComment" class="col-md-7" placeholder="备注"/>
+            </div>
+        </div>
+        <div class="editMenu-footer">
+            <div class="searchBar text-center">
+                <a class="btn btn-remover a-del" type="button" ng-click="action.supplierremove()">删除此供应商</a>
+                <button type="button" class="btn btn-close" ng-click="action.editSupplierCancel()">取消</button>
+                <button type="submit" class="btn btn-blues" ng-click="action.updateSupplier()">保存</button>
+            </div>
+        </div>
+    </div>
+    <!--编辑供应商弹出框 END-->
+</div>
+<!--添加供应商弹出框 START-->
+<script id="add_supplier.html" type="text/ng-template">
+    <form class="inside-content" ng-submit="addSupplier()" name="addSupplierForm">
+        <div class="modal-header">
+            <h5 class="modal-title">添加供应商
+                <span class="add-close" ng-click="addSupplierCancel()">&times;</span>
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="item">
+                <label class="col-md-4">供应商名称<span class="required">*</span></label>
+                <div class="col-md-8">
+                    <input type="text"  name="supplier"
+                           placeholder="供应商名称" ng-model="supplier.supplier" required
+                        ng-blur="testifySupplier(supplier.supplier)"/>
+                </div>
+            </div>
+            <div class="item">
+                <label class="col-md-4">备注</label>
+                <div class="col-md-8">
+                    <input type="text" name="comment" placeholder="备注" onmousedown="first(event,this)" ng-model="supplier.comment" />
+                </div>
+            </div>
+            <div ng-show="addMore">
+                <div class="item">
+                    <label class="col-md-4">供应商联系地址</label>
+                    <div class="col-md-8">
+                        <input type="text" name="officeaddress" ng-model="supplier.officeaddress" placeholder="供应商联系地址" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">商务联系人</label>
+                    <div class="col-md-8">
+                        <input type="text" name="businesscontact" placeholder="商务联系人" ng-model="supplier.businessContact"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">商务联系手机</label>
+                    <div class="col-md-8">
+                        <input type="text" name="businessmobilephone" ng-model="supplier.businessmobilephone" placeholder="商务联系手机" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">商务联系电话</label>
+                    <div class="col-md-8">
+                        <input type="text" name="businesstelphone" placeholder="商务联系电话" ng-model="supplier.businesstelphone"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">商务联系邮箱</label>
+                    <div class="col-md-8">
+                        <input type="text" name="businessemail" placeholder="商务邮箱" ng-model="supplier.businessemail" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">技术联系人</label>
+                    <div class="col-md-8">
+                        <input type="text" name="technologycontact" placeholder="技术联系人" ng-model="supplier.technologycontact"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">技术联系手机</label>
+                    <div class="col-md-8">
+                        <input type="text" name="technologymobilephone" placeholder="技术联系手机" ng-model="supplier.technologymobilephone"/>
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">技术联系电话</label>
+                    <div class="col-md-8">
+                        <input type="text" name="technologytelphone" placeholder="技术联系电话" ng-model="supplier.technologytelphone" />
+                    </div>
+                </div>
+                <div class="item">
+                    <label class="col-md-4">技术联系邮箱</label>
+                    <div class="col-md-8">
+                        <input type="text" name="technologyemail" placeholder="技术邮箱" ng-model="supplier.technologyemail"/>
+                    </div>
+                </div>
+            </div>
+            <!--更多详细信息-->
+            <a class="moreinfo" ng-click="addmore()"><div>更多详细信息</div></a>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-close" ng-click="addSupplierCancel()">取消</button>
+            <button class="btn btn-blues" ng-disabled="addSupplierForm.$invalid">保存</button>
+        </div>
+    </form>
+</script>
+<!--添加供应商弹出框 END-->

@@ -1,0 +1,33 @@
+<div class="slidebar-left">
+    <div class="menu">
+        <div id="accordion" class="sidebar">
+            <div class="panel" ng-repeat="m in leftMenus">
+                <div data-toggle="collapse" data-parent="#accordion" href="#collapse_{{m.id}}">
+                    <ul class="list-inline">
+                        <li class="first"><span class="cmdb-icon {{m.class}}"></span></li>
+                        <li><h3>{{m.text}}</h3></li>
+                        <li class="last">
+                            <!--<span class="alert">12</span>-->
+                            <span class="glyphicon glyphicon-chevron-down"></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!--activeLeftMenu === m.name is true class-->
+                <div id="collapse_{{m.id}}" ng-class="{true: 'panel-collapse collapse in', false: 'panel-collapse collapse'}[activeLeftMenu === m.name]">
+                    <ol class="list-unstyled submenu">
+                        <li ng-repeat="n in m.children">
+                            <a ui-sref="{{n.name}}" ui-sref-active="active">
+                                <i class="fa fa-angle-right"></i>
+                                {{n.text}}
+                            </a>
+                        </li>
+                    </ol>
+                </div>
+
+            </div>
+            <!--分割线-->
+            <div class="divide"></div>
+        </div>
+    </div>
+</div>

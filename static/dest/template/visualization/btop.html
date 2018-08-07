@@ -1,0 +1,161 @@
+<div class="content-right">
+    <div class="app-topo" style="margin-top: 10px;">
+        <div class="col-lg-9 col-md-9 col-sm-9">
+            <div id="network" style="position:relative; width:100%;height:850px;background-color: #f7f7f7"></div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3">
+            <div class="sidebar-right" style="top:0;">
+                <div class="sidebar-header"><span class="cmdb-icon icon-dc"></span>业务拓扑列表</div>
+                <ul class="list-unstyled" >
+                    <li style="padding:5px 0px;border:1px solid #ececec;margin:5px 0" class="text-center" ng-repeat="item in appTopos"><h5>{{item.name}}{{item.id}}</h5></li>
+                    <li style="padding:5px 0px; border:1px dashed #20A0FF;margin:5px 0; color:#20A0FF"
+                        class="text-center" ng-click="addAppTopo()">
+                        <h5><i class="glyphicon glyphicon-plus"></i>创建新业务拓扑图</h5></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    <!--<div class="row">-->
+        <!--<div ng-class="{false:'col-lg-2 col-md-2 col-sm-3 col-xs-12',true:'sidebar'}[sidebarToggler]" id="topo_menu" style="padding-left:0">-->
+            <!--<div ng-class="{false:'sidebar-side',true:'sidebar-side page-sidebar-closed'}[sidebarToggler]">-->
+                <!--<div class="sidebar-toggler" ng-click="Toggler()"></div>-->
+                <!--<ul class="page-sidebar-menu" style="display: block">-->
+                    <!--<li class="active" item-active>-->
+                        <!--<a ng-click="addTopoview()" style="cursor: pointer">-->
+                            <!--<i class="fa fa-plus"></i>-->
+                            <!--<span class="title">添加拓扑图</span>-->
+                            <!--<span class="selected"></span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+                <!--<ul class="page-sidebar-menu" style="display: block;">-->
+                    <!--<li ng-repeat="view in topoviews" item-active>-->
+                        <!--<a>-->
+                            <!--<i class="fa fa-trash-o" ng-click="removeTopoView(view)" style="cursor:pointer"></i>-->
+                            <!--<span ng-click="showTopoView(''+view.id)" style="cursor:pointer" class="title">//view.name//</span>-->
+                            <!--<span class="selected"></span>-->
+                        <!--</a>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div ng-class="{false:'col-lg-10 col-md-10 col-sm-9 col-xs-12',true:'sidebar-content'}[sidebarToggler]">-->
+            <!--<div>-->
+                <!--<div id="network" class="topo-tree" style="padding-right:0;"></div>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <!--<script type="text/ng-template" id="addNodes.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title" id="modal-title">新增节点</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body" id="modal-body">-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点类型:</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<select class="form-control" ng-model="currentTopoNodeType"-->
+                            <!--ng-options="type.name for type in nodeTypes">-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点名称：</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<select class="form-control" ng-model="currentTopoNode"-->
+                            <!--ng-options="node.name for node in nodeResources">-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点提示信息:</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" value="" ng-model="nodeTitle">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<button class="btn btn-primary" type="button" ng-click="nodeCancel()">取消</button>-->
+            <!--<button class="btn btn-warning" type="button" ng-click="nodeOk()">保存</button>-->
+        <!--</div>-->
+    <!--</script>-->
+    <!--<script type="text/ng-template" id="addEdges.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title">新增线路</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">线路信息</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" value="" ng-model="edgeLabel">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button class="btn btn-primary" type="button" ng-click="edgeCancel()">取消</button>-->
+                <!--<button class="btn btn-warning" type="button" ng-click="edgeOk()">保存</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</script>-->
+    <!--<script type="text/ng-template" id="editNode.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title">编辑节点</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点名称：</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" ng-model="editnodeLabel">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点提示信息:</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" ng-model="editnodeTitle">-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">节点类型:</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" ng-model="editnodeType">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<button class="btn btn-primary" type="button" ng-click="editnodeCancel()">取消</button>-->
+            <!--<button class="btn btn-warning" type="button" ng-click="editnodeOk()">保存</button>-->
+        <!--</div>-->
+    <!--</script>-->
+    <!--<script type="text/ng-template" id="editEdge.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title">编辑线路</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">线路信息：</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" ng-model="editEdgeLabel">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<button class="btn btn-primary" type="button" ng-click="editedgeCancel()">取消</button>-->
+            <!--<button class="btn btn-warning" type="button" ng-click="editedgeOk()">保存</button>-->
+        <!--</div>-->
+    <!--</script>-->
+    <!--<script type="text/ng-template" id="addTopoview.html">-->
+        <!--<div class="modal-header">-->
+            <!--<h3 class="modal-title">添加拓扑图</h3>-->
+        <!--</div>-->
+        <!--<div class="modal-body">-->
+            <!--<div class="form-group row">-->
+                <!--<label class="col-xs-4 col-form-label">拓扑图名称：</label>-->
+                <!--<div class="col-xs-8">-->
+                    <!--<input class="form-control" type="text" ng-model="topoview.name">-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="modal-footer">-->
+            <!--<button class="btn btn-primary" type="button" ng-click="addTopoviewCancel()">取消</button>-->
+            <!--<button class="btn btn-warning" type="button" ng-click="addTopoviewOk()">保存</button>-->
+        <!--</div>-->
+    <!--</script>-->
+</div>

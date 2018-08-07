@@ -1,0 +1,622 @@
+<div class="portlet box blue" ng-controller="AgreementListController">
+    <div class="portlet-title">
+        <div class="caption">
+            <i class="fa fa-gavel"></i>合同管理
+        </div>
+    </div>
+    <div class="portlet-body">
+        <div id="agreement_toolbar" class="btn-group" style="margin-top: -4px;">
+            <button id="agreement_batch_remove" ng-click="action.agreementBatchRemove();"
+                    class="btn btn-default" disabled="true">
+                <i class="glyphicon glyphicon-trash"></i>
+            </button>
+        </div>
+        <div class="searchBar">
+            <input type="text" ng-model="agreementTable.state.searchText"
+                   key-bind="{enter:'agreementTable.state.query()'}" placeholder="请输入搜索条件" class="form-control">
+            <button type="button" ng-click="agreementTable.state.query()" class="btn btn-primary">
+                <i class="glyphicon glyphicon-search"></i>&nbsp;搜索
+            </button>
+
+            <div class="pull-right" ng-show="agreementTable_recycle">
+                <button ng-click="action.showHistory();action.showbtnback()" class="btn btn-warning">
+                    <i class="glyphicon glyphicon-trash"></i>&nbsp;回收站
+                </button>
+                <button ng-click="action.showAddAgreement();" class="btn btn-primary">
+                    <i class="fa fa-plus"></i>&nbsp;添加
+                </button>
+                <div class="btn-group">
+                    <!--<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                        数据配置 <span class="caret"></span>
+                    </button>-->
+                    <span type="button" class="glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown"
+                          style="font-size: 2rem;margin:0px 10px"></span>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="ng-scope">
+                            <a href="javascript:void(0)" ng-click="action.showState()">配置合同状态</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--返回图标-->
+            <div class="pull-right" ng-hide="agreementTable_recycle"
+                 ng-click="agreementTable_back();action.showbtnback();">
+                <span type="button" class="glyphicon glyphicon-arrow-left"
+                      style="font-size: 2rem;margin:0px 10px;padding-top: 5px"></span>
+            </div>
+        </div>
+        <table bs-table-control="agreementTable" class="table table-striped"></table>
+    </div>
+
+    <!--添加合同弹出框 START-->
+    <script type="text/ng-template" id="add_agreement_dialog.html">
+        <form name="agreementForm" ng-submit="agreementAction.addAgreement()" novalidate>
+            <div class="modal-header">
+                <h4 class="modal-title">添加合同</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller">
+                    <div class="portlet-body form">
+                        <div class="form-horizontal" role="form">
+                            <div class="form-body" uploader="uploader" filters="queueLimit, customFilter"
+                                 filters="queueLimit, customFilter">
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同名称<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-edit"></i>
+                                            <input type="text" class="form-control" name="agreementName"
+                                                   ng-model="agreement.agreementName"
+                                                   placeholder="合同名称" required
+                                                   ng-blur="agreementAction.validAgreement()"/>
+                                            <div class="form-error"
+                                                 ng-show="agreementForm.agreementName.$dirty &&
+                                             agreementForm.agreementName.$invalid">
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementName.$error.required">
+                                                    合同名称不能为空！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同编号<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-table"></i>
+                                            <input type="text" class="form-control" name="agreementNo"
+                                                   ng-model="agreement.agreementNo"
+                                                   placeholder="合同编号" required ng-pattern="/^[a-zA-Z0-9_]+$/"/>
+                                            <div class="form-error"
+                                                 ng-show="agreementForm.agreementNo.$dirty && agreementForm.agreementNo.$invalid">
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementNo.$error.required">
+                                                    合同编号不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementNo.$error.pattern">
+                                                    合同编号只能由数字、字母、下划线组成！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同金额<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-jpy"></i>
+                                            <input type="text" class="form-control" name="agreementPrice"
+                                                   ng-model="agreement.agreementPrice" ng-pattern="/^\d+(\.\d+)?$/"
+                                                   placeholder="合同金额" required>
+                                            <div class="form-error"
+                                                 ng-show="agreementForm.agreementPrice.$dirty && agreementForm.agreementPrice.$invalid">
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementPrice.$error.required">
+                                                    合同金额不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementPrice.$error.pattern">
+                                                    合同金额输入不正确！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同签署日期<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" name="agreementSignDate"
+                                                   ng-model="agreement.agreementSignDate"
+                                                   placeholder="请点击选择合同签署日期" required date-picker/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同开始日期<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control" name="agreementStartDate"
+                                                   ng-model="agreement.agreementStartDate"
+                                                   placeholder="请点击选择合同签署日期" date-picker required/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同结束日期<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="agreementStopDate"
+                                                   ng-model="agreement.agreementStopDate"
+                                                   placeholder="请点击选择合同结束日期" date-picker required/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">签署人<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-user"></i>
+                                            <input type="text" class="form-control" name="agreementSigner"
+                                                   ng-model="agreement.agreementSigner"
+                                                   ng-pattern="/^[\u4e00-\u9fa5]{2,4}$|^[a-zA-Z]{1,30}$/"
+                                                   placeholder="文件所有人" required/>
+                                            <div class="form-error"
+                                                 ng-show="agreementForm.agreementSigner.$dirty && agreementForm.agreementSigner.$invalid">
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementSigner.$error.required">
+                                                    签署人不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="agreementForm.agreementSigner.$error.pattern">
+                                                    输入内容只能是英文或2-4位的中文！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">上传合同</label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <a style="position: relative; padding:5px 10px;  background-color:#ececec;
+                                            text-decoration: none; cursor:pointer;" href="javascript:;">
+                                                    <input type="file" nv-file-select="" uploader="uploader"
+                                                           style="position: absolute; left: 0; top:0; opacity: 0;width:50px;  padding:10px ;"/>
+                                                    选择合同
+                                                </a>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <p>文件个数: // uploader.queue.length //</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-error">
+                                            <div class="error">
+                                                <p><span class="required"></span>文件必须为pdf格式</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-show="AgreementTable"
+                                     style="margin-bottom:40px; border:1px solid #ececec;padding:10px;">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th width="50%">文件名称</th>
+                                            <th ng-show="uploader.isHTML5">文件大小</th>
+                                            <th ng-show="uploader.isHTML5">进度</th>
+                                            <th>状态</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="item in uploader.queue">
+                                            <td><strong>// item.file.name //</strong></td>
+                                            <td ng-show="uploader.isHTML5" nowrap>// item.file.size/1024/1024|number:2
+                                                // MB
+                                            </td>
+                                            <td ng-show="uploader.isHTML5">
+                                                <div class="progress" style="margin-bottom: 0;">
+                                                    <div class="progress-bar" role="progressbar"
+                                                         ng-style="{ 'width': item.progress + '%' }"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">
+                                                <span ng-show="item.isSuccess"><i
+                                                        class="glyphicon glyphicon-ok"></i></span>
+                                                <span ng-show="item.isCancel"><i
+                                                        class="glyphicon glyphicon-ban-circle"></i></span>
+                                                <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    上传文件进度条:
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar"
+                                             ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                    </div>
+                                    <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()"
+                                            ng-disabled="!uploader.getNotUploadedItems().length">
+                                        <span class="glyphicon glyphicon-upload"></span>上传
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()"
+                                            ng-disabled="!uploader.queue.length">
+                                        <span class="glyphicon glyphicon-trash"></span>移除
+                                    </button>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同状态<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <div class="input-group">
+                                            <select class="form-control"
+                                                    ng-model="agreementStateSelected"
+                                                    ng-options="data.State for data in agreementStateList" required>
+                                                <option value="">---请选择---</option>
+                                            </select>
+                                            <span class="input-group-btn">
+                                                <button type="button" ng-click="agreementAction.addAgreementState()" class="btn btn-success"><i class="fa fa-plus"></i>&nbsp;添加</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">供应商<span class="required">*</span></label>
+                                    <div class="col-md-9">
+                                        <select class="form-control"
+                                                ng-model="agreement.supplierSelected.Id"
+                                                ng-options="data.Supplier for data in supplierList" required>
+                                            <option value="">---请选择---</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">备注</label>
+                                    <div class="col-md-9">
+                                        <textarea type="text" class="form-control" name="comment" ng-model="agreement.comment" onmousedown="first(event,this)"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="agreementAction.addAgreementCancel()">取消</button>
+                <button type="submit" class="btn green" ng-disabled="agreementForm.$invalid">添加</button>
+            </div>
+        </form>
+
+        <!--添加合同状态弹出框 START-->
+        <div id="add_agreementState_dialog" class="modal fade in">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">添加合同状态</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scroller">
+                            <div class="portlet-body form">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-body">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-3 control-label">合同状态</label>
+                                            <div class="col-md-9">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-bars"></i>
+                                                    <input class="form-control" ng-model="state" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn green" ng-click="addAgreementState()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加合同状态弹出框 END-->
+    </script>
+    <!--添加合同弹出框 END-->
+
+    <!--编辑合同弹出框 START-->
+    <script type="text/ng-template" id="edit_agreement_dialog.html">
+        <form name="editAgreementForm" ng-submit="AgreementEditSave()">
+            <div class="modal-header">
+                <h4 class="modal-title">编辑合同</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller">
+                    <div class="portlet-body form">
+                        <div class="form-horizontal" role="form">
+                            <div class="form-body">
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同名称</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-edit"></i>
+                                            <input type="text" ng-model="agreement.editAgreementName"
+                                                   class="form-control"
+                                                   name="editAgreementName" required disabled/>
+                                            <div class="form-error"
+                                                 ng-show="editAgreementForm.editAgreementName.$dirty && editAgreementForm.editAgreementName.$invalid">
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementName.$error.required">
+                                                    合同名称不能为空！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同编号</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-table"></i>
+                                            <input type="text" ng-model="agreement.editAgreementNo" class="form-control"
+                                                   name="editAgreementNo" required ng-pattern="/^[a-zA-Z0-9_]+$/"/>
+                                            <div class="form-error"
+                                                 ng-show="editAgreementForm.editAgreementNo.$dirty && editAgreementForm.editAgreementNo.$invalid">
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementNo.$error.required">
+                                                    合同编号不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementNo.$error.pattern">
+                                                    只能由数字、字母、下划线组成！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同金额</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-jpy"></i>
+                                            <input type="text" ng-model="agreement.editAgreementPrice"
+                                                   class="form-control"
+                                                   required name="editAgreementPrice" ng-pattern="/^\d+(\.\d+)?$/"/>
+                                            <div class="form-error"
+                                                 ng-show="editAgreementForm.editAgreementPrice.$dirty && editAgreementForm.editAgreementPrice.$invalid">
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementPrice.$error.required">
+                                                    合同编号不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementPrice.$error.pattern">
+                                                    只能由数字、字母、下划线组成！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同签署日期</label>
+                                    <div class="col-md-9">
+                                        <div class="input-group date">
+                                            <input type="text" class="form-control"
+                                                   ng-model="agreement.editAgreementSignDate" date-picker required/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同开始日期</label>
+                                    <div class="col-md-9">
+                                        <div class="input-group date">
+                                            <input type="text" ng-model="agreement.editAgreementStartDate"
+                                                   class="form-control"
+                                                   date-picker required/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同结束日期</label>
+                                    <div class="col-md-9">
+                                        <div class="input-group date">
+                                            <input type="text" ng-model="agreement.editAgreementStopDate"
+                                                   class="form-control"
+                                                   date-picker required/>
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">签署人</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-user"></i>
+                                            <input type="text" ng-model="agreement.editAgreementSigner"
+                                                   class="form-control"
+                                                   required name="editAgreementSigner"
+                                                   ng-pattern="/^[\u4e00-\u9fa5]{2,4}$|^[a-zA-Z]{1,30}$/"/>
+                                            <div class="form-error"
+                                                 ng-show="editAgreementForm.editAgreementSigner.$dirty && editAgreementForm.editAgreementSigner.$invalid">
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementSigner.$error.required">
+                                                    签署人不能为空！
+                                                </small>
+                                                <small class="error"
+                                                       ng-show="editAgreementForm.editAgreementSigner.$error.pattern">
+                                                    输入内容只能是英文或2-4位的中文！
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同路径</label>
+                                    <div class="col-md-9">
+                                        <div class="input-icon">
+                                            <i class="fa fa-arrows-v"></i>
+                                            <input type="text" class="form-control"
+                                                   ng-mdel="agreement.editAgreementPath"
+                                                   value="//agreement.editAgreementPath//">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">合同状态</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" ng-model="agreement.editAgreementStateSelected"
+                                                ng-options="data.Id as data.State for data in agreementStateList"
+                                                name="editAgreementState">
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">供应商</label>
+                                    <div class="col-md-9">
+                                        <select class="form-control" ng-model="agreement.editSupplierSelected"
+                                                ng-options="data.Id as data.Supplier for data in supplierList"
+                                                name="editSupplier" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group has-success">
+                                    <label class="col-md-3 control-label">备注</label>
+                                    <div class="col-md-9">
+                                        <input type="text" ng-model="agreement.editComment" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn default" ng-click="AgreementEditCancel()">取消</button>
+                <button type="submit" class="btn green" ng-disabled="editAgreementForm.$inValid">保存</button>
+            </div>
+        </form>
+    </script>
+    <!--编辑合同弹出框 END-->
+
+    <!--合同状态列表弹出框 START-->
+    <script type="text/ng-template" id="agreementState_dialog.html">
+        <div class="modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>-->
+                    <h4 class="modal-title">合同状态列表</h4>
+                </div>
+                <div class="modal-body">
+                    <div ng-controller="AgreementStateListController">
+                        <div class="portlet-body">
+                            <div class="table-toolbar" id="agreementState_toolbar">
+                                <button class="btn btn-primary" data-toggle="modal"
+                                        ng-click="agreementStateTable.addAgreementState()">
+                                    <i class="fa fa-plus"></i>
+                                    &nbsp;添加状态
+                                </button>
+                            </div>
+                            <table bs-table-control="agreementStateTable" id="agreementStateTable"></table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn default" ng-click="AgreementStateListCancel()">关闭</button>
+                </div>
+            </div>
+        </div>
+        <!--添加合同状态弹出框 START-->
+        <div id="add_agreementState_dialog2" class="modal fade in">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">添加合同状态</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scroller">
+                            <div class="portlet-body form">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-body">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-3 control-label">合同状态</label>
+                                            <div class="col-md-9">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-bars"></i>
+                                                    <input class="form-control" ng-model="state" type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn default" data-dismiss="modal">取消</button>
+                        <button type="submit" class="btn green" ng-click="addAgreementState()">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--添加合同状态弹出框 END-->
+
+        <!--编辑合同状态弹出框 START-->
+        <div class="modal fade in" id="edit_agreementState_dialog">
+            <div class="modal-dialog" >
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true"></button>
+                        <h4 class="modal-title">编辑合同状态</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="scroller" data-always-visible="1" data-rail-visible1="1">
+                            <div class="portlet-body form">
+                                <div class="form-horizontal" role="form">
+                                    <input type="hidden" id="editAgreementStateId"/>
+                                    <div class="form-body">
+                                        <div class="form-group has-success">
+                                            <label class="col-md-3 control-label">合同状态</label>
+                                            <div class="col-md-9">
+                                                <div class="input-icon">
+                                                    <i class="fa fa-bars"></i>
+                                                    <input class="form-control" id="editAgreementState">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn default">取消</button>
+                        <button type="submit" class="btn green" ng-click="updateAgreementState();">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--编辑合同状态弹出框 END-->
+
+    </script>
+    <!--合同状态列表弹出框 END-->
+</div>
+
